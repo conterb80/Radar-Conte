@@ -131,3 +131,22 @@ footer { display: grid; gap: 3px; padding: 10px 3px 0; color: #72869a; font-size
 .lightning-actions a{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
 .lightning-note{margin:0;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);color:var(--muted);font-size:11px}
 @media(max-width:430px){.lightning-actions{grid-template-columns:1fr 1fr}.lightning-actions a{grid-column:1/-1}.lightning-frame-wrap iframe{height:64vh;min-height:470px}}
+
+
+/* P6 · Evoluzione ufficiale ARPAE */
+.mode-switch{grid-template-columns:repeat(3,minmax(0,1fr));}
+.mode-switch button{padding:.85rem .45rem;font-size:.78rem;}
+.forecast-panel{margin-top:14px;}
+.forecast-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;border:1px solid #244566;border-radius:18px;background:#0b1b2d;}
+.forecast-head strong{display:block;margin-top:5px;font-size:1rem;}
+.forecast-head button,.forecast-actions button,.forecast-actions a{border:1px solid #2c4d6f;background:#0b1728;color:#eef6ff;border-radius:14px;padding:12px 14px;font-weight:700;text-decoration:none;text-align:center;}
+.forecast-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0;}
+.forecast-steps span{padding:9px 3px;border:1px solid #284967;border-radius:12px;background:#0b1728;text-align:center;font-size:.78rem;font-weight:700;color:#aebed0;}
+.forecast-steps span:first-child{color:#55b8f3;}
+.forecast-steps span:not(:first-child){color:#67d39a;}
+.forecast-frame-wrap{height:650px;border:1px solid #294b6e;border-radius:20px;overflow:hidden;background:#07111f;}
+.forecast-frame-wrap iframe{width:100%;height:100%;border:0;background:#fff;}
+.forecast-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.forecast-actions a{display:flex;align-items:center;justify-content:center;}
+.forecast-note{margin:12px 4px 0;color:#9eafc0;font-size:.82rem;line-height:1.45;}
+@media(max-width:420px){.mode-switch button{font-size:.68rem;padding:.8rem .25rem}.forecast-frame-wrap{height:590px}.forecast-head{align-items:flex-start}.forecast-head button{padding:10px}}

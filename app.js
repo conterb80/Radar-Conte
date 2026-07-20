@@ -81,7 +81,7 @@
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
     if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent=choice.outcome==='accepted'?'Installazione avviata. Radar Conte comparirà tra le app.':'Installazione annullata: puoi riprovare dal menu di Chrome.';}
-    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P4 e attendi qualche secondo.';}
+    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P6 e attendi qualche secondo.';}
   });
   window.addEventListener('appinstalled',()=>{els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent='Radar Conte è installato correttamente.';});
 
@@ -140,5 +140,54 @@
   reloadLightningBtn.addEventListener('click',()=>loadLightning(currentLightningView,true));
   lightningLocalBtn.addEventListener('click',()=>loadLightning('local',true));
   lightningNorthBtn.addEventListener('click',()=>loadLightning('north',true));
+
+
+  // P6: monitor di evoluzione ufficiale ARPAE fino a +3 ore.
+  const forecastModeBtn = document.getElementById('forecastModeBtn');
+  const forecastPanel = document.getElementById('forecastPanel');
+  const forecastFrame = document.getElementById('forecastFrame');
+  const reloadForecastBtn = document.getElementById('reloadForecastBtn');
+  const forecastReloadBottomBtn = document.getElementById('forecastReloadBottomBtn');
+  const openForecastLink = document.getElementById('openForecastLink');
+  const forecastUrl = 'https://apps.arpae.it/widgets/meteo-radar-nowcasting/';
+
+  function loadForecast(force=false){
+    forecastFrame.src = forecastUrl + (force ? `?reload=${Date.now()}` : '');
+    openForecastLink.href = forecastUrl;
+  }
+
+  function setOperationalMode(mode){
+    const radar = mode === 'radar';
+    const lightning = mode === 'lightning';
+    const forecast = mode === 'forecast';
+    radarPanel.hidden = !radar;
+    lightningPanel.hidden = !lightning;
+    forecastPanel.hidden = !forecast;
+    radarModeBtn.classList.toggle('active', radar);
+    lightningModeBtn.classList.toggle('active', lightning);
+    forecastModeBtn.classList.toggle('active', forecast);
+    if(!radar) stopPlayback();
+    if(radar){
+      setMessage(`${frames.length || 0} scansioni nell’intervallo selezionato.`, 'success');
+      setTimeout(()=>map.invalidateSize(),100);
+    } else if(lightning){
+      if(!lightningFrame.src) loadLightning(currentLightningView);
+      setMessage('Monitor fulmini live attivo. I dati sono forniti da Blitzortung.org.', 'success');
+    } else {
+      if(!forecastFrame.src) loadForecast();
+      setMessage('Evoluzione ARPAE attiva: osservato e previsione fino a +3 ore.', 'success');
+    }
+  }
+
+  // Sostituisce i listener P5 con la gestione a tre monitor.
+  const newRadarBtn = radarModeBtn.cloneNode(true);
+  radarModeBtn.replaceWith(newRadarBtn);
+  const newLightningBtn = lightningModeBtn.cloneNode(true);
+  lightningModeBtn.replaceWith(newLightningBtn);
+  newRadarBtn.addEventListener('click',()=>setOperationalMode('radar'));
+  newLightningBtn.addEventListener('click',()=>setOperationalMode('lightning'));
+  forecastModeBtn.addEventListener('click',()=>setOperationalMode('forecast'));
+  reloadForecastBtn.addEventListener('click',()=>loadForecast(true));
+  forecastReloadBottomBtn.addEventListener('click',()=>loadForecast(true));
 
 })();

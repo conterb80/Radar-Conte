@@ -1,11 +1,15 @@
-RADAR CONTE P5 - RADAR + FULMINI
+RADAR CONTE P6 — RADAR + FULMINI + EVOLUZIONE
 
-NOVITA
-- Tutte le funzioni operative della P4
-- Nuovo selettore RADAR / FULMINI LIVE
-- Mappa fulmini Blitzortung integrata e centrata sulla Romagna
-- Viste rapide Locale e Nord Italia
-- Ricarica manuale e apertura a schermo intero
+NOVITÀ
+- Tutte le funzioni della P5 restano disponibili
+- Nuovo monitor EVOLUZIONE +3H
+- Nowcasting radar ufficiale ARPAE
+- Distinzione visiva tra osservato e previsto
+- Accesso rapido alle scadenze +1h, +2h e +3h
+- Ricarica e apertura a schermo intero
 
-NOTA
-I fulmini sono dati di una rete collaborativa e non costituiscono un sistema ufficiale di allertamento.
+INSTALLAZIONE
+Caricare tutti i file nella root del repository Radar-Conte sostituendo quelli precedenti.
+Aprire: https://conterb80.github.io/Radar-Conte/?v=6
+
+Meteo Conte non viene modificato.
