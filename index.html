@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="Radar Conte - prototipo radar meteo personale per Borgo Viazza">
+  <title>Radar Conte P1</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynh+8VQN0p5bMZg4JpVxY5Z2eB6M=" crossorigin="">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">PROTOTIPO P1</p>
+        <h1>RADAR CONTE</h1>
+        <p class="place">Borgo Viazza · Romagna</p>
+      </div>
+      <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
+    </header>
+
+    <section class="time-panel" aria-live="polite">
+      <div>
+        <span class="time-label">SCANSIONE RADAR</span>
+        <strong id="frameTime">--:--</strong>
+      </div>
+      <div class="age-box">
+        <span>Età dato</span>
+        <strong id="frameAge">-- min</strong>
+      </div>
+    </section>
+
+    <section class="map-wrap">
+      <div id="map" role="application" aria-label="Mappa radar meteorologica centrata su Borgo Viazza"></div>
+      <div class="map-overlay top-left">
+        <button id="homeBtn" class="map-btn" type="button" title="Torna a Borgo Viazza">⌂</button>
+        <button id="zoomLocalBtn" class="map-btn text-btn" type="button">LOCALE</button>
+        <button id="zoomRomagnaBtn" class="map-btn text-btn" type="button">ROMAGNA</button>
+      </div>
+      <div class="map-overlay bottom-right">
+        <div class="legend" aria-label="Legenda intensità radar">
+          <span>Debole</span>
+          <div class="legend-bar"></div>
+          <span>Forte</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Comandi animazione radar">
+      <button id="prevBtn" type="button" aria-label="Fotogramma precedente">◀</button>
+      <button id="playBtn" class="primary" type="button" aria-label="Avvia animazione">▶ PLAY</button>
+      <button id="nextBtn" type="button" aria-label="Fotogramma successivo">▶</button>
+      <button id="latestBtn" type="button">ULTIMO</button>
+    </section>
+
+    <section class="timeline-panel">
+      <input id="timeline" type="range" min="0" max="0" value="0" step="1" aria-label="Seleziona il fotogramma radar">
+      <div class="timeline-labels">
+        <span id="firstTime">--:--</span>
+        <span>ULTIME 2 ORE</span>
+        <span id="lastTime">--:--</span>
+      </div>
+    </section>
+
+    <section class="settings-row">
+      <label>
+        <span>Trasparenza radar</span>
+        <input id="opacity" type="range" min="25" max="100" value="72" step="1">
+      </label>
+      <button id="refreshBtn" type="button">↻ AGGIORNA</button>
+    </section>
+
+    <section id="message" class="message info" aria-live="polite">
+      Connessione alla sorgente radar in corso…
+    </section>
+
+    <footer>
+      <span>Dati radar: RainViewer API · Cartografia: OpenStreetMap</span>
+      <span>Prototipo personale non destinato ad allertamento ufficiale</span>
+    </footer>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

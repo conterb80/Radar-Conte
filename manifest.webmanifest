@@ -1,0 +1,14 @@
+{
+  "name": "Radar Conte P1",
+  "short_name": "Radar Conte",
+  "description": "Prototipo radar meteo personale centrato su Borgo Viazza",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050b13",
+  "theme_color": "#07111f",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

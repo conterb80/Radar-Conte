@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#07111f"/>
+  <circle cx="256" cy="256" r="176" fill="none" stroke="#24415f" stroke-width="18"/>
+  <circle cx="256" cy="256" r="112" fill="none" stroke="#49b8ff" stroke-width="16" opacity=".8"/>
+  <path d="M256 256 L405 172 A176 176 0 0 1 425 221 Z" fill="#49b8ff" opacity=".9"/>
+  <circle cx="256" cy="256" r="22" fill="#ff304f" stroke="white" stroke-width="10"/>
+  <text x="256" y="462" text-anchor="middle" font-family="Arial,sans-serif" font-size="58" font-weight="700" fill="white">CONTE</text>
+</svg>
