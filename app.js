@@ -119,28 +119,9 @@
     lightningNorthBtn.classList.toggle('active', view === 'north');
   }
 
-  function setMode(mode){
-    const lightning = mode === 'lightning';
-    radarPanel.hidden = lightning;
-    lightningPanel.hidden = !lightning;
-    radarModeBtn.classList.toggle('active', !lightning);
-    lightningModeBtn.classList.toggle('active', lightning);
-    if(lightning){
-      stopPlayback();
-      if(!lightningFrame.src) loadLightning(currentLightningView);
-      setMessage('Monitor fulmini live attivo. I dati sono forniti da Blitzortung.org.', 'success');
-    } else {
-      setMessage(`${frames.length || 0} scansioni nell’intervallo selezionato.`, 'success');
-      setTimeout(()=>map.invalidateSize(),100);
-    }
-  }
-
-  radarModeBtn.addEventListener('click',()=>setMode('radar'));
-  lightningModeBtn.addEventListener('click',()=>setMode('lightning'));
   reloadLightningBtn.addEventListener('click',()=>loadLightning(currentLightningView,true));
   lightningLocalBtn.addEventListener('click',()=>loadLightning('local',true));
   lightningNorthBtn.addEventListener('click',()=>loadLightning('north',true));
-
 
   // P6: monitor di evoluzione ufficiale ARPAE fino a +3 ore.
   const forecastModeBtn = document.getElementById('forecastModeBtn');
@@ -179,13 +160,8 @@
     }
   }
 
-  // Sostituisce i listener P5 con la gestione a tre monitor.
-  const newRadarBtn = radarModeBtn.cloneNode(true);
-  radarModeBtn.replaceWith(newRadarBtn);
-  const newLightningBtn = lightningModeBtn.cloneNode(true);
-  lightningModeBtn.replaceWith(newLightningBtn);
-  newRadarBtn.addEventListener('click',()=>setOperationalMode('radar'));
-  newLightningBtn.addEventListener('click',()=>setOperationalMode('lightning'));
+  radarModeBtn.addEventListener('click',()=>setOperationalMode('radar'));
+  lightningModeBtn.addEventListener('click',()=>setOperationalMode('lightning'));
   forecastModeBtn.addEventListener('click',()=>setOperationalMode('forecast'));
   reloadForecastBtn.addEventListener('click',()=>loadForecast(true));
   forecastReloadBottomBtn.addEventListener('click',()=>loadForecast(true));

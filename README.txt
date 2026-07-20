@@ -1,15 +1,10 @@
-RADAR CONTE P6 — RADAR + FULMINI + EVOLUZIONE
+RADAR CONTE P6.1 - FIX EVOLUZIONE
 
-NOVITÀ
-- Tutte le funzioni della P5 restano disponibili
-- Nuovo monitor EVOLUZIONE +3H
-- Nowcasting radar ufficiale ARPAE
-- Distinzione visiva tra osservato e previsto
-- Accesso rapido alle scadenze +1h, +2h e +3h
-- Ricarica e apertura a schermo intero
+Correzioni:
+- aprendo Evoluzione viene nascosto completamente il pannello Fulmini
+- gestione unica e pulita dei tre monitor Radar/Fulmini/Evoluzione
+- le scadenze Osservato, +1h, +2h, +3h sono ora chiaramente indicate come legenda e non come pulsanti
+- cache aggiornata per forzare il caricamento della correzione
 
-INSTALLAZIONE
-Caricare tutti i file nella root del repository Radar-Conte sostituendo quelli precedenti.
-Aprire: https://conterb80.github.io/Radar-Conte/?v=6
-
-Meteo Conte non viene modificato.
+Caricare tutti i file nella root del repository Radar-Conte.
+Aprire: https://conterb80.github.io/Radar-Conte/?v=61
