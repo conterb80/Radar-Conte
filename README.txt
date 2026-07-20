@@ -1,14 +1,12 @@
-RADAR CONTE P7 - MODALITA TEMPORALE
+RADAR CONTE P8 — TRACKING CELLA
 
-NOVITA
-- Modalita Temporale con un solo pulsante
-- Radar locale, ultimi 30 minuti, velocita alta e play automatico
-- Aggiornamento automatico ogni 3 minuti
-- Orario ultimo aggiornamento separato per Radar, Fulmini ed Evoluzione
-- Memoria dell'ultimo monitor e delle impostazioni operative
-- Pulsante schermo intero
-- Tutte le funzioni P6.1 mantenute
+NOVITÀ
+- Tracking guidato manuale su due fotogrammi
+- Direzione e velocità stimata della cella
+- Distanza ed ETA indicativa verso Borgo Viazza
+- Stato: avvicinamento, laterale, stazionaria o allontanamento
+- Focus nuclei per aumentare contrasto e saturazione
+- Tutte le funzioni P7: radar, fulmini, evoluzione ARPAE e modalità temporale
 
-INSTALLAZIONE
-Caricare tutti i file nella root del repository Radar-Conte, sostituendo quelli precedenti.
-Aprire: https://conterb80.github.io/Radar-Conte/?v=7
+IMPORTANTE
+Il tracking è una stima manuale basata sui punti scelti dall’utente. Non identifica automaticamente grandine e non sostituisce gli avvisi ufficiali.

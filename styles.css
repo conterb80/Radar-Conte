@@ -155,3 +155,20 @@ footer { display: grid; gap: 3px; padding: 10px 3px 0; color: #72869a; font-size
 
 /* P7 · sala controllo operativa */
 .ops-bar{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin:0 0 8px}.ops-bar button{min-height:44px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--text);font-size:11px;font-weight:800}.ops-bar .storm-btn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,var(--line));background:rgba(255,179,77,.08)}.ops-bar .storm-btn.active{background:var(--warn);color:#241400}.update-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 0 8px}.update-grid div{padding:7px 8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);text-align:center}.update-grid span{display:block;color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.08em}.update-grid strong{display:block;margin-top:2px;color:var(--ok);font-size:12px}.storm-active .topbar{border-bottom:1px solid color-mix(in srgb,var(--warn) 55%,transparent)}@media(max-width:390px){.ops-bar{grid-template-columns:1fr}.update-grid{gap:5px}.update-grid div{padding:6px 3px}.update-grid strong{font-size:11px}}
+
+/* P8: tracking guidato e focus nuclei */
+.tracking-panel{margin:14px 0;padding:14px;border:1px solid #294766;border-radius:18px;background:#0b1a2c}
+.tracking-actions{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:9px}
+.tracking-actions button{min-height:52px;border-radius:14px;border:1px solid #355778;background:#0a1727;color:#eef6ff;font-weight:800}
+.tracking-actions button.active{background:#ffb44f;color:#1c160a;border-color:#ffd28e}
+.tracking-actions #hailFocusBtn.active{background:#d74444;color:#fff;border-color:#ff8e8e}
+.tracking-hint,.tracking-note{margin:10px 2px 0;color:#aebed1;line-height:1.38;font-size:.88rem}
+.tracking-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
+.tracking-grid>div{border:1px solid #294766;border-radius:13px;padding:9px 5px;text-align:center;background:#081522}
+.tracking-grid span{display:block;color:#93a9bf;font-size:.68rem;letter-spacing:.08em}
+.tracking-grid strong{display:block;margin-top:5px;color:#67d99a;font-size:.94rem}
+body.hail-focus #map{filter:contrast(1.22) saturate(1.35)}
+body.hail-focus .legend{outline:2px solid rgba(255,82,82,.75)}
+.track-point-a,.track-point-b{width:22px;height:22px;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 3px rgba(0,0,0,.55)}
+.track-point-a{background:#ffc247}.track-point-b{background:#ff4b55}
+@media(max-width:560px){.tracking-actions{grid-template-columns:1fr 1fr}.tracking-actions #clearTrackingBtn{grid-column:1/-1}.tracking-grid{grid-template-columns:repeat(2,1fr)}.tracking-grid>div:last-child{grid-column:1/-1}}

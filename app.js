@@ -8,7 +8,7 @@
   const LOCATION = { name: 'Borgo Viazza', lat: 44.447, lon: 12.013 };
   const API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
   const REFRESH_MS = 3 * 60 * 1000;
-  const UI_STATE_KEY = 'radarConteP7State';
+  const UI_STATE_KEY = 'radarConteP8State';
   let playMs = 800;
   let selectedMinutes = 120;
 
@@ -29,6 +29,7 @@
   L.circle([LOCATION.lat,LOCATION.lon],{radius:10000,color:'#fff',weight:1,opacity:.55,fill:false,dashArray:'5 7'}).addTo(map);
 
   let allFrames=[], frames=[], currentIndex=0, radarLayer=null, host='https://tilecache.rainviewer.com', playTimer=null, deferredInstallPrompt=null;
+  let trackingActive=false, trackPoints=[], trackMarkers=[], trackLine=null, hailFocus=false;
   const setStatus=(type,text)=>{els.connectionBadge.className=`status-pill ${type}`;els.connectionBadge.textContent=text;};
   const setMessage=(text,type='info')=>{els.message.className=`message ${type}`;els.message.textContent=text;};
   const fmtTime=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}).format(new Date(unix*1000));
@@ -87,7 +88,7 @@
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
     if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent=choice.outcome==='accepted'?'Installazione avviata. Radar Conte comparirà tra le app.':'Installazione annullata: puoi riprovare dal menu di Chrome.';}
-    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P6 e attendi qualche secondo.';}
+    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P8 e attendi qualche secondo.';}
   });
   window.addEventListener('appinstalled',()=>{els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent='Radar Conte è installato correttamente.';});
 
@@ -214,8 +215,68 @@
     if(state.mode==='forecast') loadForecast(true);
   },REFRESH_MS);
 
+
+  // P8: tracking guidato della cella e focus nuclei intensi.
+  const trackingBtn=$('trackingBtn'), hailFocusBtn=$('hailFocusBtn'), clearTrackingBtn=$('clearTrackingBtn');
+  const trackingHint=$('trackingHint'), trackState=$('trackState'), trackDistance=$('trackDistance'), trackSpeed=$('trackSpeed'), trackDirection=$('trackDirection'), trackEta=$('trackEta');
+
+  const toRad=d=>d*Math.PI/180, toDeg=r=>r*180/Math.PI;
+  function distanceKm(a,b){
+    const R=6371, dLat=toRad(b.lat-a.lat), dLon=toRad(b.lng-a.lng);
+    const q=Math.sin(dLat/2)**2+Math.cos(toRad(a.lat))*Math.cos(toRad(b.lat))*Math.sin(dLon/2)**2;
+    return 2*R*Math.asin(Math.sqrt(q));
+  }
+  function bearingDeg(a,b){
+    const p1=toRad(a.lat),p2=toRad(b.lat),dl=toRad(b.lng-a.lng);
+    return (toDeg(Math.atan2(Math.sin(dl)*Math.cos(p2),Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)))+360)%360;
+  }
+  function compass(d){return ['N','NE','E','SE','S','SO','O','NO'][Math.round(d/45)%8];}
+  function angleDiff(a,b){return Math.abs(((a-b+540)%360)-180);}
+  function clearTracking(){
+    trackPoints=[]; trackMarkers.forEach(m=>map.removeLayer(m)); trackMarkers=[];
+    if(trackLine){map.removeLayer(trackLine);trackLine=null;}
+    trackState.textContent='IN ATTESA';trackDistance.textContent='-- km';trackSpeed.textContent='-- km/h';trackDirection.textContent='--';trackEta.textContent='--';
+    trackingHint.textContent='Scegli un fotogramma precedente, attiva TRACKING e tocca il centro della cella; poi passa a un fotogramma più recente e tocca nuovamente la stessa cella.';
+  }
+  function setTrackingActive(active){
+    trackingActive=active;trackingBtn.classList.toggle('active',active);trackingBtn.textContent=active?'✓ TOCCA LA CELLA':'🎯 TRACKING CELLA';
+    if(active){stopPlayback();trackingHint.textContent=trackPoints.length?'Ora seleziona la stessa cella in un fotogramma più recente.':'Tocca il centro della cella nel fotogramma attuale.';}
+  }
+  trackingBtn.addEventListener('click',()=>setTrackingActive(!trackingActive));
+  clearTrackingBtn.addEventListener('click',()=>{setTrackingActive(false);clearTracking();});
+  hailFocusBtn.addEventListener('click',()=>{hailFocus=!hailFocus;document.body.classList.toggle('hail-focus',hailFocus);hailFocusBtn.classList.toggle('active',hailFocus);hailFocusBtn.textContent=hailFocus?'✓ FOCUS NUCLEI':'🔴 FOCUS NUCLEI';saveState({hailFocus});});
+
+  map.on('click',e=>{
+    if(!trackingActive || !frames.length)return;
+    const frame=frames[currentIndex];
+    if(trackPoints.length===1 && frame.time<=trackPoints[0].time){
+      trackingHint.textContent='Il secondo punto deve essere scelto su un fotogramma più recente.';return;
+    }
+    const point={lat:e.latlng.lat,lng:e.latlng.lng,time:frame.time};
+    trackPoints.push(point);
+    const cls=trackPoints.length===1?'track-point-a':'track-point-b';
+    const label=trackPoints.length===1?'A':'B';
+    const icon=L.divIcon({className:'',html:`<div class="${cls}"></div>`,iconSize:[22,22],iconAnchor:[11,11]});
+    trackMarkers.push(L.marker([point.lat,point.lng],{icon,zIndexOffset:1200}).addTo(map).bindTooltip(`${label} · ${fmtTime(point.time)}`,{permanent:true,direction:'top',offset:[0,-12]}));
+    if(trackPoints.length===1){
+      trackState.textContent='PUNTO A';trackingHint.textContent='Vai avanti nella timeline o premi ULTIMO, quindi tocca la stessa cella nella nuova posizione.';
+    }else{
+      const [a,b]=trackPoints, dt=(b.time-a.time)/3600, moved=distanceKm(a,b), speed=dt>0?moved/dt:0, heading=bearingDeg(a,b);
+      const home={lat:LOCATION.lat,lng:LOCATION.lon}, distHome=distanceKm(b,home), toward=bearingDeg(b,home), deviation=angleDiff(heading,toward);
+      trackLine=L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:'#ffb44f',weight:4,dashArray:'8 7'}).addTo(map);
+      trackDistance.textContent=`${distHome.toFixed(1)} km`;trackSpeed.textContent=speed?`${Math.round(speed)} km/h`:'--';trackDirection.textContent=`${compass(heading)} ${Math.round(heading)}°`;
+      if(speed<3){trackState.textContent='STAZIONARIA';trackEta.textContent='--';}
+      else if(deviation<=35){trackState.textContent='AVVICINAMENTO';trackEta.textContent=`~${Math.max(1,Math.round(distHome/speed*60))} min`;}
+      else if(deviation>=145){trackState.textContent='ALLONTANAMENTO';trackEta.textContent='NON DIRETTA';}
+      else{trackState.textContent='LATERALE';trackEta.textContent='TRAIETTORIA INCERTA';}
+      trackingHint.textContent=`Spostamento stimato ${moved.toFixed(1)} km in ${Math.round(dt*60)} minuti. Ripeti i due punti se la cella cambia forma o direzione.`;
+      setTrackingActive(false);
+    }
+  });
+
   // Ripristina l'ultima configurazione usata.
   const saved=readState();
+  if(saved.hailFocus){hailFocus=true;document.body.classList.add('hail-focus');hailFocusBtn.classList.add('active');hailFocusBtn.textContent='✓ FOCUS NUCLEI';}
   if([30,60,120].includes(Number(saved.minutes))) selectedMinutes=Number(saved.minutes);
   if([450,800,1200].includes(Number(saved.speed))){
     playMs=Number(saved.speed);
