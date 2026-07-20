@@ -7,7 +7,8 @@
 
   const LOCATION = { name: 'Borgo Viazza', lat: 44.447, lon: 12.013 };
   const API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
-  const REFRESH_MS = 5 * 60 * 1000;
+  const REFRESH_MS = 3 * 60 * 1000;
+  const UI_STATE_KEY = 'radarConteP7State';
   let playMs = 800;
   let selectedMinutes = 120;
 
@@ -16,7 +17,8 @@
     connectionBadge:$('connectionBadge'), frameTime:$('frameTime'), frameAge:$('frameAge'), firstTime:$('firstTime'), lastTime:$('lastTime'),
     rangeLabel:$('rangeLabel'), timeline:$('timeline'), opacity:$('opacity'), playBtn:$('playBtn'), prevBtn:$('prevBtn'), nextBtn:$('nextBtn'),
     latestBtn:$('latestBtn'), refreshBtn:$('refreshBtn'), homeBtn:$('homeBtn'), zoomLocalBtn:$('zoomLocalBtn'), zoomRomagnaBtn:$('zoomRomagnaBtn'),
-    message:$('message'), installBtn:$('installBtn'), installHelp:$('installHelp'), rangeControls:$('rangeControls'), speedControls:$('speedControls')
+    message:$('message'), installBtn:$('installBtn'), installHelp:$('installHelp'), rangeControls:$('rangeControls'), speedControls:$('speedControls'),
+    stormModeBtn:$('stormModeBtn'), fullscreenBtn:$('fullscreenBtn'), radarUpdated:$('radarUpdated'), lightningUpdated:$('lightningUpdated'), forecastUpdated:$('forecastUpdated')
   };
 
   const map = L.map('map', { center:[LOCATION.lat,LOCATION.lon], zoom:10, minZoom:6, maxZoom:13, zoomControl:false, preferCanvas:true, fadeAnimation:false });
@@ -31,11 +33,15 @@
   const setMessage=(text,type='info')=>{els.message.className=`message ${type}`;els.message.textContent=text;};
   const fmtTime=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}).format(new Date(unix*1000));
   const fmtDateTime=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(unix*1000));
+  const nowTime=()=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}).format(new Date());
+  const saveState=patch=>{try{const old=JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}');localStorage.setItem(UI_STATE_KEY,JSON.stringify({...old,...patch}));}catch(_){}};
+  const readState=()=>{try{return JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}')}catch(_){return {}}};
   const updateAge=unix=>{els.frameAge.textContent=`${Math.max(0,Math.round((Date.now()-unix*1000)/60000))} min`;};
   const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
 
   function applyRange(minutes){
     selectedMinutes=minutes;
+    saveState({minutes});
     stopPlayback();
     if(!allFrames.length) return;
     const latest=allFrames[allFrames.length-1].time;
@@ -66,7 +72,7 @@
     try{
       const response=await fetch(`${API_URL}?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const data=await response.json();const past=Array.isArray(data?.radar?.past)?data.radar.past:[];if(!past.length)throw new Error('Nessun fotogramma disponibile');
-      host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','RADAR ONLINE');setMessage(`${frames.length} scansioni nell’intervallo selezionato · ultimo dato ${fmtTime(allFrames[allFrames.length-1].time)}.`,'success');setTimeout(()=>map.invalidateSize(),150);
+      host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','RADAR ONLINE');els.radarUpdated.textContent=nowTime();setMessage(`${frames.length} scansioni nell’intervallo selezionato · ultimo dato ${fmtTime(allFrames[allFrames.length-1].time)}.`,'success');setTimeout(()=>map.invalidateSize(),150);
     }catch(error){console.error(error);setStatus('error','RADAR OFFLINE');setMessage('Non riesco a ricevere i dati radar. Controlla la connessione e premi AGGIORNA.','error');}
   }
 
@@ -76,7 +82,7 @@
   els.opacity.addEventListener('input',()=>radarLayer&&radarLayer.setOpacity(Number(els.opacity.value)/100)); els.homeBtn.addEventListener('click',()=>map.setView([LOCATION.lat,LOCATION.lon],10));
   els.zoomLocalBtn.addEventListener('click',()=>map.setView([LOCATION.lat,LOCATION.lon],11)); els.zoomRomagnaBtn.addEventListener('click',()=>map.setView([44.28,11.98],8));
   els.rangeControls.addEventListener('click',e=>{const b=e.target.closest('button[data-minutes]');if(b)applyRange(Number(b.dataset.minutes));});
-  els.speedControls.addEventListener('click',e=>{const b=e.target.closest('button[data-speed]');if(!b)return;playMs=Number(b.dataset.speed);[...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',x===b));if(playTimer){stopPlayback();startPlayback();}});
+  els.speedControls.addEventListener('click',e=>{const b=e.target.closest('button[data-speed]');if(!b)return;playMs=Number(b.dataset.speed);saveState({speed:playMs});[...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',x===b));if(playTimer){stopPlayback();startPlayback();}});
 
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
@@ -114,6 +120,7 @@
     currentLightningView = view;
     const url = lightningViews[view] + (force ? `&reload=${Date.now()}` : '');
     lightningFrame.src = url;
+    els.lightningUpdated.textContent = nowTime();
     openLightningLink.href = lightningViews[view];
     lightningLocalBtn.classList.toggle('active', view === 'local');
     lightningNorthBtn.classList.toggle('active', view === 'north');
@@ -134,10 +141,12 @@
 
   function loadForecast(force=false){
     forecastFrame.src = forecastUrl + (force ? `?reload=${Date.now()}` : '');
+    els.forecastUpdated.textContent = nowTime();
     openForecastLink.href = forecastUrl;
   }
 
   function setOperationalMode(mode){
+    saveState({mode});
     const radar = mode === 'radar';
     const lightning = mode === 'lightning';
     const forecast = mode === 'forecast';
@@ -165,5 +174,55 @@
   forecastModeBtn.addEventListener('click',()=>setOperationalMode('forecast'));
   reloadForecastBtn.addEventListener('click',()=>loadForecast(true));
   forecastReloadBottomBtn.addEventListener('click',()=>loadForecast(true));
+
+  // P7: modalità temporale, memoria operativa e schermo intero.
+  let stormMode = false;
+  function setStormMode(active){
+    stormMode = active;
+    document.body.classList.toggle('storm-active', active);
+    els.stormModeBtn.classList.toggle('active', active);
+    els.stormModeBtn.textContent = active ? '✓ TEMPORALE ATTIVO' : '⚠ MODALITÀ TEMPORALE';
+    saveState({stormMode:active});
+    if(active){
+      setOperationalMode('radar');
+      map.setView([LOCATION.lat,LOCATION.lon],11);
+      applyRange(30);
+      playMs=450;
+      [...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',Number(x.dataset.speed)===450));
+      saveState({speed:450,minutes:30});
+      if(!playTimer) startPlayback();
+      setMessage('Modalità Temporale attiva: radar locale, ultimi 30 minuti, animazione veloce e aggiornamento automatico ogni 3 minuti.','success');
+    }else{
+      stopPlayback();
+      setMessage('Modalità Temporale disattivata. Controlli manuali ripristinati.','info');
+    }
+  }
+  els.stormModeBtn.addEventListener('click',()=>setStormMode(!stormMode));
+
+  els.fullscreenBtn.addEventListener('click',async()=>{
+    try{
+      if(!document.fullscreenElement){await document.documentElement.requestFullscreen();els.fullscreenBtn.textContent='↙ ESCI SCHERMO INTERO';}
+      else{await document.exitFullscreen();}
+    }catch(_){setMessage('Lo schermo intero non è disponibile in questa modalità del browser.','error');}
+  });
+  document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)els.fullscreenBtn.textContent='⛶ SCHERMO INTERO';setTimeout(()=>map.invalidateSize(),150);});
+
+  // Aggiorna anche il monitor attivo, non soltanto il radar.
+  setInterval(()=>{
+    const state=readState();
+    if(state.mode==='lightning') loadLightning(currentLightningView,true);
+    if(state.mode==='forecast') loadForecast(true);
+  },REFRESH_MS);
+
+  // Ripristina l'ultima configurazione usata.
+  const saved=readState();
+  if([30,60,120].includes(Number(saved.minutes))) selectedMinutes=Number(saved.minutes);
+  if([450,800,1200].includes(Number(saved.speed))){
+    playMs=Number(saved.speed);
+    [...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',Number(x.dataset.speed)===playMs));
+  }
+  const initialMode=['radar','lightning','forecast'].includes(saved.mode)?saved.mode:'radar';
+  setOperationalMode(initialMode);
+  if(saved.stormMode) setTimeout(()=>setStormMode(true),700);
 
 })();

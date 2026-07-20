@@ -1,10 +1,14 @@
-RADAR CONTE P6.1 - FIX EVOLUZIONE
+RADAR CONTE P7 - MODALITA TEMPORALE
 
-Correzioni:
-- aprendo Evoluzione viene nascosto completamente il pannello Fulmini
-- gestione unica e pulita dei tre monitor Radar/Fulmini/Evoluzione
-- le scadenze Osservato, +1h, +2h, +3h sono ora chiaramente indicate come legenda e non come pulsanti
-- cache aggiornata per forzare il caricamento della correzione
+NOVITA
+- Modalita Temporale con un solo pulsante
+- Radar locale, ultimi 30 minuti, velocita alta e play automatico
+- Aggiornamento automatico ogni 3 minuti
+- Orario ultimo aggiornamento separato per Radar, Fulmini ed Evoluzione
+- Memoria dell'ultimo monitor e delle impostazioni operative
+- Pulsante schermo intero
+- Tutte le funzioni P6.1 mantenute
 
-Caricare tutti i file nella root del repository Radar-Conte.
-Aprire: https://conterb80.github.io/Radar-Conte/?v=61
+INSTALLAZIONE
+Caricare tutti i file nella root del repository Radar-Conte, sostituendo quelli precedenti.
+Aprire: https://conterb80.github.io/Radar-Conte/?v=7

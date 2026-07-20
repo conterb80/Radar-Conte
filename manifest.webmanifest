@@ -3,7 +3,7 @@
   "name": "Radar Conte",
   "short_name": "Radar Conte",
   "description": "Radar meteo operativo personale centrato su Borgo Viazza",
-  "start_url": "./?source=pwa",
+  "start_url": "./?source=pwa&v=7",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],

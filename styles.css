@@ -151,3 +151,7 @@ footer { display: grid; gap: 3px; padding: 10px 3px 0; color: #72869a; font-size
 .forecast-actions a{display:flex;align-items:center;justify-content:center;}
 .forecast-note{margin:12px 4px 0;color:#9eafc0;font-size:.82rem;line-height:1.45;}
 @media(max-width:420px){.mode-switch button{font-size:.68rem;padding:.8rem .25rem}.forecast-frame-wrap{height:590px}.forecast-head{align-items:flex-start}.forecast-head button{padding:10px}}
+
+
+/* P7 · sala controllo operativa */
+.ops-bar{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;margin:0 0 8px}.ops-bar button{min-height:44px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--text);font-size:11px;font-weight:800}.ops-bar .storm-btn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 55%,var(--line));background:rgba(255,179,77,.08)}.ops-bar .storm-btn.active{background:var(--warn);color:#241400}.update-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 0 8px}.update-grid div{padding:7px 8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);text-align:center}.update-grid span{display:block;color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.08em}.update-grid strong{display:block;margin-top:2px;color:var(--ok);font-size:12px}.storm-active .topbar{border-bottom:1px solid color-mix(in srgb,var(--warn) 55%,transparent)}@media(max-width:390px){.ops-bar{grid-template-columns:1fr}.update-grid{gap:5px}.update-grid div{padding:6px 3px}.update-grid strong{font-size:11px}}
