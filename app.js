@@ -1,6 +1,11 @@
 (() => {
   'use strict';
 
+  if (typeof L === 'undefined') {
+    document.body.innerHTML = '<main class="app-shell"><section class="message error">Impossibile caricare il motore cartografico. Controlla la connessione e ricarica la pagina.</section></main>';
+    return;
+  }
+
   const LOCATION = { name: 'Borgo Viazza', lat: 44.447, lon: 12.013 };
   const API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
   const REFRESH_MS = 5 * 60 * 1000;
@@ -208,7 +213,7 @@
   setInterval(() => { if (frames.length) updateAge(frames[currentIndex].time); }, 60000);
 
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=2').catch(console.warn));
+    window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js?v=3').catch(console.warn));
   }
 
   loadRadar();

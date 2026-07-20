@@ -1,16 +1,14 @@
-RADAR CONTE P2 - PROTOTIPO TECNICO
+RADAR CONTE P3 — TEST MAPPA STABILE
 
-NOVITA P2
-- Correzione tasselli della mappa spezzati
-- Radar con tasselli standard 256 px
-- Apertura centrata sulla zona di Borgo Viazza
-- Zoom LOCALE piu ravvicinato
-- Marker Borgo Viazza piu visibile
-- Animazione continua e piu leggibile
-- ULTIMO evidenziato quando e attivo
-- Migliore ridimensionamento su telefono e rotazione schermo
-- Cache PWA aggiornata alla versione P2
+Questa versione corregge il difetto dei riquadri cartografici includendo localmente le regole di impaginazione di Leaflet.
+
+MODIFICHE PRINCIPALI
+- mappa e tasselli radar correttamente allineati
+- nessuna dipendenza dal foglio di stile Leaflet esterno
+- centratura Borgo Viazza
+- animazione ultime due ore
+- zoom Locale e Romagna
+- nuova cache PWA P3
 
 INSTALLAZIONE
-Sostituire tutti i file del repository Radar-Conte con quelli contenuti in questa cartella, mantenendo la struttura.
-Dopo il commit attendere GitHub Pages e ricaricare la pagina.
+Estrarre lo ZIP e caricare tutti i file contenuti nella cartella Radar-Conte-P3 nella root del repository Radar-Conte, sostituendo i file precedenti.

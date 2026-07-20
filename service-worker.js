@@ -1,5 +1,5 @@
-const CACHE = 'radar-conte-p2-v1';
-const CORE = ['./', './index.html', './styles.css?v=2', './app.js?v=2', './manifest.webmanifest', './icons/icon.svg'];
+const CACHE = 'radar-conte-p3-v1';
+const CORE = ['./', './index.html', './styles.css?v=3', './app.js?v=3', './manifest.webmanifest', './icons/icon.svg'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting()));
 });
