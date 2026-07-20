@@ -216,7 +216,17 @@
   },REFRESH_MS);
 
 
-  // P8: tracking guidato della cella e focus nuclei intensi.
+  // P9: pannello analisi richiudibile per mantenere la mappa al centro.
+  const analysisToggleBtn=$('analysisToggleBtn'), analysisDrawer=$('analysisDrawer');
+  analysisToggleBtn.addEventListener('click',()=>{
+    const open=analysisDrawer.hidden;
+    analysisDrawer.hidden=!open;
+    analysisToggleBtn.setAttribute('aria-expanded',String(open));
+    analysisToggleBtn.querySelector('span').textContent=open?'CHIUDI':'APRI';
+    setTimeout(()=>map.invalidateSize(),80);
+  });
+
+  // P9: analisi guidata opzionale e focus nuclei intensi.
   const trackingBtn=$('trackingBtn'), hailFocusBtn=$('hailFocusBtn'), clearTrackingBtn=$('clearTrackingBtn');
   const trackingHint=$('trackingHint'), trackState=$('trackState'), trackDistance=$('trackDistance'), trackSpeed=$('trackSpeed'), trackDirection=$('trackDirection'), trackEta=$('trackEta');
 

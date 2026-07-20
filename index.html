@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
   <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte P8</title>
+  <title>Radar Conte P9</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTIPO P8 · TRACKING CELLA</p>
+        <p class="eyebrow">PROTOTIPO P9 · OPERATIVA</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -54,21 +54,24 @@
       </div>
     </section>
 
-    <section class="tracking-panel" aria-label="Tracking guidato della cella">
-      <div class="tracking-actions">
-        <button id="trackingBtn" type="button">🎯 TRACKING CELLA</button>
-        <button id="hailFocusBtn" type="button">🔴 FOCUS NUCLEI</button>
-        <button id="clearTrackingBtn" type="button">AZZERA</button>
+    <section class="analysis-compact" aria-label="Analisi cella opzionale">
+      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">🎯 ANALISI CELLA <span>APRI</span></button>
+      <div id="analysisDrawer" class="analysis-drawer" hidden>
+        <div class="tracking-actions">
+          <button id="trackingBtn" type="button">🎯 SELEZIONA CELLA</button>
+          <button id="hailFocusBtn" type="button">🔴 FOCUS NUCLEI</button>
+          <button id="clearTrackingBtn" type="button">AZZERA</button>
+        </div>
+        <p id="trackingHint" class="tracking-hint">Analisi sperimentale: scegli un fotogramma precedente, seleziona il centro della cella, passa a un fotogramma più recente e seleziona nuovamente lo stesso nucleo.</p>
+        <div class="tracking-grid" aria-live="polite">
+          <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
+          <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
+          <div><span>VELOCITÀ</span><strong id="trackSpeed">-- km/h</strong></div>
+          <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
+          <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
+        </div>
+        <p class="tracking-note">Questa prima analisi resta guidata. Il riconoscimento automatico delle celle sarà sviluppato e verificato solo con eventi radar reali.</p>
       </div>
-      <p id="trackingHint" class="tracking-hint">Per stimare il movimento: scegli un fotogramma precedente, premi TRACKING e tocca il centro della cella; poi vai a un fotogramma più recente e tocca di nuovo la stessa cella.</p>
-      <div class="tracking-grid" aria-live="polite">
-        <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
-        <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
-        <div><span>VELOCITÀ</span><strong id="trackSpeed">-- km/h</strong></div>
-        <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
-        <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
-      </div>
-      <p class="tracking-note">Stima manuale basata sui due punti scelti. Il focus nuclei aumenta la leggibilità, ma non identifica automaticamente la grandine e non sostituisce gli avvisi ufficiali.</p>
     </section>
 
     <section class="map-wrap">
@@ -171,6 +174,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

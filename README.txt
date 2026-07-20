@@ -1,12 +1,11 @@
-RADAR CONTE P8 — TRACKING CELLA
+RADAR CONTE P9 - OPERATIVA
 
-NOVITÀ
-- Tracking guidato manuale su due fotogrammi
-- Direzione e velocità stimata della cella
-- Distanza ed ETA indicativa verso Borgo Viazza
-- Stato: avvicinamento, laterale, stazionaria o allontanamento
-- Focus nuclei per aumentare contrasto e saturazione
-- Tutte le funzioni P7: radar, fulmini, evoluzione ARPAE e modalità temporale
+- Mappa radar nuovamente protagonista
+- Analisi cella spostata in pannello richiudibile
+- Radar, Fulmini ed Evoluzione invariati
+- Modalità Temporale e aggiornamento automatico ogni 3 minuti
+- Orari di aggiornamento dei tre monitor
+- Focus nuclei opzionale
 
-IMPORTANTE
-Il tracking è una stima manuale basata sui punti scelti dall’utente. Non identifica automaticamente grandine e non sostituisce gli avvisi ufficiali.
+Caricare tutti i file nella root del repository Radar-Conte.
+Aprire: https://conterb80.github.io/Radar-Conte/?v=9
