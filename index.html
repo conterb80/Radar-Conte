@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
   <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte P9</title>
+  <title>Radar Conte P10</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTIPO P9 · OPERATIVA</p>
+        <p class="eyebrow">P10 · SALA CONTROLLO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -26,14 +26,14 @@
     <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
     <section class="mode-switch" aria-label="Selezione monitor operativo">
-      <button id="radarModeBtn" class="active" type="button">🌧 RADAR</button>
-      <button id="lightningModeBtn" type="button">⚡ FULMINI</button>
-      <button id="forecastModeBtn" type="button">⏩ EVOLUZIONE +3H</button>
+      <button id="radarModeBtn" class="active" type="button">RADAR</button>
+      <button id="lightningModeBtn" type="button">FULMINI</button>
+      <button id="forecastModeBtn" type="button">EVOLUZIONE +3H</button>
     </section>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
-      <button id="stormModeBtn" class="storm-btn" type="button">⚠ MODALITÀ TEMPORALE</button>
-      <button id="fullscreenBtn" type="button">⛶ SCHERMO INTERO</button>
+      <button id="stormModeBtn" class="storm-btn" type="button">MODALITÀ TEMPORALE</button>
+      <button id="fullscreenBtn" type="button">SCHERMO INTERO</button>
     </section>
 
     <section class="update-grid" aria-label="Stato aggiornamenti monitor">
@@ -55,11 +55,11 @@
     </section>
 
     <section class="analysis-compact" aria-label="Analisi cella opzionale">
-      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">🎯 ANALISI CELLA <span>APRI</span></button>
+      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">ANALISI CELLA <span>APRI</span></button>
       <div id="analysisDrawer" class="analysis-drawer" hidden>
         <div class="tracking-actions">
-          <button id="trackingBtn" type="button">🎯 SELEZIONA CELLA</button>
-          <button id="hailFocusBtn" type="button">🔴 FOCUS NUCLEI</button>
+          <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
+          <button id="hailFocusBtn" type="button">FOCUS NUCLEI</button>
           <button id="clearTrackingBtn" type="button">AZZERA</button>
         </div>
         <p id="trackingHint" class="tracking-hint">Analisi sperimentale: scegli un fotogramma precedente, seleziona il centro della cella, passa a un fotogramma più recente e seleziona nuovamente lo stesso nucleo.</p>
@@ -174,6 +174,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=9"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

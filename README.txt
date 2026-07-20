@@ -1,11 +1,11 @@
-RADAR CONTE P9 - OPERATIVA
+RADAR CONTE P10 - RESTYLING SALA CONTROLLO
 
-- Mappa radar nuovamente protagonista
-- Analisi cella spostata in pannello richiudibile
-- Radar, Fulmini ed Evoluzione invariati
-- Modalità Temporale e aggiornamento automatico ogni 3 minuti
-- Orari di aggiornamento dei tre monitor
-- Focus nuclei opzionale
+Versione grafica moderna basata sul motore stabile P9.
+Funzioni radar, fulmini, evoluzione, modalità temporale e analisi cella mantenute.
 
-Caricare tutti i file nella root del repository Radar-Conte.
-Aprire: https://conterb80.github.io/Radar-Conte/?v=9
+Installazione GitHub Pages:
+1. Eliminare o sostituire i vecchi file del repository Radar-Conte.
+2. Caricare tutto il contenuto di questa cartella nella root del repository.
+3. Attendere il completamento del deploy GitHub Pages.
+4. Aprire: https://conterb80.github.io/Radar-Conte/?v=10
+5. Se compare ancora la P9, chiudere la PWA/Chrome e riaprire il link oppure svuotare la cache del sito.
