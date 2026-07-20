@@ -1,14 +1,12 @@
-RADAR CONTE P3 — TEST MAPPA STABILE
+RADAR CONTE P4 — RADAR OPERATIVO
 
-Questa versione corregge il difetto dei riquadri cartografici includendo localmente le regole di impaginazione di Leaflet.
+NOVITÀ
+- intervallo rapido: 30 minuti / 1 ora / 2 ore
+- velocità animazione: lenta / normale / veloce
+- tasto Ultimo e aggiornamento automatico
+- installazione PWA migliorata con icone PNG 192 e 512
+- pulsante installazione mostrato quando Chrome rende disponibile la PWA
 
-MODIFICHE PRINCIPALI
-- mappa e tasselli radar correttamente allineati
-- nessuna dipendenza dal foglio di stile Leaflet esterno
-- centratura Borgo Viazza
-- animazione ultime due ore
-- zoom Locale e Romagna
-- nuova cache PWA P3
-
-INSTALLAZIONE
-Estrarre lo ZIP e caricare tutti i file contenuti nella cartella Radar-Conte-P3 nella root del repository Radar-Conte, sostituendo i file precedenti.
+CARICAMENTO
+Caricare nella root del repository tutti i file contenuti in questa cartella.
+Dopo il commit attendere GitHub Pages e aprire la pagina con ?v=4 al primo avvio.

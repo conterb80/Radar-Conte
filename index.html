@@ -4,22 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
-  <meta name="description" content="Radar Conte - prototipo radar meteo personale per Borgo Viazza">
-  <title>Radar Conte P3</title>
+  <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
+  <title>Radar Conte P4</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTIPO P3</p>
+        <p class="eyebrow">PROTOTIPO P4 · RADAR OPERATIVO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
       <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
     </header>
+
+    <button id="installBtn" class="install-btn" type="button" hidden>⬇ INSTALLA RADAR CONTE</button>
+    <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
     <section class="time-panel" aria-live="polite">
       <div>
@@ -41,9 +45,7 @@
       </div>
       <div class="map-overlay bottom-right">
         <div class="legend" aria-label="Legenda intensità radar">
-          <span>Debole</span>
-          <div class="legend-bar"></div>
-          <span>Forte</span>
+          <span>Debole</span><div class="legend-bar"></div><span>Forte</span>
         </div>
       </div>
     </section>
@@ -55,34 +57,41 @@
       <button id="latestBtn" type="button">ULTIMO</button>
     </section>
 
+    <section class="quick-panel" aria-label="Impostazioni operative">
+      <div>
+        <span class="panel-label">INTERVALLO</span>
+        <div class="segmented" id="rangeControls">
+          <button type="button" data-minutes="30">30 MIN</button>
+          <button type="button" data-minutes="60">1 ORA</button>
+          <button type="button" data-minutes="120" class="active">2 ORE</button>
+        </div>
+      </div>
+      <div>
+        <span class="panel-label">VELOCITÀ</span>
+        <div class="segmented" id="speedControls">
+          <button type="button" data-speed="1200">LENTA</button>
+          <button type="button" data-speed="800" class="active">NORMALE</button>
+          <button type="button" data-speed="450">VELOCE</button>
+        </div>
+      </div>
+    </section>
+
     <section class="timeline-panel">
       <input id="timeline" type="range" min="0" max="0" value="0" step="1" aria-label="Seleziona il fotogramma radar">
       <div class="timeline-labels">
-        <span id="firstTime">--:--</span>
-        <span>ULTIME 2 ORE</span>
-        <span id="lastTime">--:--</span>
+        <span id="firstTime">--:--</span><span id="rangeLabel">ULTIME 2 ORE</span><span id="lastTime">--:--</span>
       </div>
     </section>
 
     <section class="settings-row">
-      <label>
-        <span>Trasparenza radar</span>
-        <input id="opacity" type="range" min="25" max="100" value="72" step="1">
-      </label>
+      <label><span>Trasparenza radar</span><input id="opacity" type="range" min="25" max="100" value="72" step="1"></label>
       <button id="refreshBtn" type="button">↻ AGGIORNA</button>
     </section>
 
-    <section id="message" class="message info" aria-live="polite">
-      Connessione alla sorgente radar in corso…
-    </section>
-
-    <footer>
-      <span>Dati radar: RainViewer API · Cartografia: OpenStreetMap</span>
-      <span>Prototipo personale non destinato ad allertamento ufficiale</span>
-    </footer>
+    <section id="message" class="message info" aria-live="polite">Connessione alla sorgente radar in corso…</section>
+    <footer><span>Dati radar: RainViewer API · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

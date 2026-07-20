@@ -105,3 +105,14 @@ footer { display: grid; gap: 3px; padding: 10px 3px 0; color: #72869a; font-size
   .time-panel { margin-bottom: 6px; }
   .map-wrap { border-radius: 12px; }
 }
+
+/* P4 - controlli operativi e installazione PWA */
+.install-btn { width:100%; min-height:44px; margin:0 0 8px; border:1px solid var(--ok); border-radius:11px; background:rgba(77,210,138,.12); color:var(--ok); font-weight:800; }
+.install-help { margin:0 0 8px; padding:9px 11px; border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--muted); font-size:12px; }
+.quick-panel { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+.quick-panel > div { padding:8px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+.panel-label { display:block; margin:0 0 6px; color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.08em; }
+.segmented { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; }
+.segmented button { min-height:36px; padding:5px 3px; border:1px solid var(--line); border-radius:8px; background:#07111f; color:var(--muted); font-size:9px; font-weight:800; }
+.segmented button.active { background:var(--accent); border-color:var(--accent); color:#001524; }
+@media (max-width:430px){ .quick-panel{grid-template-columns:1fr;} }
