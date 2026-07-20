@@ -95,7 +95,7 @@
   window.addEventListener('resize',()=>map.invalidateSize()); window.addEventListener('orientationchange',()=>setTimeout(()=>map.invalidateSize(),300));
   window.addEventListener('online',()=>loadRadar()); window.addEventListener('offline',()=>{setStatus('error','OFFLINE');setMessage('Telefono senza connessione internet.','error');});
   setInterval(()=>loadRadar({quiet:true}),REFRESH_MS); setInterval(()=>{if(frames.length)updateAge(frames[currentIndex].time);},60000);
-  if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(console.warn));
+  if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/Radar-Conte/service-worker.js', { scope: '/Radar-Conte/' }).catch(console.warn));
   loadRadar();
 
 

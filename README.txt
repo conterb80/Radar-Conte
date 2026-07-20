@@ -1,11 +1,20 @@
-RADAR CONTE P10 - RESTYLING SALA CONTROLLO
+RADAR CONTE P10.1 — FIX INSTALLAZIONE PWA
 
-Versione grafica moderna basata sul motore stabile P9.
-Funzioni radar, fulmini, evoluzione, modalità temporale e analisi cella mantenute.
+Questa versione mantiene grafica e funzioni della P10.
+Sono stati corretti esclusivamente:
+- manifest PWA con percorsi GitHub Pages assoluti;
+- icone standard e maskable 192/512;
+- service worker e relativo scope;
+- cache aggiornata;
+- pulsante di installazione interno.
 
-Installazione GitHub Pages:
-1. Eliminare o sostituire i vecchi file del repository Radar-Conte.
-2. Caricare tutto il contenuto di questa cartella nella root del repository.
-3. Attendere il completamento del deploy GitHub Pages.
-4. Aprire: https://conterb80.github.io/Radar-Conte/?v=10
-5. Se compare ancora la P9, chiudere la PWA/Chrome e riaprire il link oppure svuotare la cache del sito.
+CARICAMENTO
+Caricare nella radice del repository Radar-Conte tutti i file e la cartella icons,
+sostituendo quelli esistenti.
+
+APERTURA DI CONTROLLO
+https://conterb80.github.io/Radar-Conte/?v=10.1
+
+Dopo il caricamento, attendere 1-2 minuti, chiudere tutte le schede Radar Conte e
+riaprire il link. In Chrome dovrebbe comparire "Installa app" oppure il pulsante
+"INSTALLA RADAR CONTE" dentro la pagina.
