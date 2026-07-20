@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
   <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte P4</title>
+  <title>Radar Conte P5</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTIPO P4 · RADAR OPERATIVO</p>
+        <p class="eyebrow">PROTOTIPO P5 · RADAR + FULMINI</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -25,6 +25,12 @@
     <button id="installBtn" class="install-btn" type="button" hidden>⬇ INSTALLA RADAR CONTE</button>
     <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
+    <section class="mode-switch" aria-label="Selezione monitor operativo">
+      <button id="radarModeBtn" class="active" type="button">🌧 RADAR</button>
+      <button id="lightningModeBtn" type="button">⚡ FULMINI LIVE</button>
+    </section>
+
+    <div id="radarPanel">
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
@@ -88,10 +94,31 @@
       <button id="refreshBtn" type="button">↻ AGGIORNA</button>
     </section>
 
+    </div>
+
+    <section id="lightningPanel" class="lightning-panel" hidden>
+      <div class="lightning-head">
+        <div>
+          <span class="time-label">FULMINI IN TEMPO REALE</span>
+          <strong>Romagna e Nord Italia</strong>
+        </div>
+        <button id="reloadLightningBtn" type="button">↻ RICARICA</button>
+      </div>
+      <div class="lightning-frame-wrap">
+        <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <div class="lightning-actions">
+        <button id="lightningLocalBtn" type="button">LOCALE</button>
+        <button id="lightningNorthBtn" type="button">NORD ITALIA</button>
+        <a id="openLightningLink" target="_blank" rel="noopener noreferrer">APRI A SCHERMO INTERO</a>
+      </div>
+      <p class="lightning-note">Dati di Blitzortung.org e collaboratori. Uso personale e di osservazione, non per allertamento ufficiale.</p>
+    </section>
+
     <section id="message" class="message info" aria-live="polite">Connessione alla sorgente radar in corso…</section>
-    <footer><span>Dati radar: RainViewer API · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
+    <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

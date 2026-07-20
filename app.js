@@ -90,4 +90,55 @@
   setInterval(()=>loadRadar({quiet:true}),REFRESH_MS); setInterval(()=>{if(frames.length)updateAge(frames[currentIndex].time);},60000);
   if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(console.warn));
   loadRadar();
+
+
+  // P5: monitor fulmini ufficialmente incorporabile secondo la documentazione LightningMaps.org.
+  const radarModeBtn = document.getElementById('radarModeBtn');
+  const lightningModeBtn = document.getElementById('lightningModeBtn');
+  const radarPanel = document.getElementById('radarPanel');
+  const lightningPanel = document.getElementById('lightningPanel');
+  const lightningFrame = document.getElementById('lightningFrame');
+  const reloadLightningBtn = document.getElementById('reloadLightningBtn');
+  const lightningLocalBtn = document.getElementById('lightningLocalBtn');
+  const lightningNorthBtn = document.getElementById('lightningNorthBtn');
+  const openLightningLink = document.getElementById('openLightningLink');
+
+  const lightningBase = 'https://map.blitzortung.org/index.php?interactive=1&NavigationControl=1&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=1&ScaleControl=1&LightningCheckboxChecked=1&LightningRangeValue=10&MapStyle=0&MapStyleRangeValue=0&Advertisment=0';
+  const lightningViews = {
+    local: `${lightningBase}#8/44.447/12.013`,
+    north: `${lightningBase}#6/44.8/11.2`
+  };
+  let currentLightningView = 'local';
+
+  function loadLightning(view='local', force=false){
+    currentLightningView = view;
+    const url = lightningViews[view] + (force ? `&reload=${Date.now()}` : '');
+    lightningFrame.src = url;
+    openLightningLink.href = lightningViews[view];
+    lightningLocalBtn.classList.toggle('active', view === 'local');
+    lightningNorthBtn.classList.toggle('active', view === 'north');
+  }
+
+  function setMode(mode){
+    const lightning = mode === 'lightning';
+    radarPanel.hidden = lightning;
+    lightningPanel.hidden = !lightning;
+    radarModeBtn.classList.toggle('active', !lightning);
+    lightningModeBtn.classList.toggle('active', lightning);
+    if(lightning){
+      stopPlayback();
+      if(!lightningFrame.src) loadLightning(currentLightningView);
+      setMessage('Monitor fulmini live attivo. I dati sono forniti da Blitzortung.org.', 'success');
+    } else {
+      setMessage(`${frames.length || 0} scansioni nell’intervallo selezionato.`, 'success');
+      setTimeout(()=>map.invalidateSize(),100);
+    }
+  }
+
+  radarModeBtn.addEventListener('click',()=>setMode('radar'));
+  lightningModeBtn.addEventListener('click',()=>setMode('lightning'));
+  reloadLightningBtn.addEventListener('click',()=>loadLightning(currentLightningView,true));
+  lightningLocalBtn.addEventListener('click',()=>loadLightning('local',true));
+  lightningNorthBtn.addEventListener('click',()=>loadLightning('north',true));
+
 })();

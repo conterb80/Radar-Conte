@@ -116,3 +116,18 @@ footer { display: grid; gap: 3px; padding: 10px 3px 0; color: #72869a; font-size
 .segmented button { min-height:36px; padding:5px 3px; border:1px solid var(--line); border-radius:8px; background:#07111f; color:var(--muted); font-size:9px; font-weight:800; }
 .segmented button.active { background:var(--accent); border-color:var(--accent); color:#001524; }
 @media (max-width:430px){ .quick-panel{grid-template-columns:1fr;} }
+
+/* P5 - monitor fulmini integrato */
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}
+.mode-switch button{min-height:44px;border:1px solid var(--line);border-radius:11px;background:var(--panel);color:var(--muted);font-size:12px;font-weight:800}
+.mode-switch button.active{background:var(--accent);border-color:var(--accent);color:#001524}
+.lightning-panel{display:grid;gap:8px}
+.lightning-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.lightning-head strong{display:block;margin-top:2px;font-size:18px}
+.lightning-head button,.lightning-actions button,.lightning-actions a{min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--text);font-size:10px;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.lightning-frame-wrap{overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#08111b}
+.lightning-frame-wrap iframe{display:block;width:100%;height:clamp(470px,68vh,700px);border:0;background:#08111b}
+.lightning-actions{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:7px}
+.lightning-actions a{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
+.lightning-note{margin:0;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);color:var(--muted);font-size:11px}
+@media(max-width:430px){.lightning-actions{grid-template-columns:1fr 1fr}.lightning-actions a{grid-column:1/-1}.lightning-frame-wrap iframe{height:64vh;min-height:470px}}

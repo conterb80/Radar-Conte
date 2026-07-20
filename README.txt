@@ -1,12 +1,11 @@
-RADAR CONTE P4 — RADAR OPERATIVO
+RADAR CONTE P5 - RADAR + FULMINI
 
-NOVITÀ
-- intervallo rapido: 30 minuti / 1 ora / 2 ore
-- velocità animazione: lenta / normale / veloce
-- tasto Ultimo e aggiornamento automatico
-- installazione PWA migliorata con icone PNG 192 e 512
-- pulsante installazione mostrato quando Chrome rende disponibile la PWA
+NOVITA
+- Tutte le funzioni operative della P4
+- Nuovo selettore RADAR / FULMINI LIVE
+- Mappa fulmini Blitzortung integrata e centrata sulla Romagna
+- Viste rapide Locale e Nord Italia
+- Ricarica manuale e apertura a schermo intero
 
-CARICAMENTO
-Caricare nella root del repository tutti i file contenuti in questa cartella.
-Dopo il commit attendere GitHub Pages e aprire la pagina con ?v=4 al primo avvio.
+NOTA
+I fulmini sono dati di una rete collaborativa e non costituiscono un sistema ufficiale di allertamento.
