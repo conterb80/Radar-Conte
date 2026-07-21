@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=14">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=15">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P14 · PLANCIA OPERATIVA</p>
+        <p class="eyebrow">P15 · SALA CONTROLLO LIVE</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -25,11 +25,11 @@
     <button id="installBtn" class="install-btn" type="button" hidden>⬇ INSTALLA RADAR CONTE</button>
     <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
-    <section class="mode-switch" aria-label="Selezione monitor operativo">
+    <nav class="mode-switch live-nav" aria-label="Vai rapidamente ai monitor">
       <button id="radarModeBtn" class="active" type="button">RADAR</button>
       <button id="lightningModeBtn" type="button">FULMINI</button>
-      <button id="forecastModeBtn" type="button">EVOLUZIONE +3H</button>
-    </section>
+      <button id="forecastModeBtn" type="button">EVOLUZIONE</button>
+    </nav>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
       <button id="stormModeBtn" class="storm-btn" type="button">MODALITÀ TEMPORALE</button>
@@ -42,7 +42,15 @@
       <div><span>EVOLUZIONE</span><strong id="forecastUpdated">--:--</strong></div>
     </section>
 
-    <div id="radarPanel">
+    <section class="live-summary" aria-live="polite">
+      <div><span>STATO</span><strong id="liveState">IN ANALISI</strong></div>
+      <div><span>PIOGGIA LOCALE</span><strong id="liveRain">--</strong></div>
+      <div><span>NUCLEO SEGUITO</span><strong id="liveTarget">--</strong></div>
+      <div><span>AFFIDABILITÀ</span><strong id="liveConfidence">--</strong></div>
+    </section>
+
+    <div id="radarPanel" class="monitor-section">
+    <h2 class="monitor-title">1 · RADAR E MOVIMENTO</h2>
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
@@ -98,7 +106,7 @@
               <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
               <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
             </div>
-            <p class="tracking-note">P14 mantiene invariato il motore P13. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
+            <p class="tracking-note">P15 mantiene disponibile il controllo manuale del motore. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
           </div>
         </details>
       </div>
@@ -158,7 +166,8 @@
 
     </div>
 
-    <section id="lightningPanel" class="lightning-panel" hidden>
+    <section id="lightningPanel" class="lightning-panel monitor-section">
+      <h2 class="monitor-title">2 · FULMINI LIVE</h2>
       <div class="lightning-head">
         <div>
           <span class="time-label">FULMINI IN TEMPO REALE</span>
@@ -178,7 +187,8 @@
     </section>
 
 
-    <section id="forecastPanel" class="forecast-panel" hidden>
+    <section id="forecastPanel" class="forecast-panel monitor-section">
+      <h2 class="monitor-title">3 · EVOLUZIONE +3H</h2>
       <div class="forecast-head">
         <div>
           <span class="time-label">NOWCASTING UFFICIALE ARPAE</span>
@@ -204,6 +214,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=14"></script>
+  <script src="/Radar-Conte/app.js?v=15"></script>
 </body>
 </html>

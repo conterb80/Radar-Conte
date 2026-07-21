@@ -1,9 +1,9 @@
-const VERSION = 'radar-conte-p14';
+const VERSION = 'radar-conte-p15';
 const APP_SHELL = [
   '/Radar-Conte/',
   '/Radar-Conte/index.html',
-  '/Radar-Conte/styles.css?v=14',
-  '/Radar-Conte/app.js?v=14',
+  '/Radar-Conte/styles.css?v=15',
+  '/Radar-Conte/app.js?v=15',
   '/Radar-Conte/manifest.webmanifest',
   '/Radar-Conte/manifest.json',
   '/Radar-Conte/icons/icon-192.png',

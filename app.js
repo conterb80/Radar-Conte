@@ -7,8 +7,8 @@
 
   const LOCATION = { name: 'Borgo Viazza', lat: 44.447, lon: 12.013 };
   const API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
-  const REFRESH_MS = 3 * 60 * 1000;
-  const UI_STATE_KEY = 'radarConteP13State';
+  const REFRESH_MS = 90 * 1000;
+  const UI_STATE_KEY = 'radarConteP15State';
   const EVENT_LOG_KEY = 'radarConteP13EventLog';
   let playMs = 800;
   let selectedMinutes = 120;
@@ -39,7 +39,7 @@
   const saveState=patch=>{try{const old=JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}');localStorage.setItem(UI_STATE_KEY,JSON.stringify({...old,...patch}));}catch(_){}};
   const readState=()=>{try{return JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}')}catch(_){return {}}};
   const updateAge=unix=>{els.frameAge.textContent=`${Math.max(0,Math.round((Date.now()-unix*1000)/60000))} min`;};
-  const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
+  const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png?rc15=${frame.time}`;
 
 
   // P13: analisi automatica con timeline persistente dell’evento.
@@ -51,6 +51,16 @@
     run:$('runAutoAnalysisBtn'), level:$('autoLevel'), summary:$('autoSummary'), rain:$('autoRain'),
     cell:$('autoCell'), move:$('autoMove'), speed:$('autoSpeed'), trend:$('autoTrend'), eta:$('autoEta'), confidence:$('autoConfidence')
   };
+  const liveEls={state:$('liveState'),rain:$('liveRain'),target:$('liveTarget'),confidence:$('liveConfidence')};
+  function syncLiveSummary(){
+    if(!liveEls.state)return;
+    liveEls.state.textContent=autoEls.level.textContent||'--';
+    liveEls.rain.textContent=autoEls.rain.textContent||'--';
+    liveEls.target.textContent=autoEls.cell.textContent||'--';
+    liveEls.confidence.textContent=autoEls.confidence.textContent||'--';
+    const txt=(autoEls.level.textContent||'').toLowerCase();
+    liveEls.state.className=txt.includes('vicino')||txt.includes('intensa')?'danger':txt.includes('avvicin')?'warn':txt.includes('concluso')?'ok':'';
+  }
   let autoAnalysisLayer=null;
   const eventEls={list:$('eventLogList'),phase:$('eventPhase'),clear:$('clearEventLogBtn')};
   let eventLog=[];
@@ -149,16 +159,28 @@
   }
   function chooseTrackedPair(prev,latest){
     if(!latest.components.length)return null;
-    const candidate=latest.components[0];
-    if(!prev.components.length)return {latest:candidate,previous:null};
-    let best=null,bestScore=Infinity;
-    for(const p of prev.components){
-      const separation=distanceKm({lat:p.lat,lng:p.lon},{lat:candidate.lat,lng:candidate.lon});
-      const sizePenalty=Math.abs(Math.log((candidate.energy+1)/(p.energy+1)))*10;
-      const score=separation+sizePenalty;
-      if(score<bestScore){bestScore=score;best=p;}
+    const candidates=latest.components.filter(c=>c.dist<=95);
+    if(!candidates.length)return null;
+    let bestPair=null,bestScore=Infinity;
+    for(const c of candidates){
+      let previous=null,matchScore=999,approachBonus=0;
+      for(const p of prev.components){
+        const separation=distanceKm({lat:p.lat,lng:p.lon},{lat:c.lat,lng:c.lon});
+        const sizePenalty=Math.abs(Math.log((c.energy+1)/(p.energy+1)))*10;
+        const score=separation+sizePenalty;
+        if(score<matchScore){matchScore=score;previous=p;}
+      }
+      if(previous && matchScore<=70){
+        const delta=c.dist-previous.dist;
+        if(delta<0)approachBonus=Math.min(22,Math.abs(delta)*3);
+      }else previous=null;
+      // Priorità operativa: vicinanza a Borgo Viazza, continuità e struttura significativa.
+      const strengthBonus=Math.min(18,Math.log2(c.energy+1)*2.3)+Math.min(8,c.strong*.35);
+      const continuityPenalty=previous?Math.min(24,matchScore*.35):24;
+      const operationalScore=c.dist+continuityPenalty-strengthBonus-approachBonus;
+      if(operationalScore<bestScore){bestScore=operationalScore;bestPair={latest:c,previous,matchScore,operationalScore};}
     }
-    return bestScore<=90?{latest:candidate,previous:best,matchScore:bestScore}:{latest:candidate,previous:null};
+    return bestPair;
   }
   function clearAutoLayer(){if(autoAnalysisLayer){map.removeLayer(autoAnalysisLayer);autoAnalysisLayer=null;}}
   function drawAutoCell(cell,heading=null){
@@ -185,7 +207,7 @@
       const [a,b]=await Promise.all([analyseFrame(prev),analyseFrame(latest)]),pair=chooseTrackedPair(a,b);
       const rain=b.localStrong>=2?'INTENSA':b.localHits>=4?'IN CORSO':b.localHits>0?'DEBOLE / MARGINALE':'NON RILEVATA';
       autoEls.rain.textContent=rain;
-      if(!pair){clearAutoLayer();autoEls.level.textContent='NESSUN NUCLEO RILEVATO';autoEls.cell.textContent='--';autoEls.move.textContent='--';autoEls.speed.textContent='--';autoEls.trend.textContent='STABILE';autoEls.eta.textContent='--';autoEls.confidence.textContent='LIMITATA';autoEls.summary.textContent=`Precipitazione locale: ${rain.toLowerCase()}. Nessun nucleo radar organizzato è stato riconosciuto nell’area analizzata.`;recordAutoEvent(latest.time);return;}
+      if(!pair){clearAutoLayer();autoEls.level.textContent='NESSUN NUCLEO RILEVATO';autoEls.cell.textContent='--';autoEls.move.textContent='--';autoEls.speed.textContent='--';autoEls.trend.textContent='STABILE';autoEls.eta.textContent='--';autoEls.confidence.textContent='LIMITATA';autoEls.summary.textContent=`Precipitazione locale: ${rain.toLowerCase()}. Nessun nucleo radar organizzato è stato riconosciuto nell’area analizzata.`;syncLiveSummary();recordAutoEvent(latest.time);return;}
       const c=pair.latest;autoEls.cell.textContent=`${c.dist.toFixed(1)} km`;
       let heading=null,speed=null,trend='INCERTA',eta='--',confidence='BASSA',state='NUCLEO RILEVATO';
       if(pair.previous){
@@ -199,13 +221,21 @@
         autoEls.move.textContent=`${compass(heading)} · ${Math.round(heading)}°`;
         autoEls.speed.textContent=speed>=3&&speed<=180?`${Math.round(speed)} km/h`:'INCERTA';
       }else{autoEls.move.textContent='NON CALCOLABILE';autoEls.speed.textContent='--';}
+      if(confidence==='BASSA'){
+        trend='NON DETERMINABILE';eta='--';
+      }
+      if(rain==='NON RILEVATA' && c.dist>70 && trend!=='AVVICINAMENTO'){
+        state='EVENTO LOCALE CONCLUSO';trend='NESSUN NUCLEO RILEVANTE';eta='--';
+      }
       autoEls.trend.textContent=trend;autoEls.eta.textContent=eta;autoEls.confidence.textContent=confidence;
-      if(rain==='INTENSA')state='PRECIPITAZIONE INTENSA';else if(c.dist<=10)state='NUCLEO MOLTO VICINO';else if(c.dist<=25)state='NUCLEO VICINO';else if(trend==='AVVICINAMENTO')state='NUCLEO IN AVVICINAMENTO';else if(trend==='ALLONTANAMENTO')state='NUCLEO IN ALLONTANAMENTO';
+      if(state!=='EVENTO LOCALE CONCLUSO'){
+        if(rain==='INTENSA')state='PRECIPITAZIONE INTENSA';else if(rain==='IN CORSO')state='PRECIPITAZIONE SULLA ZONA';else if(c.dist<=10)state='NUCLEO MOLTO VICINO';else if(c.dist<=25)state='NUCLEO VICINO';else if(confidence!=='BASSA'&&trend==='AVVICINAMENTO')state='NUCLEO IN AVVICINAMENTO';else if(confidence!=='BASSA'&&trend==='ALLONTANAMENTO')state='NUCLEO IN ALLONTANAMENTO';else state='BERSAGLIO IN VERIFICA';
+      }
       autoEls.level.textContent=state;drawAutoCell(c,heading);
       const etaText=eta==='--'?'ETA non disponibile: traiettoria o velocità non abbastanza coerenti.':`Possibile arrivo del centro stimato in ${eta}.`;
       autoEls.summary.textContent=`${state}. Centro radar stimato a ${c.dist.toFixed(1)} km; tendenza ${trend.toLowerCase()}. ${etaText} Affidabilità ${confidence.toLowerCase()}.`;
-      recordAutoEvent(latest.time);
-    }catch(err){console.warn('Analisi automatica non disponibile',err);clearAutoLayer();autoEls.level.textContent='LETTURA NON DISPONIBILE';autoEls.summary.textContent='Il radar resta utilizzabile, ma il browser non consente l’analisi automatica delle tile. Nessuna stima è stata prodotta.';['rain','cell','move','speed','trend','eta'].forEach(k=>autoEls[k].textContent='--');autoEls.confidence.textContent='NESSUNA';}
+      syncLiveSummary();recordAutoEvent(latest.time);
+    }catch(err){console.warn('Analisi automatica non disponibile',err);clearAutoLayer();autoEls.level.textContent='LETTURA NON DISPONIBILE';autoEls.summary.textContent='Il radar resta utilizzabile, ma il browser non consente l’analisi automatica delle tile. Nessuna stima è stata prodotta.';['rain','cell','move','speed','trend','eta'].forEach(k=>autoEls[k].textContent='--');autoEls.confidence.textContent='NESSUNA';syncLiveSummary();}
   }
   autoEls.run?.addEventListener('click',runAutomaticAnalysis);
 
@@ -242,7 +272,7 @@
     try{
       const response=await fetch(`${API_URL}?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const data=await response.json();const past=Array.isArray(data?.radar?.past)?data.radar.past:[];if(!past.length)throw new Error('Nessun fotogramma disponibile');
-      host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','RADAR ONLINE');els.radarUpdated.textContent=nowTime();setMessage(`${frames.length} scansioni nell’intervallo selezionato · ultimo dato ${fmtTime(allFrames[allFrames.length-1].time)}.`,'success');setTimeout(()=>map.invalidateSize(),150);setTimeout(runAutomaticAnalysis,500);
+      const previousLatest=allFrames.at(-1)?.time||0;host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','LIVE · AUTO');els.radarUpdated.textContent=nowTime();const newest=allFrames.at(-1)?.time||0;setMessage(`${newest>previousLatest?'Nuova scansione acquisita':'Controllo automatico completato'} · ultimo dato ${fmtTime(newest)} · prossimo controllo entro 90 s.`,'success');setTimeout(()=>map.invalidateSize(),150);setTimeout(runAutomaticAnalysis,500);
     }catch(error){console.error(error);setStatus('error','RADAR OFFLINE');setMessage('Non riesco a ricevere i dati radar. Controlla la connessione e premi AGGIORNA.','error');}
   }
 
@@ -257,7 +287,7 @@
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
     if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent=choice.outcome==='accepted'?'Installazione avviata. Radar Conte comparirà tra le app.':'Installazione annullata: puoi riprovare dal menu di Chrome.';}
-    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P13 e attendi qualche secondo.';}
+    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P15 e attendi qualche secondo.';}
   });
   window.addEventListener('appinstalled',()=>{els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent='Radar Conte è installato correttamente.';});
 
@@ -315,28 +345,17 @@
     openForecastLink.href = forecastUrl;
   }
 
-  function setOperationalMode(mode){
+  function setOperationalMode(mode,{scroll=true}={}){
     saveState({mode});
-    const radar = mode === 'radar';
-    const lightning = mode === 'lightning';
-    const forecast = mode === 'forecast';
-    radarPanel.hidden = !radar;
-    lightningPanel.hidden = !lightning;
-    forecastPanel.hidden = !forecast;
-    radarModeBtn.classList.toggle('active', radar);
-    lightningModeBtn.classList.toggle('active', lightning);
-    forecastModeBtn.classList.toggle('active', forecast);
-    if(!radar) stopPlayback();
-    if(radar){
-      setMessage(`${frames.length || 0} scansioni nell’intervallo selezionato.`, 'success');
-      setTimeout(()=>map.invalidateSize(),100);
-    } else if(lightning){
-      if(!lightningFrame.src) loadLightning(currentLightningView);
-      setMessage('Monitor fulmini live attivo. I dati sono forniti da Blitzortung.org.', 'success');
-    } else {
-      if(!forecastFrame.src) loadForecast();
-      setMessage('Evoluzione ARPAE attiva: osservato e previsione fino a +3 ore.', 'success');
-    }
+    radarPanel.hidden=false;lightningPanel.hidden=false;forecastPanel.hidden=false;
+    radarModeBtn.classList.toggle('active',mode==='radar');
+    lightningModeBtn.classList.toggle('active',mode==='lightning');
+    forecastModeBtn.classList.toggle('active',mode==='forecast');
+    if(!lightningFrame.src)loadLightning(currentLightningView);
+    if(!forecastFrame.src)loadForecast();
+    const target=mode==='lightning'?lightningPanel:mode==='forecast'?forecastPanel:radarPanel;
+    if(scroll)target.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(()=>map.invalidateSize(),120);
   }
 
   radarModeBtn.addEventListener('click',()=>setOperationalMode('radar'));
@@ -361,7 +380,7 @@
       [...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',Number(x.dataset.speed)===450));
       saveState({speed:450,minutes:30});
       if(!playTimer) startPlayback();
-      setMessage('Modalità Temporale attiva: radar locale, ultimi 30 minuti, animazione veloce e aggiornamento automatico ogni 3 minuti.','success');
+      setMessage('Modalità Temporale attiva: radar locale, ultimi 30 minuti, animazione veloce e aggiornamento automatico ogni 90 secondi.','success');
     }else{
       stopPlayback();
       setMessage('Modalità Temporale disattivata. Controlli manuali ripristinati.','info');
@@ -379,9 +398,8 @@
 
   // Aggiorna anche il monitor attivo, non soltanto il radar.
   setInterval(()=>{
-    const state=readState();
-    if(state.mode==='lightning') loadLightning(currentLightningView,true);
-    if(state.mode==='forecast') loadForecast(true);
+    loadLightning(currentLightningView,true);
+    loadForecast(true);
   },REFRESH_MS);
 
 
@@ -462,7 +480,7 @@
     [...els.speedControls.querySelectorAll('button')].forEach(x=>x.classList.toggle('active',Number(x.dataset.speed)===playMs));
   }
   const initialMode=['radar','lightning','forecast'].includes(saved.mode)?saved.mode:'radar';
-  setOperationalMode(initialMode);
+  setOperationalMode(initialMode,{scroll:false});
   if(saved.stormMode) setTimeout(()=>setStormMode(true),700);
 
 })();

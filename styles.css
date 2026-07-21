@@ -323,3 +323,33 @@ footer{opacity:.78}
   .event-log-shell summary small,.advanced-tools summary small{display:none}
 }
 @media(max-height:760px) and (max-width:480px){#map{height:62vh;min-height:440px}}
+
+
+/* P15 · Sala Controllo Live — revisione basata sul test reale */
+html{scroll-behavior:smooth;scroll-padding-top:62px}
+.app-shell{max-width:820px;padding-left:7px;padding-right:7px}
+.topbar{padding-bottom:6px}
+.eyebrow{font-size:9px}.place{margin-top:3px;font-size:11px}
+.live-nav{position:sticky;top:max(4px,env(safe-area-inset-top));z-index:1800;backdrop-filter:blur(15px);box-shadow:0 10px 30px rgba(0,0,0,.42)}
+.live-nav button{min-height:40px}
+.monitor-section{scroll-margin-top:68px;margin-bottom:12px}
+.monitor-title{margin:7px 2px 6px;color:#8fdcff;font-size:11px;letter-spacing:.14em;font-weight:900}
+.live-summary{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:5px;margin:5px 0 7px}
+.live-summary div{min-width:0;padding:7px 6px;border:1px solid rgba(88,173,225,.22);border-radius:11px;background:linear-gradient(180deg,rgba(13,32,50,.94),rgba(6,17,28,.94))}
+.live-summary span{display:block;color:var(--muted);font-size:6px;font-weight:900;letter-spacing:.1em;white-space:nowrap}
+.live-summary strong{display:block;overflow:hidden;margin-top:3px;font-size:10px;white-space:nowrap;text-overflow:ellipsis}
+.live-summary strong.ok{color:var(--ok)}.live-summary strong.warn{color:var(--warn)}.live-summary strong.danger{color:var(--danger)}
+.update-grid{margin-bottom:5px}.ops-bar{margin-bottom:5px}
+#map{height:min(61vh,560px);min-height:400px}
+.analysis-compact{order:2}.time-panel{margin-bottom:5px}
+.lightning-panel,.forecast-panel{padding-top:2px;border-top:1px solid rgba(89,174,226,.18)}
+.lightning-frame-wrap{height:460px}.forecast-frame-wrap{height:570px}
+.lightning-note,.forecast-note{margin-top:1px;font-size:10px}
+.message{position:sticky;bottom:4px;z-index:1700;margin:5px 0;background:rgba(10,27,43,.94);backdrop-filter:blur(12px)}
+@media(max-width:480px){
+  .live-summary{grid-template-columns:1.35fr 1fr 1fr 1fr}
+  .live-summary div{padding:6px 4px}.live-summary strong{font-size:9px}.live-summary span{font-size:5.5px}
+  #map{height:53vh;min-height:370px}
+  .lightning-frame-wrap{height:410px}.forecast-frame-wrap{height:520px}
+  .quick-panel,.settings-row{margin-top:6px}
+}
