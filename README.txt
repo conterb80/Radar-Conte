@@ -1,20 +1,14 @@
-RADAR CONTE P10.1 — FIX INSTALLAZIONE PWA
+RADAR CONTE P11.1
 
-Questa versione mantiene grafica e funzioni della P10.
-Sono stati corretti esclusivamente:
-- manifest PWA con percorsi GitHub Pages assoluti;
-- icone standard e maskable 192/512;
-- service worker e relativo scope;
-- cache aggiornata;
-- pulsante di installazione interno.
+Aggiornamento operativo basato sul test reale del 21/07/2026.
 
-CARICAMENTO
-Caricare nella radice del repository Radar-Conte tutti i file e la cartella icons,
-sostituendo quelli esistenti.
+NOVITA
+- Segnalino indicativo Borgo Viazza sovrapposto alla mappa Fulmini locale.
+- Prima Sintesi Operativa automatica radar, prudente e fail-safe.
+- Lettura di precipitazione locale, nucleo nell’area, movimento stimato e affidabilita.
+- Nessuna ETA automatica: resta disponibile soltanto nel tracking guidato quando la traiettoria e compatibile.
+- Grafica, PWA, Radar, Fulmini ed Evoluzione invariati.
 
-APERTURA DI CONTROLLO
-https://conterb80.github.io/Radar-Conte/?v=10.1
-
-Dopo il caricamento, attendere 1-2 minuti, chiudere tutte le schede Radar Conte e
-riaprire il link. In Chrome dovrebbe comparire "Installa app" oppure il pulsante
-"INSTALLA RADAR CONTE" dentro la pagina.
+INSTALLAZIONE
+Caricare tutti i file nella radice del repository GitHub Radar-Conte, sostituendo i precedenti.
+Aprire https://conterb80.github.io/Radar-Conte/?v=11.1

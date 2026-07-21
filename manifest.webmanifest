@@ -1,18 +1,24 @@
 {
   "id": "/Radar-Conte/",
-  "name": "Radar Conte",
+  "name": "Radar Conte P11.1",
   "short_name": "Radar Conte",
-  "description": "Sala controllo radar personale centrata su Borgo Viazza",
+  "description": "Sala controllo radar personale P11.1 per Borgo Viazza",
   "lang": "it-IT",
   "dir": "ltr",
   "start_url": "/Radar-Conte/?source=pwa",
   "scope": "/Radar-Conte/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
   "background_color": "#050b13",
   "theme_color": "#07111f",
   "orientation": "portrait-primary",
-  "categories": ["weather", "utilities"],
+  "categories": [
+    "weather",
+    "utilities"
+  ],
   "prefer_related_applications": false,
   "icons": [
     {

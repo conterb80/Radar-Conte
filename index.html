@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=10.1">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=11.1">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P10.1 · SALA CONTROLLO</p>
+        <p class="eyebrow">P11.1 · SALA CONTROLLO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -57,6 +57,17 @@
     <section class="analysis-compact" aria-label="Analisi cella opzionale">
       <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">ANALISI CELLA <span>APRI</span></button>
       <div id="analysisDrawer" class="analysis-drawer" hidden>
+        <section class="auto-analysis" aria-live="polite">
+          <div class="auto-analysis-head"><span>SINTESI OPERATIVA</span><button id="runAutoAnalysisBtn" type="button">ANALIZZA ORA</button></div>
+          <strong id="autoLevel">IN ATTESA DATI</strong>
+          <p id="autoSummary">La lettura automatica usa i fotogrammi radar disponibili e segnala soltanto stime verificabili. Se il campionamento non riesce, non produce conclusioni.</p>
+          <div class="auto-grid">
+            <div><span>PRECIPITAZIONE</span><b id="autoRain">--</b></div>
+            <div><span>NUCLEO VICINO</span><b id="autoCell">--</b></div>
+            <div><span>MOVIMENTO</span><b id="autoMove">--</b></div>
+            <div><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
+          </div>
+        </section>
         <div class="tracking-actions">
           <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
           <button id="hailFocusBtn" type="button">FOCUS NUCLEI</button>
@@ -137,6 +148,7 @@
         <button id="reloadLightningBtn" type="button">↻ RICARICA</button>
       </div>
       <div class="lightning-frame-wrap">
+        <div class="lightning-home-marker" aria-label="Posizione indicativa Borgo Viazza"><span></span><b>BORGO VIAZZA</b></div>
         <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
       <div class="lightning-actions">
@@ -174,6 +186,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=10.1"></script>
+  <script src="/Radar-Conte/app.js?v=11.1"></script>
 </body>
 </html>

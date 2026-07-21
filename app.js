@@ -40,6 +40,52 @@
   const updateAge=unix=>{els.frameAge.textContent=`${Math.max(0,Math.round((Date.now()-unix*1000)/60000))} min`;};
   const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
 
+
+  // P11.1: prima lettura automatica prudente dei pixel radar attorno a Borgo Viazza.
+  // Non inventa ETA o fulmini: se le tile non sono leggibili via CORS restituisce "non disponibile".
+  const autoEls={
+    run:$('runAutoAnalysisBtn'), level:$('autoLevel'), summary:$('autoSummary'), rain:$('autoRain'),
+    cell:$('autoCell'), move:$('autoMove'), confidence:$('autoConfidence')
+  };
+  const mercatorTile=(lat,lon,z)=>{
+    const n=2**z, x=(lon+180)/360*n, y=(1-Math.asinh(Math.tan(lat*Math.PI/180))/Math.PI)/2*n;
+    return {tx:Math.floor(x),ty:Math.floor(y),px:Math.floor((x-Math.floor(x))*256),py:Math.floor((y-Math.floor(y))*256)};
+  };
+  const loadTileImage=url=>new Promise((resolve,reject)=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>resolve(img);img.onerror=reject;img.src=url;});
+  async function sampleFrame(frame){
+    const z=7,{tx,ty,px,py}=mercatorTile(LOCATION.lat,LOCATION.lon,z);
+    const url=`${host}${frame.path}/256/${z}/${tx}/${ty}/2/1_1.png`;
+    const img=await loadTileImage(url);const c=document.createElement('canvas');c.width=256;c.height=256;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0);
+    const d=ctx.getImageData(0,0,256,256).data;let active=0,strong=0,sumX=0,sumY=0,weight=0,near=0;
+    const radius=56;
+    for(let yy=Math.max(0,py-radius);yy<Math.min(256,py+radius);yy+=2){for(let xx=Math.max(0,px-radius);xx<Math.min(256,px+radius);xx+=2){
+      const i=(yy*256+xx)*4,a=d[i+3];if(a<30)continue;const r=d[i],g=d[i+1],b=d[i+2];
+      const max=Math.max(r,g,b),min=Math.min(r,g,b),sat=max-min;
+      if(sat<18 && max<90)continue;
+      const w=1+sat/80+(r>180&&g<130?2:0)+(r>190&&b>150?2:0);
+      active++;if((r>170&&g<180)||(r>175&&b>130))strong++;sumX+=xx*w;sumY+=yy*w;weight+=w;
+      if(Math.hypot(xx-px,yy-py)<10)near++;
+    }}
+    return {active,strong,near,cx:weight?sumX/weight:px,cy:weight?sumY/weight:py,px,py};
+  }
+  function directionFromDelta(dx,dy){if(Math.hypot(dx,dy)<2)return 'STAZIONARIO/INCERTO';const a=(Math.atan2(dx,-dy)*180/Math.PI+360)%360;return compass(a);}
+  async function runAutomaticAnalysis(){
+    if(!allFrames.length){autoEls.level.textContent='DATI NON DISPONIBILI';autoEls.summary.textContent='Attendo i fotogrammi radar.';return;}
+    autoEls.level.textContent='ANALISI IN CORSO';autoEls.summary.textContent='Campionamento degli ultimi fotogrammi radar attorno a Borgo Viazza…';
+    try{
+      const latest=allFrames.at(-1), prev=allFrames[Math.max(0,allFrames.length-3)];
+      const [a,b]=await Promise.all([sampleFrame(prev),sampleFrame(latest)]);
+      const rain=b.near>=3?'IN CORSO':b.active>35?'NELLE VICINANZE':'NON RILEVATA';
+      const intensity=b.strong>18?'NUCLEO FORTE':b.active>70?'NUCLEO MODERATO':b.active>20?'ECO DEBOLE':'NESSUN NUCLEO';
+      const move=directionFromDelta(b.cx-a.cx,b.cy-a.cy);
+      const confidence=b.active>40&&a.active>20?'MEDIA':b.active>15?'BASSA':'LIMITATA';
+      autoEls.rain.textContent=rain;autoEls.cell.textContent=intensity;autoEls.move.textContent=move;autoEls.confidence.textContent=confidence;
+      autoEls.level.textContent=rain==='IN CORSO'?'ATTENZIONE LOCALE':intensity.includes('FORTE')?'NUCLEO VICINO':'SITUAZIONE OSSERVATA';
+      autoEls.summary.textContent=`Radar: ${rain.toLowerCase()}. ${intensity.toLowerCase()} nell’area campionata. Movimento pixel stimato verso ${move}. Nessuna ETA viene mostrata in questa fase.`;
+    }catch(err){console.warn('Analisi automatica non disponibile',err);autoEls.level.textContent='LETTURA NON DISPONIBILE';autoEls.summary.textContent='Il radar funziona, ma il browser non consente di leggere direttamente i pixel della mappa. Nessuna conclusione automatica è stata prodotta.';autoEls.rain.textContent='--';autoEls.cell.textContent='--';autoEls.move.textContent='--';autoEls.confidence.textContent='NESSUNA';}
+  }
+  autoEls.run?.addEventListener('click',runAutomaticAnalysis);
+
   function applyRange(minutes){
     selectedMinutes=minutes;
     saveState({minutes});
@@ -73,7 +119,7 @@
     try{
       const response=await fetch(`${API_URL}?t=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`HTTP ${response.status}`);
       const data=await response.json();const past=Array.isArray(data?.radar?.past)?data.radar.past:[];if(!past.length)throw new Error('Nessun fotogramma disponibile');
-      host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','RADAR ONLINE');els.radarUpdated.textContent=nowTime();setMessage(`${frames.length} scansioni nell’intervallo selezionato · ultimo dato ${fmtTime(allFrames[allFrames.length-1].time)}.`,'success');setTimeout(()=>map.invalidateSize(),150);
+      host=data.host||host;allFrames=past;applyRange(selectedMinutes);setStatus('ok','RADAR ONLINE');els.radarUpdated.textContent=nowTime();setMessage(`${frames.length} scansioni nell’intervallo selezionato · ultimo dato ${fmtTime(allFrames[allFrames.length-1].time)}.`,'success');setTimeout(()=>map.invalidateSize(),150);setTimeout(runAutomaticAnalysis,500);
     }catch(error){console.error(error);setStatus('error','RADAR OFFLINE');setMessage('Non riesco a ricevere i dati radar. Controlla la connessione e premi AGGIORNA.','error');}
   }
 
@@ -279,7 +325,7 @@
       else if(deviation<=35){trackState.textContent='AVVICINAMENTO';trackEta.textContent=`~${Math.max(1,Math.round(distHome/speed*60))} min`;}
       else if(deviation>=145){trackState.textContent='ALLONTANAMENTO';trackEta.textContent='NON DIRETTA';}
       else{trackState.textContent='LATERALE';trackEta.textContent='TRAIETTORIA INCERTA';}
-      trackingHint.textContent=`Spostamento stimato ${moved.toFixed(1)} km in ${Math.round(dt*60)} minuti. Ripeti i due punti se la cella cambia forma o direzione.`;
+      trackingHint.textContent=`Spostamento stimato ${moved.toFixed(1)} km in ${Math.round(dt*60)} minuti. Ripeti i due punti se la cella cambia forma o direzione.`; autoEls.level.textContent=trackState.textContent; autoEls.cell.textContent=`${distHome.toFixed(1)} km`; autoEls.move.textContent=`${compass(heading)} ${Math.round(heading)}°`; autoEls.confidence.textContent='GUIDATA'; autoEls.summary.textContent=`Tracking guidato: cella a ${distHome.toFixed(1)} km, movimento ${trackState.textContent.toLowerCase()}. ETA mostrata solo quando la traiettoria è compatibile con Borgo Viazza.`;
       setTrackingActive(false);
     }
   });
