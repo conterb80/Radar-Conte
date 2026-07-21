@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=13">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=14">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P13 · TIMELINE EVENTO</p>
+        <p class="eyebrow">P14 · PLANCIA OPERATIVA</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -70,29 +70,37 @@
             <div><span>ETA BORGO VIAZZA</span><b id="autoEta">--</b></div>
             <div class="auto-wide"><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
           </div>
-          <section class="event-log" aria-label="Timeline automatica evento">
-            <div class="event-log-head">
-              <div><span>TIMELINE EVENTO</span><small>Memoria automatica delle letture radar</small></div>
-              <button id="clearEventLogBtn" type="button">AZZERA</button>
-            </div>
-            <div id="eventPhase" class="event-phase quiet">FASE: QUIETE</div>
-            <div id="eventLogList" class="event-log-list"><p class="event-log-empty">Nessuna lettura registrata.</p></div>
-          </section>
+          <details class="event-log-shell">
+            <summary><span>TIMELINE EVENTO</span><small>Apri storico letture</small></summary>
+            <section class="event-log" aria-label="Timeline automatica evento">
+              <div class="event-log-head">
+                <div><span>STORICO EVENTO</span><small>Memoria automatica delle letture radar</small></div>
+                <button id="clearEventLogBtn" type="button">AZZERA</button>
+              </div>
+              <div id="eventPhase" class="event-phase quiet">FASE: QUIETE</div>
+              <div id="eventLogList" class="event-log-list"><p class="event-log-empty">Nessuna lettura registrata.</p></div>
+            </section>
+          </details>
         </section>
-        <div class="tracking-actions">
-          <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
-          <button id="hailFocusBtn" type="button">FOCUS NUCLEI</button>
-          <button id="clearTrackingBtn" type="button">AZZERA</button>
-        </div>
-        <p id="trackingHint" class="tracking-hint">Analisi sperimentale: scegli un fotogramma precedente, seleziona il centro della cella, passa a un fotogramma più recente e seleziona nuovamente lo stesso nucleo.</p>
-        <div class="tracking-grid" aria-live="polite">
-          <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
-          <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
-          <div><span>VELOCITÀ</span><strong id="trackSpeed">-- km/h</strong></div>
-          <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
-          <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
-        </div>
-        <p class="tracking-note">P13 mantiene il riconoscimento automatico e costruisce una timeline dell’evento del nucleo radar più vicino. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
+        <details class="advanced-tools">
+          <summary><span>STRUMENTI AVANZATI</span><small>Tracking manuale e focus nuclei</small></summary>
+          <div class="advanced-tools-body">
+            <div class="tracking-actions">
+              <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
+              <button id="hailFocusBtn" type="button">FOCUS NUCLEI</button>
+              <button id="clearTrackingBtn" type="button">AZZERA</button>
+            </div>
+            <p id="trackingHint" class="tracking-hint">Analisi sperimentale: scegli un fotogramma precedente, seleziona il centro della cella, passa a un fotogramma più recente e seleziona nuovamente lo stesso nucleo.</p>
+            <div class="tracking-grid" aria-live="polite">
+              <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
+              <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
+              <div><span>VELOCITÀ</span><strong id="trackSpeed">-- km/h</strong></div>
+              <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
+              <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
+            </div>
+            <p class="tracking-note">P14 mantiene invariato il motore P13. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -196,6 +204,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=13"></script>
+  <script src="/Radar-Conte/app.js?v=14"></script>
 </body>
 </html>

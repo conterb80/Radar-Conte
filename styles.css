@@ -274,3 +274,52 @@ footer{opacity:.78}
 .auto-analysis[data-state="alert"]{border-color:rgba(255,126,87,.58)}
 @media(min-width:700px){.auto-grid-p12{grid-template-columns:repeat(3,minmax(0,1fr))}.auto-grid-p12 .auto-wide{grid-column:auto}}
 \n\n/* P13 · timeline automatica dell'evento */\n.event-log{margin-top:10px;padding:11px;border:1px solid rgba(91,168,218,.20);border-radius:13px;background:rgba(4,15,27,.68)}\n.event-log-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.event-log-head span{display:block;font-size:.69rem;letter-spacing:.14em;color:#9cb4c7}.event-log-head small{display:block;margin-top:3px;color:#71899c;font-size:.68rem}.event-log-head button{min-height:34px;padding:0 10px;border-radius:9px;font-size:.68rem}\n.event-phase{margin:9px 0 7px;padding:7px 9px;border-radius:9px;font-size:.72rem;font-weight:850;letter-spacing:.08em;border:1px solid rgba(126,155,177,.25);background:rgba(126,155,177,.08);color:#b7c7d4}.event-phase.osservazione{color:#75cafa;border-color:rgba(75,184,244,.38);background:rgba(75,184,244,.08)}.event-phase.attenzione{color:#ffd16f;border-color:rgba(255,194,103,.44);background:rgba(255,194,103,.09)}.event-phase.impatto{color:#ff8d79;border-color:rgba(255,106,83,.52);background:rgba(255,106,83,.10)}.event-phase.allontanamento{color:#8ad8b0;border-color:rgba(101,223,161,.38);background:rgba(101,223,161,.08)}\n.event-log-list{display:grid;gap:6px;max-height:240px;overflow:auto}.event-entry{display:grid;grid-template-columns:48px 1fr auto;gap:8px;align-items:center;padding:8px;border-radius:10px;background:rgba(2,10,18,.68);border:1px solid rgba(91,168,218,.13)}.event-entry time{font-size:.74rem;color:#66c8fa;font-weight:800}.event-entry strong,.event-entry span,.event-entry small{display:block}.event-entry strong{font-size:.73rem;color:#edf6ff}.event-entry span{margin-top:2px;font-size:.69rem;color:#a7bac9}.event-entry small{margin-top:2px;font-size:.65rem;color:#728da1}.event-entry b{font-size:.63rem;color:#70dba7}.event-log-empty{margin:8px 0 2px;color:#758da0;font-size:.76rem}\n
+/* P14 · Plancia operativa — esclusivamente grafica ed ergonomia */
+.topbar{padding-top:4px;padding-bottom:8px;min-height:auto}
+.topbar h1{font-size:clamp(25px,7vw,36px);line-height:.94}
+.topbar .eyebrow{margin-bottom:2px;font-size:8px}
+.topbar .place{margin-top:4px;font-size:11px}
+.status-pill{padding:6px 9px;font-size:8px}
+.mode-switch{margin-top:2px;margin-bottom:5px}
+.mode-switch button{min-height:38px}
+.ops-bar button{min-height:36px}
+.update-grid div{padding:5px 4px}
+.time-panel{padding:7px 10px;margin-bottom:5px}
+#frameTime{font-size:clamp(20px,5.5vw,27px)}
+.analysis-compact{margin:5px 0 7px}
+.analysis-toggle{min-height:36px;padding:0 11px}
+.analysis-drawer{padding:8px;margin-top:5px}
+.auto-analysis{padding:9px;margin-bottom:7px}
+.auto-analysis-head{margin-bottom:6px}
+.auto-analysis>strong{font-size:.96rem}
+.auto-analysis>p{font-size:.77rem;margin-bottom:8px}
+.auto-grid{gap:5px}
+.auto-grid div{padding:7px}
+.auto-grid span{font-size:.55rem}
+.auto-grid b{font-size:.76rem}
+.event-log-shell,.advanced-tools{margin-top:7px;border:1px solid rgba(91,168,218,.18);border-radius:12px;background:rgba(3,13,23,.58);overflow:hidden}
+.event-log-shell summary,.advanced-tools summary{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:38px;padding:0 11px;cursor:pointer;list-style:none;color:#dcecff;font-weight:800;font-size:.72rem;letter-spacing:.08em}
+.event-log-shell summary::-webkit-details-marker,.advanced-tools summary::-webkit-details-marker{display:none}
+.event-log-shell summary:after,.advanced-tools summary:after{content:'＋';color:var(--accent);font-size:1rem}
+.event-log-shell[open] summary:after,.advanced-tools[open] summary:after{content:'−'}
+.event-log-shell summary small,.advanced-tools summary small{margin-left:auto;color:#7891a5;font-size:.62rem;font-weight:600;letter-spacing:0}
+.event-log{margin:0 7px 7px;padding:8px}
+.advanced-tools-body{padding:8px}
+.tracking-actions{margin-top:0}
+.map-wrap{margin-top:4px}
+#map{height:clamp(500px,70vh,760px)}
+.controls{margin-top:7px}
+.quick-panel{margin-top:5px}
+.timeline-panel{margin-top:5px}
+.settings-row{margin-top:5px}
+@media(max-width:480px){
+  .app-shell{padding-left:7px;padding-right:7px}
+  #map{height:68vh;min-height:500px}
+  .topbar{padding-left:2px;padding-right:2px}
+  .mode-switch button{min-height:36px}
+  .ops-bar{margin-bottom:5px}
+  .update-grid{margin-bottom:5px}
+  .auto-grid-p12{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .event-log-shell summary small,.advanced-tools summary small{display:none}
+}
+@media(max-height:760px) and (max-width:480px){#map{height:62vh;min-height:440px}}

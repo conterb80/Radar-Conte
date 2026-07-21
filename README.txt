@@ -1,3 +1,7 @@
+RADAR CONTE P14 – PLANCIA OPERATIVA
+
+Aggiornamento esclusivamente grafico ed ergonomico. Motore P13 invariato.
+
 RADAR CONTE P13 - TIMELINE EVENTO
 
 Aggiornamento basato sulla P12 stabile.
