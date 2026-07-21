@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=11.1">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=11.1-clean">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P11.1.1 · SALA CONTROLLO</p>
+        <p class="eyebrow">P11.1 · SALA CONTROLLO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -147,15 +147,8 @@
         </div>
         <button id="reloadLightningBtn" type="button">↻ RICARICA</button>
       </div>
-      <div id="lightningViewport" class="lightning-frame-wrap" aria-label="Mappa fulmini trascinabile">
+      <div class="lightning-frame-wrap">
         <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        <div id="lightningGestureLayer" class="lightning-gesture-layer" aria-hidden="true"></div>
-        <div id="lightningHomeMarker" class="lightning-home-marker" aria-label="Borgo Viazza"><span></span><b>BORGO VIAZZA</b></div>
-        <div class="lightning-map-controls" aria-label="Controlli mappa fulmini">
-          <button id="lightningZoomIn" type="button" aria-label="Ingrandisci">+</button>
-          <button id="lightningZoomOut" type="button" aria-label="Riduci">−</button>
-          <button id="lightningRecenter" type="button" aria-label="Torna a Borgo Viazza">⌂</button>
-        </div>
       </div>
       <div class="lightning-actions">
         <button id="lightningLocalBtn" type="button">LOCALE</button>
@@ -192,6 +185,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=11.1"></script>
+  <script src="/Radar-Conte/app.js?v=11.1-clean"></script>
 </body>
 </html>

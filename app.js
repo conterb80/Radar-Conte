@@ -41,7 +41,7 @@
   const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
 
 
-  // P11.1.1: prima lettura automatica prudente dei pixel radar attorno a Borgo Viazza.
+  // P11.1: prima lettura automatica prudente dei pixel radar attorno a Borgo Viazza.
   // Non inventa ETA o fulmini: se le tile non sono leggibili via CORS restituisce "non disponibile".
   const autoEls={
     run:$('runAutoAnalysisBtn'), level:$('autoLevel'), summary:$('autoSummary'), rain:$('autoRain'),
@@ -145,122 +145,37 @@
   loadRadar();
 
 
-  // P11.1.1.1: mappa fulmini controllata dall'app. Il marker usa vere coordinate geografiche
-  // e resta agganciato a Borgo Viazza durante spostamenti e zoom.
+  // P5: monitor fulmini ufficialmente incorporabile secondo la documentazione LightningMaps.org.
   const radarModeBtn = document.getElementById('radarModeBtn');
   const lightningModeBtn = document.getElementById('lightningModeBtn');
   const radarPanel = document.getElementById('radarPanel');
   const lightningPanel = document.getElementById('lightningPanel');
   const lightningFrame = document.getElementById('lightningFrame');
-  const lightningViewport = document.getElementById('lightningViewport');
-  const lightningGestureLayer = document.getElementById('lightningGestureLayer');
-  const lightningHomeMarker = document.getElementById('lightningHomeMarker');
-  const lightningZoomIn = document.getElementById('lightningZoomIn');
-  const lightningZoomOut = document.getElementById('lightningZoomOut');
-  const lightningRecenter = document.getElementById('lightningRecenter');
   const reloadLightningBtn = document.getElementById('reloadLightningBtn');
   const lightningLocalBtn = document.getElementById('lightningLocalBtn');
   const lightningNorthBtn = document.getElementById('lightningNorthBtn');
   const openLightningLink = document.getElementById('openLightningLink');
 
-  const lightningBase = 'https://map.blitzortung.org/index.php?interactive=0&NavigationControl=0&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=0&ScaleControl=1&LightningCheckboxChecked=1&LightningRangeValue=10&MapStyle=0&MapStyleRangeValue=0&Advertisment=0';
-  const lightningPresets = {
-    local: { zoom: 8, lat: LOCATION.lat, lon: LOCATION.lon },
-    north: { zoom: 6, lat: 44.8, lon: 11.2 }
+  const lightningBase = 'https://map.blitzortung.org/index.php?interactive=1&NavigationControl=1&FullScreenControl=0&Cookies=0&InfoDiv=0&MenuButtonDiv=1&ScaleControl=1&LightningCheckboxChecked=1&LightningRangeValue=10&MapStyle=0&MapStyleRangeValue=0&Advertisment=0';
+  const lightningViews = {
+    local: `${lightningBase}#8/44.447/12.013`,
+    north: `${lightningBase}#6/44.8/11.2`
   };
   let currentLightningView = 'local';
-  let lightningCamera = { ...lightningPresets.local };
-  let dragStart = null;
-  let dragDelta = { x: 0, y: 0 };
 
-  const clamp = (value,min,max)=>Math.max(min,Math.min(max,value));
-  function mercatorPoint(lat,lon,zoom){
-    const scale=256*Math.pow(2,zoom);
-    const safeLat=clamp(lat,-85.05112878,85.05112878);
-    const sin=Math.sin(safeLat*Math.PI/180);
-    return {x:(lon+180)/360*scale,y:(0.5-Math.log((1+sin)/(1-sin))/(4*Math.PI))*scale,scale};
+  function loadLightning(view='local', force=false){
+    currentLightningView = view;
+    const url = lightningViews[view] + (force ? `&reload=${Date.now()}` : '');
+    lightningFrame.src = url;
+    els.lightningUpdated.textContent = nowTime();
+    openLightningLink.href = lightningViews[view];
+    lightningLocalBtn.classList.toggle('active', view === 'local');
+    lightningNorthBtn.classList.toggle('active', view === 'north');
   }
-  function mercatorLatLon(x,y,zoom){
-    const scale=256*Math.pow(2,zoom);
-    const lon=x/scale*360-180;
-    const n=Math.PI-2*Math.PI*y/scale;
-    const lat=180/Math.PI*Math.atan(Math.sinh(n));
-    return {lat:clamp(lat,-85.05112878,85.05112878),lon:((lon+540)%360)-180};
-  }
-  function lightningUrl(camera=lightningCamera, force=false){
-    const cacheBust=force?`&reload=${Date.now()}`:'';
-    return `${lightningBase}${cacheBust}#${camera.zoom}/${camera.lat.toFixed(5)}/${camera.lon.toFixed(5)}`;
-  }
-  function updateLightningMarker(extraX=0,extraY=0){
-    if(!lightningViewport || !lightningHomeMarker) return;
-    const rect=lightningViewport.getBoundingClientRect();
-    const center=mercatorPoint(lightningCamera.lat,lightningCamera.lon,lightningCamera.zoom);
-    const home=mercatorPoint(LOCATION.lat,LOCATION.lon,lightningCamera.zoom);
-    let dx=home.x-center.x;
-    const world=center.scale;
-    if(dx>world/2) dx-=world;
-    if(dx<-world/2) dx+=world;
-    const x=rect.width/2+dx+extraX;
-    const y=rect.height/2+(home.y-center.y)+extraY;
-    lightningHomeMarker.style.left=`${x}px`;
-    lightningHomeMarker.style.top=`${y}px`;
-    const visible=x>-55&&x<rect.width+55&&y>-55&&y<rect.height+70;
-    lightningHomeMarker.style.display=visible?'flex':'none';
-  }
-  function loadLightning(view=currentLightningView, force=false, cameraOverride=null){
-    currentLightningView=view;
-    if(cameraOverride) lightningCamera={...cameraOverride};
-    else if(view in lightningPresets) lightningCamera={...lightningPresets[view]};
-    lightningViewport.classList.add('is-loading');
-    lightningFrame.style.transform='translate3d(0,0,0)';
-    lightningFrame.src=lightningUrl(lightningCamera,force);
-    openLightningLink.href=lightningUrl(lightningCamera,false).replace('interactive=0','interactive=1').replace('NavigationControl=0','NavigationControl=1').replace('MenuButtonDiv=0','MenuButtonDiv=1');
-    els.lightningUpdated.textContent=nowTime();
-    lightningLocalBtn.classList.toggle('active',view==='local');
-    lightningNorthBtn.classList.toggle('active',view==='north');
-    requestAnimationFrame(()=>updateLightningMarker());
-  }
-  lightningFrame.addEventListener('load',()=>{lightningViewport.classList.remove('is-loading');updateLightningMarker();});
-  reloadLightningBtn.addEventListener('click',()=>loadLightning(currentLightningView,true,lightningCamera));
+
+  reloadLightningBtn.addEventListener('click',()=>loadLightning(currentLightningView,true));
   lightningLocalBtn.addEventListener('click',()=>loadLightning('local',true));
   lightningNorthBtn.addEventListener('click',()=>loadLightning('north',true));
-  lightningRecenter.addEventListener('click',()=>loadLightning('local',true));
-  lightningZoomIn.addEventListener('click',()=>{lightningCamera.zoom=clamp(lightningCamera.zoom+1,4,11);loadLightning(currentLightningView,true,lightningCamera);});
-  lightningZoomOut.addEventListener('click',()=>{lightningCamera.zoom=clamp(lightningCamera.zoom-1,4,11);loadLightning(currentLightningView,true,lightningCamera);});
-
-  lightningGestureLayer.addEventListener('pointerdown',(event)=>{
-    dragStart={x:event.clientX,y:event.clientY,center:mercatorPoint(lightningCamera.lat,lightningCamera.lon,lightningCamera.zoom)};
-    dragDelta={x:0,y:0};
-    lightningGestureLayer.classList.add('dragging');
-    lightningGestureLayer.setPointerCapture(event.pointerId);
-  });
-  lightningGestureLayer.addEventListener('pointermove',(event)=>{
-    if(!dragStart) return;
-    dragDelta={x:event.clientX-dragStart.x,y:event.clientY-dragStart.y};
-    lightningFrame.style.transform=`translate3d(${dragDelta.x}px,${dragDelta.y}px,0)`;
-    updateLightningMarker(dragDelta.x,dragDelta.y);
-  });
-  function finishLightningDrag(event){
-    if(!dragStart) return;
-    const moved=Math.hypot(dragDelta.x,dragDelta.y);
-    lightningGestureLayer.classList.remove('dragging');
-    try{lightningGestureLayer.releasePointerCapture(event.pointerId);}catch(_){ }
-    if(moved>4){
-      const next=mercatorLatLon(dragStart.center.x-dragDelta.x,dragStart.center.y-dragDelta.y,lightningCamera.zoom);
-      lightningCamera={...lightningCamera,...next};
-      currentLightningView='custom';
-      lightningLocalBtn.classList.remove('active');
-      lightningNorthBtn.classList.remove('active');
-      loadLightning('custom',true,lightningCamera);
-    }else{
-      lightningFrame.style.transform='translate3d(0,0,0)';
-      updateLightningMarker();
-    }
-    dragStart=null;dragDelta={x:0,y:0};
-  }
-  lightningGestureLayer.addEventListener('pointerup',finishLightningDrag);
-  lightningGestureLayer.addEventListener('pointercancel',finishLightningDrag);
-  window.addEventListener('resize',()=>updateLightningMarker());
 
   // P6: monitor di evoluzione ufficiale ARPAE fino a +3 ore.
   const forecastModeBtn = document.getElementById('forecastModeBtn');
