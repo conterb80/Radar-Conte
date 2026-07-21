@@ -1,14 +1,21 @@
-RADAR CONTE P12 - ANALISI AUTOMATICA SPERIMENTALE
+RADAR CONTE P13 - TIMELINE EVENTO
 
-Caricare tutti i file nella radice del repository GitHub Radar-Conte, mantenendo la cartella icons.
+Aggiornamento basato sulla P12 stabile.
 
-Novità P12:
-- riconoscimento automatico del nucleo radar più vicino;
-- distanza stimata da Borgo Viazza;
-- direzione e velocità stimate confrontando due scansioni;
-- tendenza: avvicinamento, allontanamento o passaggio laterale;
-- ETA mostrata solo con traiettoria coerente;
-- indicazione esplicita dell'affidabilità;
-- marker temporaneo del nucleo rilevato sulla mappa radar.
+NOVITA
+- Memorizza automaticamente le letture radar significative.
+- Ricostruisce le fasi operative: QUIETE, OSSERVAZIONE, ATTENZIONE, IMPATTO, ALLONTANAMENTO.
+- Conserva fino a 18 passaggi sul telefono anche dopo la chiusura dell app.
+- Registra orario, stato, distanza, tendenza, ETA e affidabilita.
+- Pulsante AZZERA per iniziare un nuovo evento.
 
-Il monitor Evoluzione ARPAE e la mappa Fulmini restano invariati. Le stime sono sperimentali e non sostituiscono allerte o fonti ufficiali.
+INVARIATO
+- Radar RainViewer e animazione.
+- Analisi automatica P12.
+- Tracking manuale.
+- Fulmini Blitzortung.
+- Evoluzione ARPAE.
+
+INSTALLAZIONE
+Caricare tutti i file nella radice del repository Radar-Conte, mantenendo la cartella icons.
+Aprire: https://conterb80.github.io/Radar-Conte/?v=13

@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=12">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=13">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P12 · ANALISI AUTOMATICA</p>
+        <p class="eyebrow">P13 · TIMELINE EVENTO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -70,6 +70,14 @@
             <div><span>ETA BORGO VIAZZA</span><b id="autoEta">--</b></div>
             <div class="auto-wide"><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
           </div>
+          <section class="event-log" aria-label="Timeline automatica evento">
+            <div class="event-log-head">
+              <div><span>TIMELINE EVENTO</span><small>Memoria automatica delle letture radar</small></div>
+              <button id="clearEventLogBtn" type="button">AZZERA</button>
+            </div>
+            <div id="eventPhase" class="event-phase quiet">FASE: QUIETE</div>
+            <div id="eventLogList" class="event-log-list"><p class="event-log-empty">Nessuna lettura registrata.</p></div>
+          </section>
         </section>
         <div class="tracking-actions">
           <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
@@ -84,7 +92,7 @@
           <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
           <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
         </div>
-        <p class="tracking-note">P12 esegue il riconoscimento automatico sperimentale del nucleo radar più vicino. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
+        <p class="tracking-note">P13 mantiene il riconoscimento automatico e costruisce una timeline dell’evento del nucleo radar più vicino. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
       </div>
     </section>
 
@@ -188,6 +196,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=12"></script>
+  <script src="/Radar-Conte/app.js?v=13"></script>
 </body>
 </html>
