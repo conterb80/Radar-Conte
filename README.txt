@@ -1,3 +1,9 @@
+RADAR CONTE P11.1.1 - FIX MARKER FULMINI
+
+Il marker Borgo Viazza ora e ancorato alle coordinate geografiche.
+La mappa fulmini viene spostata trascinando direttamente il riquadro; il marker segue pan e zoom.
+Usare i nuovi controlli +, -, e Home presenti sulla mappa.
+
 RADAR CONTE P11.1
 
 Aggiornamento operativo basato sul test reale del 21/07/2026.

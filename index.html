@@ -15,7 +15,7 @@
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P11.1 · SALA CONTROLLO</p>
+        <p class="eyebrow">P11.1.1 · SALA CONTROLLO</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -147,9 +147,15 @@
         </div>
         <button id="reloadLightningBtn" type="button">↻ RICARICA</button>
       </div>
-      <div class="lightning-frame-wrap">
-        <div class="lightning-home-marker" aria-label="Posizione indicativa Borgo Viazza"><span></span><b>BORGO VIAZZA</b></div>
+      <div id="lightningViewport" class="lightning-frame-wrap" aria-label="Mappa fulmini trascinabile">
         <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div id="lightningGestureLayer" class="lightning-gesture-layer" aria-hidden="true"></div>
+        <div id="lightningHomeMarker" class="lightning-home-marker" aria-label="Borgo Viazza"><span></span><b>BORGO VIAZZA</b></div>
+        <div class="lightning-map-controls" aria-label="Controlli mappa fulmini">
+          <button id="lightningZoomIn" type="button" aria-label="Ingrandisci">+</button>
+          <button id="lightningZoomOut" type="button" aria-label="Riduci">−</button>
+          <button id="lightningRecenter" type="button" aria-label="Torna a Borgo Viazza">⌂</button>
+        </div>
       </div>
       <div class="lightning-actions">
         <button id="lightningLocalBtn" type="button">LOCALE</button>
