@@ -9,13 +9,13 @@
   <link rel="manifest" href="/Radar-Conte/manifest.webmanifest">
   <link rel="icon" href="/Radar-Conte/icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="/Radar-Conte/icons/icon-192.png">
-  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=11.1-clean">
+  <link rel="stylesheet" href="/Radar-Conte/styles.css?v=12">
 </head>
 <body>
   <main class="app-shell">
     <header class="topbar">
       <div>
-        <p class="eyebrow">P11.1 · SALA CONTROLLO</p>
+        <p class="eyebrow">P12 · ANALISI AUTOMATICA</p>
         <h1>RADAR CONTE</h1>
         <p class="place">Borgo Viazza · Romagna</p>
       </div>
@@ -61,11 +61,14 @@
           <div class="auto-analysis-head"><span>SINTESI OPERATIVA</span><button id="runAutoAnalysisBtn" type="button">ANALIZZA ORA</button></div>
           <strong id="autoLevel">IN ATTESA DATI</strong>
           <p id="autoSummary">La lettura automatica usa i fotogrammi radar disponibili e segnala soltanto stime verificabili. Se il campionamento non riesce, non produce conclusioni.</p>
-          <div class="auto-grid">
-            <div><span>PRECIPITAZIONE</span><b id="autoRain">--</b></div>
-            <div><span>NUCLEO VICINO</span><b id="autoCell">--</b></div>
-            <div><span>MOVIMENTO</span><b id="autoMove">--</b></div>
-            <div><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
+          <div class="auto-grid auto-grid-p12">
+            <div><span>PRECIPITAZIONE LOCALE</span><b id="autoRain">--</b></div>
+            <div><span>DISTANZA NUCLEO</span><b id="autoCell">--</b></div>
+            <div><span>DIREZIONE</span><b id="autoMove">--</b></div>
+            <div><span>VELOCITÀ STIMATA</span><b id="autoSpeed">--</b></div>
+            <div><span>TENDENZA</span><b id="autoTrend">--</b></div>
+            <div><span>ETA BORGO VIAZZA</span><b id="autoEta">--</b></div>
+            <div class="auto-wide"><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
           </div>
         </section>
         <div class="tracking-actions">
@@ -81,7 +84,7 @@
           <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
           <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
         </div>
-        <p class="tracking-note">Questa prima analisi resta guidata. Il riconoscimento automatico delle celle sarà sviluppato e verificato solo con eventi radar reali.</p>
+        <p class="tracking-note">P12 esegue il riconoscimento automatico sperimentale del nucleo radar più vicino. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
       </div>
     </section>
 
@@ -185,6 +188,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="/Radar-Conte/app.js?v=11.1-clean"></script>
+  <script src="/Radar-Conte/app.js?v=12"></script>
 </body>
 </html>

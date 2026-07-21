@@ -1,14 +1,14 @@
-RADAR CONTE P11.1 - OPERATIVA SENZA SEGNALINO FULMINI
+RADAR CONTE P12 - ANALISI AUTOMATICA SPERIMENTALE
 
-Versione ripulita per proseguire lo sviluppo senza perdere tempo sul marker della mappa Fulmini.
+Caricare tutti i file nella radice del repository GitHub Radar-Conte, mantenendo la cartella icons.
 
-CONTENUTO
-- Prima Sintesi Operativa automatica radar, prudente e fail-safe.
-- Lettura di precipitazione locale, nucleo nell’area, movimento stimato e affidabilita.
-- Nessuna ETA automatica: resta disponibile soltanto nel tracking guidato quando la traiettoria e compatibile.
-- Radar, Fulmini, Evoluzione, grafica e installazione PWA invariati.
-- Rimosso completamente il segnalino Borgo Viazza dalla mappa Fulmini.
+Novità P12:
+- riconoscimento automatico del nucleo radar più vicino;
+- distanza stimata da Borgo Viazza;
+- direzione e velocità stimate confrontando due scansioni;
+- tendenza: avvicinamento, allontanamento o passaggio laterale;
+- ETA mostrata solo con traiettoria coerente;
+- indicazione esplicita dell'affidabilità;
+- marker temporaneo del nucleo rilevato sulla mappa radar.
 
-INSTALLAZIONE
-Caricare tutti i file nella radice del repository GitHub Radar-Conte, sostituendo i precedenti.
-Aprire https://conterb80.github.io/Radar-Conte/?v=11.1-clean
+Il monitor Evoluzione ARPAE e la mappa Fulmini restano invariati. Le stime sono sperimentali e non sostituiscono allerte o fonti ufficiali.

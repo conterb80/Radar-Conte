@@ -8,7 +8,7 @@
   const LOCATION = { name: 'Borgo Viazza', lat: 44.447, lon: 12.013 };
   const API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
   const REFRESH_MS = 3 * 60 * 1000;
-  const UI_STATE_KEY = 'radarConteP8State';
+  const UI_STATE_KEY = 'radarConteP12State';
   let playMs = 800;
   let selectedMinutes = 120;
 
@@ -41,48 +41,136 @@
   const tileUrl=frame=>`${host}${frame.path}/256/{z}/{x}/{y}/2/1_1.png`;
 
 
-  // P11.1: prima lettura automatica prudente dei pixel radar attorno a Borgo Viazza.
-  // Non inventa ETA o fulmini: se le tile non sono leggibili via CORS restituisce "non disponibile".
+  // P12: rilevamento automatico sperimentale del nucleo radar più vicino.
+  // Analizza una matrice di tile RainViewer, individua aree radar connesse e confronta
+  // due scansioni. Le stime vengono mostrate solo con controlli minimi di coerenza.
   const autoEls={
     run:$('runAutoAnalysisBtn'), level:$('autoLevel'), summary:$('autoSummary'), rain:$('autoRain'),
-    cell:$('autoCell'), move:$('autoMove'), confidence:$('autoConfidence')
+    cell:$('autoCell'), move:$('autoMove'), speed:$('autoSpeed'), trend:$('autoTrend'), eta:$('autoEta'), confidence:$('autoConfidence')
   };
-  const mercatorTile=(lat,lon,z)=>{
-    const n=2**z, x=(lon+180)/360*n, y=(1-Math.asinh(Math.tan(lat*Math.PI/180))/Math.PI)/2*n;
-    return {tx:Math.floor(x),ty:Math.floor(y),px:Math.floor((x-Math.floor(x))*256),py:Math.floor((y-Math.floor(y))*256)};
+  let autoAnalysisLayer=null;
+  const ANALYSIS_ZOOM=7, TILE_SIZE=256, TILE_RADIUS=1, SAMPLE_STEP=4;
+  const mercatorPoint=(lat,lon,z)=>{
+    const n=2**z;
+    return {x:(lon+180)/360*n*TILE_SIZE,y:(1-Math.asinh(Math.tan(lat*Math.PI/180))/Math.PI)/2*n*TILE_SIZE};
   };
-  const loadTileImage=url=>new Promise((resolve,reject)=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>resolve(img);img.onerror=reject;img.src=url;});
-  async function sampleFrame(frame){
-    const z=7,{tx,ty,px,py}=mercatorTile(LOCATION.lat,LOCATION.lon,z);
-    const url=`${host}${frame.path}/256/${z}/${tx}/${ty}/2/1_1.png`;
-    const img=await loadTileImage(url);const c=document.createElement('canvas');c.width=256;c.height=256;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(img,0,0);
-    const d=ctx.getImageData(0,0,256,256).data;let active=0,strong=0,sumX=0,sumY=0,weight=0,near=0;
-    const radius=56;
-    for(let yy=Math.max(0,py-radius);yy<Math.min(256,py+radius);yy+=2){for(let xx=Math.max(0,px-radius);xx<Math.min(256,px+radius);xx+=2){
-      const i=(yy*256+xx)*4,a=d[i+3];if(a<30)continue;const r=d[i],g=d[i+1],b=d[i+2];
-      const max=Math.max(r,g,b),min=Math.min(r,g,b),sat=max-min;
-      if(sat<18 && max<90)continue;
-      const w=1+sat/80+(r>180&&g<130?2:0)+(r>190&&b>150?2:0);
-      active++;if((r>170&&g<180)||(r>175&&b>130))strong++;sumX+=xx*w;sumY+=yy*w;weight+=w;
-      if(Math.hypot(xx-px,yy-py)<10)near++;
-    }}
-    return {active,strong,near,cx:weight?sumX/weight:px,cy:weight?sumY/weight:py,px,py};
+  const pixelToLatLon=(x,y,z)=>{
+    const world=TILE_SIZE*(2**z), lon=x/world*360-180;
+    const n=Math.PI-2*Math.PI*y/world, lat=180/Math.PI*Math.atan(Math.sinh(n));
+    return {lat,lon};
+  };
+  const loadTileImage=url=>new Promise((resolve,reject)=>{const img=new Image();img.crossOrigin='anonymous';img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('Tile radar non leggibile'));img.src=url;});
+  function radarPixelScore(r,g,b,a){
+    if(a<35)return 0;
+    const max=Math.max(r,g,b),min=Math.min(r,g,b),sat=max-min;
+    if(max<55 || sat<22)return 0;
+    let score=1;
+    if(g>110&&b>90)score=1.4;
+    if(r>145&&g>105)score=2.2;
+    if(r>175&&g<175)score=3.2;
+    if(r>175&&b>120)score=4.0;
+    return score;
   }
-  function directionFromDelta(dx,dy){if(Math.hypot(dx,dy)<2)return 'STAZIONARIO/INCERTO';const a=(Math.atan2(dx,-dy)*180/Math.PI+360)%360;return compass(a);}
+  async function analyseFrame(frame){
+    const home=mercatorPoint(LOCATION.lat,LOCATION.lon,ANALYSIS_ZOOM);
+    const homeTx=Math.floor(home.x/TILE_SIZE),homeTy=Math.floor(home.y/TILE_SIZE);
+    const side=(TILE_RADIUS*2+1)*TILE_SIZE;
+    const canvas=document.createElement('canvas');canvas.width=side;canvas.height=side;
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    const jobs=[];
+    for(let oy=-TILE_RADIUS;oy<=TILE_RADIUS;oy++)for(let ox=-TILE_RADIUS;ox<=TILE_RADIUS;ox++){
+      const tx=homeTx+ox,ty=homeTy+oy,url=`${host}${frame.path}/256/${ANALYSIS_ZOOM}/${tx}/${ty}/2/1_1.png`;
+      jobs.push(loadTileImage(url).then(img=>ctx.drawImage(img,(ox+TILE_RADIUS)*TILE_SIZE,(oy+TILE_RADIUS)*TILE_SIZE)));
+    }
+    await Promise.all(jobs);
+    const data=ctx.getImageData(0,0,side,side).data;
+    const gw=Math.ceil(side/SAMPLE_STEP),gh=Math.ceil(side/SAMPLE_STEP),grid=new Float32Array(gw*gh);
+    for(let gy=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++){
+      const px=Math.min(side-1,gx*SAMPLE_STEP+2),py=Math.min(side-1,gy*SAMPLE_STEP+2),i=(py*side+px)*4;
+      grid[gy*gw+gx]=radarPixelScore(data[i],data[i+1],data[i+2],data[i+3]);
+    }
+    const seen=new Uint8Array(grid.length),components=[];
+    const dirs=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]];
+    for(let sy=0;sy<gh;sy++)for(let sx=0;sx<gw;sx++){
+      const si=sy*gw+sx;if(seen[si]||grid[si]<=0)continue;
+      const stack=[si];seen[si]=1;let count=0,sumW=0,sumX=0,sumY=0,maxScore=0,strong=0;
+      while(stack.length){const q=stack.pop(),x=q%gw,y=Math.floor(q/gw),s=grid[q];count++;sumW+=s;sumX+=x*s;sumY+=y*s;maxScore=Math.max(maxScore,s);if(s>=3)strong++;
+        for(const [dx,dy] of dirs){const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=gw||ny>=gh)continue;const ni=ny*gw+nx;if(!seen[ni]&&grid[ni]>0){seen[ni]=1;stack.push(ni);}}
+      }
+      if(count<4)continue;
+      const localX=(sumX/sumW)*SAMPLE_STEP,localY=(sumY/sumW)*SAMPLE_STEP;
+      const worldX=(homeTx-TILE_RADIUS)*TILE_SIZE+localX,worldY=(homeTy-TILE_RADIUS)*TILE_SIZE+localY;
+      const ll=pixelToLatLon(worldX,worldY,ANALYSIS_ZOOM);
+      const dist=distanceKm({lat:LOCATION.lat,lng:LOCATION.lon},{lat:ll.lat,lng:ll.lon});
+      components.push({...ll,dist,count,strong,maxScore,energy:sumW});
+    }
+    components.sort((a,b)=>a.dist-b.dist);
+    const homeLocalX=home.x-(homeTx-TILE_RADIUS)*TILE_SIZE,homeLocalY=home.y-(homeTy-TILE_RADIUS)*TILE_SIZE;
+    let localHits=0,localStrong=0;
+    for(let gy=0;gy<gh;gy++)for(let gx=0;gx<gw;gx++){
+      const km=Math.hypot(gx*SAMPLE_STEP-homeLocalX,gy*SAMPLE_STEP-homeLocalY)*0.85;
+      if(km<=7&&grid[gy*gw+gx]>0){localHits++;if(grid[gy*gw+gx]>=3)localStrong++;}
+    }
+    return {components,localHits,localStrong,time:frame.time};
+  }
+  function chooseTrackedPair(prev,latest){
+    if(!latest.components.length)return null;
+    const candidate=latest.components[0];
+    if(!prev.components.length)return {latest:candidate,previous:null};
+    let best=null,bestScore=Infinity;
+    for(const p of prev.components){
+      const separation=distanceKm({lat:p.lat,lng:p.lon},{lat:candidate.lat,lng:candidate.lon});
+      const sizePenalty=Math.abs(Math.log((candidate.energy+1)/(p.energy+1)))*10;
+      const score=separation+sizePenalty;
+      if(score<bestScore){bestScore=score;best=p;}
+    }
+    return bestScore<=90?{latest:candidate,previous:best,matchScore:bestScore}:{latest:candidate,previous:null};
+  }
+  function clearAutoLayer(){if(autoAnalysisLayer){map.removeLayer(autoAnalysisLayer);autoAnalysisLayer=null;}}
+  function drawAutoCell(cell,heading=null){
+    clearAutoLayer();
+    const layers=[L.circleMarker([cell.lat,cell.lon],{radius:12,color:'#ffd45b',weight:3,fillColor:'#ff7a45',fillOpacity:.25}),L.polyline([[LOCATION.lat,LOCATION.lon],[cell.lat,cell.lon]],{color:'#ffd45b',weight:2,dashArray:'6 7',opacity:.8})];
+    if(Number.isFinite(heading)){
+      const length=Math.min(35,Math.max(12,cell.dist*.45)),dest=destinationPoint(cell.lat,cell.lon,heading,length);
+      layers.push(L.polyline([[cell.lat,cell.lon],[dest.lat,dest.lon]],{color:'#ff9f43',weight:4,opacity:.9}));
+    }
+    autoAnalysisLayer=L.layerGroup(layers).addTo(map);
+  }
+  function destinationPoint(lat,lon,bearing,km){
+    const R=6371,d=km/R,br=toRad(bearing),p1=toRad(lat),l1=toRad(lon);
+    const p2=Math.asin(Math.sin(p1)*Math.cos(d)+Math.cos(p1)*Math.sin(d)*Math.cos(br));
+    const l2=l1+Math.atan2(Math.sin(br)*Math.sin(d)*Math.cos(p1),Math.cos(d)-Math.sin(p1)*Math.sin(p2));
+    return {lat:toDeg(p2),lon:toDeg(l2)};
+  }
   async function runAutomaticAnalysis(){
     if(!allFrames.length){autoEls.level.textContent='DATI NON DISPONIBILI';autoEls.summary.textContent='Attendo i fotogrammi radar.';return;}
-    autoEls.level.textContent='ANALISI IN CORSO';autoEls.summary.textContent='Campionamento degli ultimi fotogrammi radar attorno a Borgo Viazza…';
+    autoEls.level.textContent='ANALISI IN CORSO';autoEls.summary.textContent='Ricerca automatica dei nuclei radar attorno a Borgo Viazza…';
+    ['rain','cell','move','speed','trend','eta','confidence'].forEach(k=>autoEls[k].textContent='…');
     try{
-      const latest=allFrames.at(-1), prev=allFrames[Math.max(0,allFrames.length-3)];
-      const [a,b]=await Promise.all([sampleFrame(prev),sampleFrame(latest)]);
-      const rain=b.near>=3?'IN CORSO':b.active>35?'NELLE VICINANZE':'NON RILEVATA';
-      const intensity=b.strong>18?'NUCLEO FORTE':b.active>70?'NUCLEO MODERATO':b.active>20?'ECO DEBOLE':'NESSUN NUCLEO';
-      const move=directionFromDelta(b.cx-a.cx,b.cy-a.cy);
-      const confidence=b.active>40&&a.active>20?'MEDIA':b.active>15?'BASSA':'LIMITATA';
-      autoEls.rain.textContent=rain;autoEls.cell.textContent=intensity;autoEls.move.textContent=move;autoEls.confidence.textContent=confidence;
-      autoEls.level.textContent=rain==='IN CORSO'?'ATTENZIONE LOCALE':intensity.includes('FORTE')?'NUCLEO VICINO':'SITUAZIONE OSSERVATA';
-      autoEls.summary.textContent=`Radar: ${rain.toLowerCase()}. ${intensity.toLowerCase()} nell’area campionata. Movimento pixel stimato verso ${move}. Nessuna ETA viene mostrata in questa fase.`;
-    }catch(err){console.warn('Analisi automatica non disponibile',err);autoEls.level.textContent='LETTURA NON DISPONIBILE';autoEls.summary.textContent='Il radar funziona, ma il browser non consente di leggere direttamente i pixel della mappa. Nessuna conclusione automatica è stata prodotta.';autoEls.rain.textContent='--';autoEls.cell.textContent='--';autoEls.move.textContent='--';autoEls.confidence.textContent='NESSUNA';}
+      const latest=allFrames.at(-1),prev=allFrames[Math.max(0,allFrames.length-3)];
+      const [a,b]=await Promise.all([analyseFrame(prev),analyseFrame(latest)]),pair=chooseTrackedPair(a,b);
+      const rain=b.localStrong>=2?'INTENSA':b.localHits>=4?'IN CORSO':b.localHits>0?'DEBOLE / MARGINALE':'NON RILEVATA';
+      autoEls.rain.textContent=rain;
+      if(!pair){clearAutoLayer();autoEls.level.textContent='NESSUN NUCLEO RILEVATO';autoEls.cell.textContent='--';autoEls.move.textContent='--';autoEls.speed.textContent='--';autoEls.trend.textContent='STABILE';autoEls.eta.textContent='--';autoEls.confidence.textContent='LIMITATA';autoEls.summary.textContent=`Precipitazione locale: ${rain.toLowerCase()}. Nessun nucleo radar organizzato è stato riconosciuto nell’area analizzata.`;return;}
+      const c=pair.latest;autoEls.cell.textContent=`${c.dist.toFixed(1)} km`;
+      let heading=null,speed=null,trend='INCERTA',eta='--',confidence='BASSA',state='NUCLEO RILEVATO';
+      if(pair.previous){
+        const dt=(b.time-a.time)/3600,moved=distanceKm({lat:pair.previous.lat,lng:pair.previous.lon},{lat:c.lat,lng:c.lon});
+        heading=bearingDeg({lat:pair.previous.lat,lng:pair.previous.lon},{lat:c.lat,lng:c.lon});speed=dt>0?moved/dt:null;
+        const prevDist=pair.previous.dist,delta=c.dist-prevDist,toward=bearingDeg({lat:c.lat,lng:c.lon},{lat:LOCATION.lat,lng:LOCATION.lon}),deviation=angleDiff(heading,toward);
+        if(Math.abs(delta)<2)trend='LATERALE / STABILE';else trend=delta<0?'AVVICINAMENTO':'ALLONTANAMENTO';
+        if(speed>=5&&speed<=140&&trend==='AVVICINAMENTO'&&deviation<=38)eta=`~${Math.max(1,Math.round(c.dist/speed*60))} min`;
+        confidence=(c.count>=12&&pair.previous.count>=8&&pair.matchScore<45&&speed<=140)?'MEDIA':'BASSA';
+        if(c.count>=25&&pair.previous.count>=18&&pair.matchScore<25&&speed>=5&&speed<=110)confidence='BUONA';
+        autoEls.move.textContent=`${compass(heading)} · ${Math.round(heading)}°`;
+        autoEls.speed.textContent=speed>=3&&speed<=180?`${Math.round(speed)} km/h`:'INCERTA';
+      }else{autoEls.move.textContent='NON CALCOLABILE';autoEls.speed.textContent='--';}
+      autoEls.trend.textContent=trend;autoEls.eta.textContent=eta;autoEls.confidence.textContent=confidence;
+      if(rain==='INTENSA')state='PRECIPITAZIONE INTENSA';else if(c.dist<=10)state='NUCLEO MOLTO VICINO';else if(c.dist<=25)state='NUCLEO VICINO';else if(trend==='AVVICINAMENTO')state='NUCLEO IN AVVICINAMENTO';else if(trend==='ALLONTANAMENTO')state='NUCLEO IN ALLONTANAMENTO';
+      autoEls.level.textContent=state;drawAutoCell(c,heading);
+      const etaText=eta==='--'?'ETA non disponibile: traiettoria o velocità non abbastanza coerenti.':`Possibile arrivo del centro stimato in ${eta}.`;
+      autoEls.summary.textContent=`${state}. Centro radar stimato a ${c.dist.toFixed(1)} km; tendenza ${trend.toLowerCase()}. ${etaText} Affidabilità ${confidence.toLowerCase()}.`;
+    }catch(err){console.warn('Analisi automatica non disponibile',err);clearAutoLayer();autoEls.level.textContent='LETTURA NON DISPONIBILE';autoEls.summary.textContent='Il radar resta utilizzabile, ma il browser non consente l’analisi automatica delle tile. Nessuna stima è stata prodotta.';['rain','cell','move','speed','trend','eta'].forEach(k=>autoEls[k].textContent='--');autoEls.confidence.textContent='NESSUNA';}
   }
   autoEls.run?.addEventListener('click',runAutomaticAnalysis);
 
@@ -134,7 +222,7 @@
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
     if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent=choice.outcome==='accepted'?'Installazione avviata. Radar Conte comparirà tra le app.':'Installazione annullata: puoi riprovare dal menu di Chrome.';}
-    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P8 e attendi qualche secondo.';}
+    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P12 e attendi qualche secondo.';}
   });
   window.addEventListener('appinstalled',()=>{els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent='Radar Conte è installato correttamente.';});
 

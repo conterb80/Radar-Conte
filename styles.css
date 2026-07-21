@@ -260,9 +260,16 @@ footer{opacity:.78}
   .quick-panel{grid-template-columns:1fr}
 }
 
-/* P11.1: sintesi automatica prudente e riferimento Borgo Viazza nei fulmini */
+/* P12: sintesi automatica e analisi del nucleo radar */
 .auto-analysis{padding:12px;margin-bottom:12px;border:1px solid rgba(83,190,239,.28);border-radius:14px;background:linear-gradient(180deg,rgba(11,31,49,.96),rgba(7,21,35,.96))}
 .auto-analysis-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}.auto-analysis-head span{font-size:.72rem;letter-spacing:.16em;color:#8ba8bf}.auto-analysis-head button{padding:8px 11px;border-radius:10px;font-size:.72rem}
 .auto-analysis>strong{display:block;font-size:1.08rem;color:#71d9aa;margin-bottom:5px}.auto-analysis>p{margin:0 0 11px;color:#a9bac8;line-height:1.35;font-size:.86rem}
 .auto-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.auto-grid div{padding:9px;border-radius:11px;background:rgba(4,15,27,.72);border:1px solid rgba(71,126,167,.2)}.auto-grid span{display:block;font-size:.62rem;letter-spacing:.12em;color:#8099ad;margin-bottom:4px}.auto-grid b{font-size:.83rem;color:#eef7ff}
 @media(max-width:430px){.auto-grid{grid-template-columns:1fr 1fr}}
+
+/* P12 - analisi automatica estesa */
+.auto-grid-p12{grid-template-columns:repeat(2,minmax(0,1fr))}
+.auto-grid-p12 .auto-wide{grid-column:1/-1}
+.auto-grid-p12 b{overflow-wrap:anywhere}
+.auto-analysis[data-state="alert"]{border-color:rgba(255,126,87,.58)}
+@media(min-width:700px){.auto-grid-p12{grid-template-columns:repeat(3,minmax(0,1fr))}.auto-grid-p12 .auto-wide{grid-column:auto}}
