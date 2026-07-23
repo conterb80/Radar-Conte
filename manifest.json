@@ -1,12 +1,12 @@
 {
-  "id": "/Radar-Conte/",
-  "name": "Radar Conte P17",
+  "id": "./",
+  "name": "Radar Conte",
   "short_name": "Radar Conte",
-  "description": "Radar Conte P17 - sala controllo radar con analisi automatica sperimentale per Borgo Viazza",
+  "description": "Sala controllo radar personale per Borgo Viazza: radar, fulmini, evoluzione e analisi operativa.",
   "lang": "it-IT",
   "dir": "ltr",
-  "start_url": "/Radar-Conte/?source=pwa",
-  "scope": "/Radar-Conte/",
+  "start_url": "./?source=pwa",
+  "scope": "./",
   "display": "standalone",
   "display_override": [
     "standalone",
@@ -22,28 +22,45 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/Radar-Conte/icons/icon-192.png",
+      "src": "icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/Radar-Conte/icons/icon-512.png",
+      "src": "icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/Radar-Conte/icons/icon-maskable-192.png",
+      "src": "icons/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/Radar-Conte/icons/icon-maskable-512.png",
+      "src": "icons/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "shortcuts": [
+    {
+      "name": "Apri Radar Conte",
+      "short_name": "Radar",
+      "url": "./?source=shortcut",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
