@@ -1052,3 +1052,197 @@ body:before{
   .monitor-badge{padding:5px 6px!important}
 }
 @media(prefers-reduced-motion:reduce){.monitor-badge.live:before{animation:none}}
+
+
+/* =========================================================
+   RADAR CONTE · MISSION CONTROL RC9
+   Global cohesion pass: one visual system, fewer nested boxes,
+   stronger radar hierarchy, native-style controls and docks.
+   Existing IDs, sources and JavaScript behaviour are unchanged.
+   ========================================================= */
+:root{
+  --rc9-bg:#010811;
+  --rc9-panel:#04131f;
+  --rc9-panel-2:#061b29;
+  --rc9-cyan:#28dfff;
+  --rc9-green:#24e67a;
+  --rc9-purple:#b66cff;
+  --rc9-yellow:#ffd521;
+  --rc9-text:#edfaff;
+  --rc9-muted:#829bab;
+  --rc9-line:rgba(69,215,255,.18);
+  --rc9-radius:18px;
+}
+html{scroll-behavior:smooth;background:var(--rc9-bg)}
+body{
+  color:var(--rc9-text)!important;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(19,154,205,.16),transparent 34rem),
+    linear-gradient(180deg,#020b13 0%,#01070d 58%,#00050a 100%)!important;
+  font-family:Inter,"SF Pro Display","Segoe UI",Roboto,Arial,sans-serif!important;
+  letter-spacing:.01em;
+}
+.app-shell{max-width:820px!important;padding-bottom:102px!important}
+
+/* Unified shell: cleaner header and less visual noise */
+.mission-header{
+  border-radius:24px!important;
+  border-color:rgba(58,220,255,.28)!important;
+  box-shadow:0 18px 50px rgba(0,0,0,.45),inset 0 1px rgba(255,255,255,.055)!important;
+}
+.rc-mark{border-width:1px!important;box-shadow:0 0 0 5px rgba(40,223,255,.035),0 0 26px rgba(40,223,255,.16)!important}
+.mission-header h1{font-weight:650!important;letter-spacing:.115em!important}
+.mission-header .eyebrow{color:#9bb0bd!important}
+.mission-header .place{color:#65dfff!important}
+.header-status{display:none!important}
+.header-command{justify-content:flex-end!important}
+.mission-clock{background:rgba(0,7,13,.62)!important;border-color:rgba(40,223,255,.2)!important}
+
+/* Three live monitor shortcuts become a single clean rail */
+.mission-status-nav{
+  position:sticky;top:6px;z-index:9000;
+  gap:7px!important;padding:7px!important;
+  border:1px solid rgba(56,220,255,.22)!important;
+  box-shadow:0 12px 35px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.035)!important;
+  backdrop-filter:blur(16px) saturate(130%);
+}
+.mission-status-nav button{
+  min-height:62px!important;border:1px solid transparent!important;
+  background:linear-gradient(180deg,rgba(8,27,40,.9),rgba(2,12,20,.92))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025)!important;
+}
+.mission-status-nav button.active{border-color:rgba(36,230,122,.32)!important;box-shadow:inset 0 0 0 1px rgba(36,230,122,.07),0 0 20px rgba(36,230,122,.07)!important}
+.mission-status-nav .nav-icon{background:rgba(255,255,255,.035)!important}
+
+/* Reduce stacked dashboard-box feeling */
+.system-strip{margin-top:9px!important;border-color:rgba(40,223,255,.13)!important;background:rgba(2,13,21,.72)!important}
+.system-strip>div{min-height:42px!important;background:transparent!important}
+.ops-bar{gap:8px!important}.ops-bar button{min-height:48px!important;border-radius:15px!important;background:linear-gradient(180deg,rgba(8,27,40,.88),rgba(3,14,23,.9))!important}
+.update-grid,.live-summary{gap:7px!important}
+.update-grid div,.live-summary>div{border-radius:14px!important;border-color:rgba(40,223,255,.12)!important;background:rgba(4,18,29,.74)!important;box-shadow:none!important}
+
+/* All three monitors share one chassis */
+.monitor-section{
+  padding:9px!important;border-radius:24px!important;
+  border:1px solid rgba(57,216,255,.22)!important;
+  background:linear-gradient(180deg,rgba(5,21,33,.985),rgba(1,10,17,.99))!important;
+  box-shadow:0 22px 58px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.04)!important;
+}
+.monitor-section:target{scroll-margin-top:86px}
+.monitor-heading{
+  grid-template-columns:34px 34px minmax(0,1fr) auto!important;
+  min-height:50px!important;padding:5px 7px 10px!important;
+  background:transparent!important;border-bottom:1px solid rgba(55,215,255,.13)!important;
+}
+.monitor-number,.monitor-symbol{width:32px!important;height:32px!important;border-radius:10px!important}
+.monitor-number{font-size:8px!important;background:rgba(40,223,255,.045)!important}
+.monitor-symbol{font-size:19px!important;background:rgba(40,223,255,.045)!important}
+.monitor-title{font-size:13px!important;font-weight:650!important;letter-spacing:.085em!important}
+.monitor-title span{display:block!important;margin-top:3px;font-size:7px!important;letter-spacing:.08em!important;color:var(--rc9-muted)!important}
+.monitor-badge{padding:6px 9px!important;border-radius:8px!important}
+.lightning-panel{border-color:rgba(182,108,255,.27)!important}
+.forecast-panel{border-color:rgba(255,213,33,.25)!important}
+.lightning-heading{border-bottom-color:rgba(182,108,255,.15)!important}
+.forecast-heading{border-bottom-color:rgba(255,213,33,.14)!important}
+
+/* Radar information strip: one instrument row */
+.time-panel{
+  min-height:78px!important;margin:10px 1px!important;padding:12px 15px!important;
+  border:0!important;border-radius:15px!important;
+  background:linear-gradient(90deg,rgba(8,30,44,.7),rgba(2,13,21,.54))!important;
+  box-shadow:inset 0 0 0 1px rgba(40,223,255,.12)!important;
+}
+.time-label{font-weight:600!important;color:#90a9b8!important}
+#frameTime{font-size:34px!important;font-weight:520!important;letter-spacing:-.045em!important;font-variant-numeric:tabular-nums}
+.frame-date{font-weight:550!important;color:#8ba4b3!important}
+.age-box strong{font-weight:520!important;font-variant-numeric:tabular-nums}
+.analysis-toggle{margin:0 1px 10px!important;min-height:48px!important;border-radius:14px!important}
+
+/* Radar map becomes undisputed hero */
+.map-wrap{min-height:52vh!important;border-radius:19px!important;border-color:rgba(74,224,255,.3)!important}
+#map{min-height:52vh!important}
+.map-overlay.top-left{display:flex;gap:6px!important}
+.map-btn{min-height:42px!important;padding:0 15px!important;border-radius:12px!important;font-weight:650!important;letter-spacing:.045em!important}
+.legend{font-size:8px!important}
+
+/* RC9 playback deck: one continuous professional console */
+.controls.transport-console{
+  display:grid!important;
+  grid-template-columns:44px 58px minmax(100px,1fr) 44px 70px!important;
+  gap:5px!important;margin-top:9px!important;padding:6px!important;
+  border-radius:17px!important;border-color:rgba(40,223,255,.2)!important;
+  background:linear-gradient(180deg,rgba(6,24,36,.97),rgba(2,12,20,.98))!important;
+}
+.transport-console button{min-height:50px!important;border:0!important}
+.transport-skip{border-radius:12px!important;background:rgba(255,255,255,.025)!important;color:#9ec8d5!important;font-size:27px!important}
+.transport-play{
+  width:52px!important;height:52px!important;min-height:52px!important;border-radius:50%!important;
+  background:radial-gradient(circle at 36% 28%,#72efff,#17b6e4 55%,#087ca7)!important;
+  box-shadow:0 0 0 1px rgba(99,234,255,.65),0 0 22px rgba(40,223,255,.23)!important;
+}
+.transport-time{min-height:50px!important;border-radius:12px!important;background:rgba(0,8,14,.3)!important}
+.transport-time small{font-size:6px!important;letter-spacing:.15em!important;color:#66dfff!important}
+.transport-time strong{font-size:22px!important;font-weight:540!important;letter-spacing:.04em!important}
+.transport-latest{border-radius:12px!important;color:#72efaa!important;background:rgba(36,230,122,.055)!important;box-shadow:inset 0 0 0 1px rgba(36,230,122,.15)!important}
+
+/* Settings merge visually into one control surface */
+.quick-panel{grid-template-columns:1fr 1fr!important;margin-top:8px!important;border-radius:16px!important;padding:9px!important}
+.quick-panel>div{min-width:0}
+.panel-label{display:block;margin:0 0 7px 4px!important;font-size:7px!important;letter-spacing:.18em!important}
+.segmented{gap:3px!important;padding:3px!important;border-radius:12px!important}
+.segmented button{min-height:38px!important;font-size:8px!important;font-weight:620!important;letter-spacing:.035em!important}
+.timeline-panel{margin-top:8px!important;border-radius:16px!important;border-color:rgba(40,223,255,.16)!important}
+.timeline-labels #rangeLabel{color:var(--rc9-cyan)!important;font-weight:650!important}
+.settings-row{margin-top:8px!important;border-radius:16px!important}
+.settings-row button{border-radius:13px!important}
+
+/* Secondary monitors: same rhythm, cleaner controls */
+.lightning-head,.forecast-head{margin:10px 1px!important;padding:13px 15px!important;border:0!important;border-radius:15px!important;background:rgba(7,25,38,.62)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.045)!important}
+.lightning-head strong{color:#d6afff!important;font-weight:540!important}
+.forecast-head strong{color:#ffe778!important;font-weight:540!important}
+.lightning-head button,.forecast-head button{border-radius:12px!important;padding:0 16px!important}
+.lightning-frame-wrap,.forecast-frame-wrap{border-radius:18px!important;overflow:hidden!important}
+.forecast-steps{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:10px 1px!important;padding:8px 10px!important;border-radius:14px;background:rgba(4,17,26,.58)}
+.forecast-steps small{max-width:105px;font-size:7px!important;line-height:1.35!important;letter-spacing:.12em!important}
+.forecast-steps>div{display:flex!important;gap:5px!important;flex-wrap:nowrap!important}
+.forecast-steps span{min-width:44px;padding:7px 8px!important;border-radius:999px!important;text-align:center;font-size:8px!important;background:rgba(19,61,78,.52)!important;border:1px solid rgba(83,218,255,.19)!important}
+.forecast-steps span:not(:first-child){color:#76f2ac!important;border-color:rgba(36,230,122,.24)!important;background:rgba(36,230,122,.055)!important}
+.lightning-actions,.forecast-actions{gap:7px!important}.lightning-actions>* ,.forecast-actions>*{min-height:44px!important;border-radius:12px!important}
+
+/* Native command dock: centered, never wider than app */
+.mission-bottom-nav{
+  left:50%!important;right:auto!important;transform:translateX(-50%)!important;
+  width:min(calc(100% - 18px),800px)!important;max-width:none!important;
+  min-height:68px!important;padding:4px!important;border-radius:22px!important;
+}
+.mission-bottom-nav a{min-height:58px!important;border-right:0!important}
+.mission-bottom-nav a+a{border-left:1px solid rgba(47,190,230,.1)!important}
+.mission-bottom-nav a span{font-size:20px!important}.mission-bottom-nav a b{font-size:6px!important;letter-spacing:.08em!important}
+.message{margin-bottom:88px!important}
+
+@media(max-width:560px){
+  .app-shell{padding-left:7px!important;padding-right:7px!important}
+  .mission-status-nav{top:3px!important}
+  .mission-status-nav button{min-height:56px!important}
+  .system-strip{grid-template-columns:1.35fr 1fr .65fr!important}
+  .ops-bar button{min-height:45px!important}
+  .monitor-section{padding:7px!important;border-radius:20px!important}
+  .monitor-heading{grid-template-columns:29px 29px minmax(0,1fr) auto!important;gap:6px!important}
+  .monitor-number,.monitor-symbol{width:28px!important;height:28px!important}.monitor-symbol{font-size:17px!important}
+  .monitor-title{font-size:10px!important}.monitor-title span{font-size:6px!important}
+  #frameTime{font-size:31px!important}.map-wrap,#map{min-height:46vh!important}
+  .controls.transport-console{grid-template-columns:38px 52px minmax(82px,1fr) 38px 60px!important;gap:4px!important;padding:5px!important}
+  .transport-console button{min-height:46px!important}.transport-play{width:48px!important;height:48px!important;min-height:48px!important}
+  .transport-time strong{font-size:18px!important}.transport-latest{font-size:6px!important}
+  .quick-panel{grid-template-columns:1fr!important}
+  .forecast-steps{align-items:flex-start!important;flex-direction:column!important}.forecast-steps small{max-width:none!important}
+  .forecast-steps>div{width:100%;justify-content:space-between}.forecast-steps span{flex:1;min-width:0}
+  .mission-bottom-nav{width:calc(100% - 14px)!important;bottom:max(7px,env(safe-area-inset-bottom))!important}
+}
+@media(max-width:390px){
+  .mission-header .eyebrow span{display:none}.mission-header h1{letter-spacing:.08em!important}
+  .controls.transport-console{grid-template-columns:34px 48px minmax(74px,1fr) 34px 54px!important}
+  .transport-time strong{font-size:16px!important}
+  .mission-status-nav b{font-size:7px!important}
+  .mission-status-nav small{font-size:5px!important}
+}
