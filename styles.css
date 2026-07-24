@@ -740,3 +740,78 @@ body{min-height:100dvh;background:
  .mission-bottom-nav{left:7px;right:7px}.mission-bottom-nav a{min-height:58px}
 }
 @media(max-width:380px){.mission-clock{display:none}.system-strip{grid-template-columns:1.2fr .9fr .6fr}.map-wrap{min-height:370px}.lightning-frame-wrap,.forecast-frame-wrap{min-height:300px}}
+
+/* MISSION CONTROL RC5 · mobile polish and control console */
+:root{--rc5-cyan:#27d7ff;--rc5-panel:#04131e;--rc5-border:rgba(58,211,255,.28)}
+
+/* Fixed navigation: centered, fully tappable and never covered by status messages */
+.mission-bottom-nav{
+  left:max(8px,env(safe-area-inset-left))!important;
+  right:max(8px,env(safe-area-inset-right))!important;
+  width:auto!important;
+  transform:none!important;
+  bottom:calc(8px + env(safe-area-inset-bottom))!important;
+  z-index:5000!important;
+  pointer-events:auto!important;
+  isolation:isolate;
+}
+.mission-bottom-nav a{pointer-events:auto!important;touch-action:manipulation;position:relative;z-index:2}
+.message{position:relative!important;bottom:auto!important;z-index:1!important;margin-bottom:78px!important}
+
+/* Modern compact radar timestamp */
+.time-panel{display:flex;align-items:center;justify-content:space-between;min-height:82px;padding:13px 17px!important}
+.time-panel>div:first-child{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"label label" "date time";align-items:baseline;column-gap:9px}
+.time-panel .time-label{grid-area:label;margin-bottom:6px}
+.frame-date{grid-area:date;color:#7f9aad;font-size:10px;font-weight:700;letter-spacing:.12em;white-space:nowrap}
+#frameTime{grid-area:time;margin:0!important;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;font-size:clamp(30px,8.5vw,43px)!important;font-weight:520!important;line-height:1!important;letter-spacing:-.045em!important;font-variant-numeric:tabular-nums;color:#f4fbff!important}
+.age-box{padding-left:14px;border-left:1px solid rgba(74,207,255,.13)}
+.age-box strong{font-size:21px!important;font-weight:520!important;letter-spacing:-.03em}
+
+/* Premium transport console */
+.controls.transport-console{
+  grid-template-columns:42px 62px minmax(96px,1fr) 42px 72px!important;
+  align-items:stretch;
+  gap:6px!important;
+  margin-top:10px;
+  padding:7px!important;
+  border:1px solid var(--rc5-border)!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(5,23,36,.98),rgba(2,12,20,.98))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 16px 32px rgba(0,0,0,.3)!important;
+}
+.controls.transport-console button{min-height:52px!important;border-radius:13px!important;font-family:inherit;font-weight:750!important}
+.transport-skip{font-size:27px!important;color:#8ba4b4!important;background:rgba(255,255,255,.025)!important}
+.transport-play{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:linear-gradient(180deg,#24c8f8,#087eaf)!important;color:#00131c!important;box-shadow:0 0 22px rgba(39,215,255,.2)!important}
+.play-symbol{font-size:18px;line-height:1}.play-label{font-size:7px;letter-spacing:.12em}
+.transport-time{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid rgba(49,215,255,.11);border-right:1px solid rgba(49,215,255,.11);background:rgba(0,0,0,.12);border-radius:11px}
+.transport-time small{color:#6f93a7;font-size:6px;font-weight:800;letter-spacing:.16em}
+.transport-time strong{margin-top:3px;color:var(--rc5-cyan);font-size:20px;font-weight:570;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.transport-latest{font-size:7px!important;letter-spacing:.1em!important;color:#7ce6ae!important;background:rgba(40,228,134,.08)!important;border:1px solid rgba(40,228,134,.14)!important}
+
+/* Less schematic interval and speed selectors */
+.quick-panel{grid-template-columns:1fr 1fr!important;gap:8px!important}
+.quick-panel>div{padding:11px!important;border:1px solid rgba(58,211,255,.17)!important;border-radius:17px!important;background:linear-gradient(155deg,rgba(7,27,42,.94),rgba(2,12,20,.94))!important}
+.panel-label{display:block;margin:0 0 9px 3px!important;color:#738fa1!important;font-size:7px!important;font-weight:800;letter-spacing:.18em!important}
+.segmented{display:grid;padding:3px!important;gap:3px!important;border:1px solid rgba(255,255,255,.035);border-radius:12px!important;background:rgba(0,7,12,.72)!important}
+#rangeControls{grid-template-columns:repeat(3,1fr)}
+#speedControls{grid-template-columns:repeat(3,1fr)}
+.segmented button{min-height:39px!important;padding:0 5px!important;border:1px solid transparent!important;border-radius:9px!important;background:transparent!important;color:#8296a4!important;font-size:8px!important;font-weight:760!important;letter-spacing:.035em!important;box-shadow:none!important}
+.segmented button.active{border-color:rgba(39,215,255,.43)!important;background:linear-gradient(180deg,rgba(28,181,225,.25),rgba(10,87,117,.23))!important;color:#e8fbff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 18px rgba(39,215,255,.08)!important}
+.timeline-panel{padding:12px 15px 10px!important;border-radius:17px!important;background:linear-gradient(155deg,rgba(7,27,42,.94),rgba(2,12,20,.94))!important}
+.timeline-labels #rangeLabel{color:var(--rc5-cyan)!important;font-weight:750;letter-spacing:.08em}
+.settings-row label,.settings-row button{border-radius:15px!important}
+
+@media(max-width:560px){
+  .app-shell{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+  .controls.transport-console{grid-template-columns:34px 55px minmax(82px,1fr) 34px 62px!important;gap:4px!important;padding:5px!important}
+  .controls.transport-console button{min-height:49px!important}
+  .transport-time strong{font-size:18px}.transport-time small{font-size:5px}
+  .quick-panel{grid-template-columns:1fr!important}
+  .time-panel{min-height:75px;padding:12px 14px!important}
+  #frameTime{font-size:34px!important}.frame-date{font-size:8px}.age-box strong{font-size:18px!important}
+  .mission-bottom-nav a{min-height:60px!important}
+}
+@media(max-width:380px){
+  .controls.transport-console{grid-template-columns:31px 49px minmax(74px,1fr) 31px 55px!important}
+  .transport-time strong{font-size:16px}.transport-latest{font-size:6px!important}
+}

@@ -15,7 +15,7 @@
 
   const $ = id => document.getElementById(id);
   const els = {
-    connectionBadge:$('connectionBadge'), frameTime:$('frameTime'), frameAge:$('frameAge'), firstTime:$('firstTime'), lastTime:$('lastTime'),
+    connectionBadge:$('connectionBadge'), frameTime:$('frameTime'), frameDate:$('frameDate'), selectedFrameTime:$('selectedFrameTime'), frameAge:$('frameAge'), firstTime:$('firstTime'), lastTime:$('lastTime'),
     rangeLabel:$('rangeLabel'), timeline:$('timeline'), opacity:$('opacity'), playBtn:$('playBtn'), prevBtn:$('prevBtn'), nextBtn:$('nextBtn'),
     latestBtn:$('latestBtn'), refreshBtn:$('refreshBtn'), homeBtn:$('homeBtn'), zoomLocalBtn:$('zoomLocalBtn'), zoomRomagnaBtn:$('zoomRomagnaBtn'),
     message:$('message'), installBtn:$('installBtn'), installHelp:$('installHelp'), rangeControls:$('rangeControls'), speedControls:$('speedControls'),
@@ -34,7 +34,7 @@
   const setStatus=(type,text)=>{els.connectionBadge.className=`status-pill ${type}`;els.connectionBadge.textContent=text;};
   const setMessage=(text,type='info')=>{els.message.className=`message ${type}`;els.message.textContent=text;};
   const fmtTime=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}).format(new Date(unix*1000));
-  const fmtDateTime=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(unix*1000));
+  const fmtDate=unix=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',weekday:'short',day:'2-digit',month:'short'}).format(new Date(unix*1000)).replace('.', '').toUpperCase();
   const nowTime=()=>new Intl.DateTimeFormat('it-IT',{timeZone:'Europe/Rome',hour:'2-digit',minute:'2-digit'}).format(new Date());
   const saveState=patch=>{try{const old=JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}');localStorage.setItem(UI_STATE_KEY,JSON.stringify({...old,...patch}));}catch(_){}};
   const readState=()=>{try{return JSON.parse(localStorage.getItem(UI_STATE_KEY)||'{}')}catch(_){return {}}};
@@ -259,7 +259,7 @@
     currentIndex=Math.max(0,Math.min(index,frames.length-1)); const frame=frames[currentIndex];
     if(radarLayer)map.removeLayer(radarLayer);
     radarLayer=L.tileLayer(tileUrl(frame),{tileSize:256,maxNativeZoom:7,maxZoom:13,opacity:Number(els.opacity.value)/100,zIndex:450,updateWhenIdle:false,keepBuffer:4,errorTileUrl:'',attribution:'Radar &copy; RainViewer'}).addTo(map);
-    els.timeline.value=String(currentIndex); els.frameTime.textContent=fmtDateTime(frame.time).toUpperCase(); updateAge(frame.time);
+    els.timeline.value=String(currentIndex); els.frameTime.textContent=fmtTime(frame.time); if(els.frameDate) els.frameDate.textContent=fmtDate(frame.time); if(els.selectedFrameTime) els.selectedFrameTime.textContent=fmtTime(frame.time); updateAge(frame.time);
     els.latestBtn.classList.toggle('is-latest',currentIndex===frames.length-1);
   }
   function stopPlayback(){if(playTimer)clearInterval(playTimer);playTimer=null;els.playBtn.textContent='▶ PLAY';els.playBtn.setAttribute('aria-label','Avvia animazione');}

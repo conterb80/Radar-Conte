@@ -9,12 +9,12 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=mission4">
+  <link rel="stylesheet" href="styles.css?v=mission5">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=mission4" defer></script>
+  <script src="pwa-register.js?v=mission5" defer></script>
 </head>
 <body>
   <main class="app-shell">
@@ -55,7 +55,7 @@
     <section class="system-strip" aria-label="Stato console">
       <div><span class="system-pulse"></span><b>MISSION CONTROL</b><small>CONSOLE LOCALE</small></div>
       <div class="system-sync"><span>SYNC DATI</span><strong>AUTOMATICO</strong></div>
-      <div class="system-code"><span>UNITÀ</span><strong>RC-04</strong></div>
+      <div class="system-code"><span>UNITÀ</span><strong>RC-05</strong></div>
     </section>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
@@ -81,7 +81,7 @@
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
-        <strong id="frameTime">--:--</strong>
+        <small id="frameDate" class="frame-date">--</small><strong id="frameTime">--:--</strong>
       </div>
       <div class="age-box">
         <span>Età dato</span>
@@ -153,11 +153,12 @@
       </div>
     </section>
 
-    <section class="controls" aria-label="Comandi animazione radar">
-      <button id="prevBtn" type="button" aria-label="Fotogramma precedente">◀</button>
-      <button id="playBtn" class="primary" type="button" aria-label="Avvia animazione">▶ PLAY</button>
-      <button id="nextBtn" type="button" aria-label="Fotogramma successivo">▶</button>
-      <button id="latestBtn" type="button">ULTIMO</button>
+    <section class="controls transport-console" aria-label="Comandi animazione radar">
+      <button id="prevBtn" class="transport-skip" type="button" aria-label="Fotogramma precedente">‹</button>
+      <button id="playBtn" class="primary transport-play" type="button" aria-label="Avvia animazione"><span class="play-symbol">▶</span><span class="play-label">PLAY</span></button>
+      <div class="transport-time" aria-live="polite"><small>ORA SELEZIONATA</small><strong id="selectedFrameTime">--:--</strong></div>
+      <button id="nextBtn" class="transport-skip" type="button" aria-label="Fotogramma successivo">›</button>
+      <button id="latestBtn" class="transport-latest" type="button">ULTIMO</button>
     </section>
 
     <section class="quick-panel" aria-label="Impostazioni operative">
@@ -248,6 +249,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=mission4"></script>
+  <script src="app.js?v=mission5"></script>
 </body>
 </html>
