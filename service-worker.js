@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'radar-conte-mission-control-rc1';
+const CACHE_VERSION = 'radar-conte-mission-control-rc2';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=tesla1',
-  './app.js?v=tesla1',
-  './pwa-register.js?v=tesla1',
+  './styles.css?v=mission2',
+  './app.js?v=mission2',
+  './pwa-register.js?v=mission2',
   './manifest.webmanifest',
   './manifest.json',
   './icons/icon-192.png',

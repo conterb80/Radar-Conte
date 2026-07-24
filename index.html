@@ -9,12 +9,12 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=mission1">
+  <link rel="stylesheet" href="styles.css?v=mission2">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=mission1" defer></script>
+  <script src="pwa-register.js?v=mission2" defer></script>
 </head>
 <body>
   <main class="app-shell">
@@ -27,9 +27,15 @@
           <p class="place">⌖ Borgo Viazza</p>
         </div>
       </div>
-      <div class="header-status">
-        <span class="header-label">STATO SISTEMA</span>
-        <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
+      <div class="header-command">
+        <div class="header-status">
+          <span class="header-label">SALA OPERATIVA</span>
+          <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
+        </div>
+        <div class="header-refresh" aria-label="Aggiornamento automatico">
+          <span class="refresh-symbol">↻</span>
+          <span><b>AGG.</b><small>AUTOMATICO</small></span>
+        </div>
       </div>
     </header>
 
@@ -37,9 +43,9 @@
     <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
     <nav class="mode-switch live-nav mission-status-nav" aria-label="Vai rapidamente ai monitor">
-      <button id="radarModeBtn" class="active" type="button"><span class="nav-icon radar-icon">◉</span><span><b>RADAR</b><small>LIVE</small></span></button>
-      <button id="lightningModeBtn" type="button"><span class="nav-icon lightning-icon">ϟ</span><span><b>FULMINI</b><small>ATTIVI</small></span></button>
-      <button id="forecastModeBtn" type="button"><span class="nav-icon forecast-icon">☂</span><span><b>EVOLUZIONE</b><small>+3 ORE</small></span></button>
+      <button id="radarModeBtn" class="active" type="button"><span class="nav-icon radar-icon">◉</span><span><b>RADAR</b><small>LIVE</small></span><i class="state-dot green"></i></button>
+      <button id="lightningModeBtn" type="button"><span class="nav-icon lightning-icon">ϟ</span><span><b>FULMINI</b><small>ATTIVI</small></span><i class="state-dot purple"></i></button>
+      <button id="forecastModeBtn" type="button"><span class="nav-icon forecast-icon">☂</span><span><b>EVOLUZIONE</b><small>+3 ORE</small></span><i class="state-dot yellow"></i></button>
     </nav>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
@@ -61,7 +67,7 @@
     </section>
 
     <div id="radarPanel" class="monitor-section">
-    <h2 class="monitor-title">RADAR LIVE — SITUAZIONE ATTUALE</h2>
+    <div class="monitor-heading"><h2 class="monitor-title">RADAR LIVE <span>— SITUAZIONE ATTUALE</span></h2><span class="monitor-badge live">LIVE</span></div>
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
@@ -178,7 +184,7 @@
     </div>
 
     <section id="lightningPanel" class="lightning-panel monitor-section">
-      <h2 class="monitor-title">FULMINI — ATTIVITÀ ELETTRICA</h2>
+      <div class="monitor-heading"><h2 class="monitor-title">FULMINI <span>— ATTIVITÀ ELETTRICA</span></h2><span class="monitor-badge lightning">ATTIVI</span></div>
       <div class="lightning-head">
         <div>
           <span class="time-label">FULMINI IN TEMPO REALE</span>
@@ -199,7 +205,7 @@
 
 
     <section id="forecastPanel" class="forecast-panel monitor-section">
-      <h2 class="monitor-title">EVOLUZIONE — PROSSIME 3 ORE</h2>
+      <div class="monitor-heading"><h2 class="monitor-title">EVOLUZIONE <span>— PROSSIME 3 ORE</span></h2><span class="monitor-badge forecast">+3 ORE</span></div>
       <div class="forecast-head">
         <div>
           <span class="time-label">NOWCASTING UFFICIALE ARPAE</span>
@@ -232,6 +238,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=mission1"></script>
+  <script src="app.js?v=mission2"></script>
 </body>
 </html>
