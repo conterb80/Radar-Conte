@@ -9,31 +9,37 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=tesla1">
+  <link rel="stylesheet" href="styles.css?v=mission1">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=tesla1" defer></script>
+  <script src="pwa-register.js?v=mission1" defer></script>
 </head>
 <body>
   <main class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">TESLA EDITION</p>
-        <h1>RADAR CONTE</h1>
-        <p class="place">Borgo Viazza · Romagna</p>
+    <header class="topbar mission-header">
+      <div class="brand-cluster">
+        <div class="rc-mark" aria-hidden="true">RC</div>
+        <div>
+          <p class="eyebrow">SALA OPERATIVA</p>
+          <h1>RADAR CONTE</h1>
+          <p class="place">⌖ Borgo Viazza</p>
+        </div>
       </div>
-      <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
+      <div class="header-status">
+        <span class="header-label">STATO SISTEMA</span>
+        <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
+      </div>
     </header>
 
     <button id="installBtn" class="install-btn" type="button" hidden>⬇ INSTALLA RADAR CONTE</button>
     <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
 
-    <nav class="mode-switch live-nav" aria-label="Vai rapidamente ai monitor">
-      <button id="radarModeBtn" class="active" type="button">RADAR</button>
-      <button id="lightningModeBtn" type="button">FULMINI</button>
-      <button id="forecastModeBtn" type="button">EVOLUZIONE</button>
+    <nav class="mode-switch live-nav mission-status-nav" aria-label="Vai rapidamente ai monitor">
+      <button id="radarModeBtn" class="active" type="button"><span class="nav-icon radar-icon">◉</span><span><b>RADAR</b><small>LIVE</small></span></button>
+      <button id="lightningModeBtn" type="button"><span class="nav-icon lightning-icon">ϟ</span><span><b>FULMINI</b><small>ATTIVI</small></span></button>
+      <button id="forecastModeBtn" type="button"><span class="nav-icon forecast-icon">☂</span><span><b>EVOLUZIONE</b><small>+3 ORE</small></span></button>
     </nav>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
@@ -55,7 +61,7 @@
     </section>
 
     <div id="radarPanel" class="monitor-section">
-    <h2 class="monitor-title">1 · RADAR E MOVIMENTO</h2>
+    <h2 class="monitor-title">RADAR LIVE — SITUAZIONE ATTUALE</h2>
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
@@ -172,7 +178,7 @@
     </div>
 
     <section id="lightningPanel" class="lightning-panel monitor-section">
-      <h2 class="monitor-title">2 · FULMINI LIVE</h2>
+      <h2 class="monitor-title">FULMINI — ATTIVITÀ ELETTRICA</h2>
       <div class="lightning-head">
         <div>
           <span class="time-label">FULMINI IN TEMPO REALE</span>
@@ -193,7 +199,7 @@
 
 
     <section id="forecastPanel" class="forecast-panel monitor-section">
-      <h2 class="monitor-title">3 · EVOLUZIONE +3H</h2>
+      <h2 class="monitor-title">EVOLUZIONE — PROSSIME 3 ORE</h2>
       <div class="forecast-head">
         <div>
           <span class="time-label">NOWCASTING UFFICIALE ARPAE</span>
@@ -215,10 +221,17 @@
       <p class="forecast-note">Le etichette sopra sono una legenda. I comandi interattivi sono quelli presenti dentro la mappa ARPAE; per usarla più comodamente premi <strong>APRI A SCHERMO INTERO</strong>.</p>
     </section>
 
+    <nav class="mission-bottom-nav" aria-label="Navigazione rapida Radar Conte">
+      <a class="active" href="#radarPanel"><span>◎</span><b>SALA CONTROLLO</b></a>
+      <a href="#forecastPanel"><span>☁</span><b>PRETEMP</b></a>
+      <a href="#message"><span>≋</span><b>LAMONE</b></a>
+      <a href="#analysisDrawer"><span>⌁</span><b>TREND</b></a>
+    </nav>
+
     <section id="message" class="message info" aria-live="polite">Connessione alla sorgente radar in corso…</section>
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=18"></script>
+  <script src="app.js?v=mission1"></script>
 </body>
 </html>

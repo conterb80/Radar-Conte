@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'radar-conte-tesla-edition-v1';
+const CACHE_VERSION = 'radar-conte-mission-control-rc1';
 const APP_SHELL = [
   './',
   './index.html',
