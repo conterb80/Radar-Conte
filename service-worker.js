@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'radar-conte-p18-pwa';
+const CACHE_VERSION = 'radar-conte-d1-glass-modern';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=18',
-  './app.js?v=18',
-  './pwa-register.js?v=18',
+  './styles.css?v=d1',
+  './app.js?v=d1',
+  './pwa-register.js?v=d1',
   './manifest.webmanifest',
   './manifest.json',
   './icons/icon-192.png',

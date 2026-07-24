@@ -418,3 +418,87 @@ button,a{transition:filter .16s ease,transform .16s ease,background .16s ease,bo
 @media(max-width:480px){
   .app-shell{padding-left:10px;padding-right:10px}.topbar{padding-left:8px;padding-right:8px}.status-pill{margin-top:18px}.live-summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.live-summary div{padding:9px 6px}.live-summary strong{font-size:9px}.live-summary span{font-size:5.5px}.controls{grid-template-columns:46px 1fr 46px 78px;gap:6px}.quick-panel{grid-template-columns:1fr 1fr}.quick-panel>div{padding:8px}.segmented button{font-size:8px}.lightning-head,.forecast-head{padding:13px 14px}.lightning-head button,.forecast-head button{padding-left:13px;padding-right:13px}.message{font-size:11px}
 }
+
+/* ==========================================================================\n   D1 · GLASS MODERN — SOLO DESIGN, FUNZIONI INVARIATE\n   ========================================================================== */
+:root{
+  --bg:#03070c;
+  --panel:rgba(12,29,45,.58);
+  --panel-2:rgba(9,23,36,.72);
+  --line:rgba(143,211,255,.16);
+  --text:#f4f9fd;
+  --muted:#8da4b7;
+  --accent:#58c8ff;
+  --ok:#5ce2a2;
+  --warn:#ffc56e;
+  --danger:#ff7184;
+}
+html{background:#03070c}
+body{
+  background:
+    radial-gradient(ellipse 85% 48% at 50% -8%,rgba(30,149,211,.22),transparent 64%),
+    radial-gradient(ellipse 60% 34% at 92% 20%,rgba(48,93,184,.10),transparent 70%),
+    linear-gradient(180deg,#07131f 0%,#03090f 42%,#02060a 100%);
+  background-attachment:fixed;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.26;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+.app-shell{max-width:780px;padding:calc(max(12px,env(safe-area-inset-top)) + 2px) 12px max(22px,env(safe-area-inset-bottom));}
+.topbar{margin:0 2px 10px;padding:10px 8px 13px;border:0;background:transparent}
+.topbar:after{left:8px;right:8px;bottom:0;background:linear-gradient(90deg,transparent,rgba(111,211,255,.46),transparent)}
+.eyebrow{color:#63d2ff;font-size:9px;letter-spacing:.24em;text-shadow:0 0 18px rgba(88,200,255,.28)}
+h1{font-weight:650;letter-spacing:.045em;background:linear-gradient(180deg,#fff 12%,#cfe7f6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 10px 36px rgba(54,166,225,.12)}
+.place{color:#91a9ba;letter-spacing:.025em}
+.status-pill{border:1px solid rgba(110,224,168,.23);background:linear-gradient(180deg,rgba(48,126,91,.14),rgba(12,52,39,.08));box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 28px rgba(0,0,0,.18);backdrop-filter:blur(18px) saturate(130%)}
+.install-btn,.install-help,.mode-switch,.ops-bar button,.update-grid div,.live-summary div,.time-panel,.analysis-toggle,.analysis-drawer,.quick-panel>div,.timeline-panel,.settings-row label,.message,.lightning-head,.forecast-head,.auto-analysis,.event-log,.advanced-tools-body{
+  -webkit-backdrop-filter:blur(18px) saturate(135%);backdrop-filter:blur(18px) saturate(135%);
+}
+.mode-switch{padding:5px;border:1px solid rgba(143,211,255,.14);border-radius:18px;background:linear-gradient(180deg,rgba(12,29,45,.68),rgba(5,17,28,.54));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 16px 38px rgba(0,0,0,.20)}
+.mode-switch button{min-height:44px;border-radius:14px;color:#8fa8ba;font-weight:760;letter-spacing:.08em}
+.mode-switch button.active{background:linear-gradient(180deg,rgba(104,214,255,.98),rgba(42,160,222,.96));color:#02111a;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 24px rgba(36,168,229,.27)}
+.ops-bar{gap:8px;margin-bottom:9px}
+.ops-bar button{min-height:43px;border:1px solid rgba(143,211,255,.13);border-radius:15px;background:linear-gradient(180deg,rgba(15,36,55,.68),rgba(7,21,34,.58));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 22px rgba(0,0,0,.13);letter-spacing:.06em}
+.ops-bar .storm-btn{background:linear-gradient(180deg,rgba(133,92,28,.16),rgba(68,42,12,.09));border-color:rgba(255,197,110,.26)}
+.update-grid{gap:7px;margin-bottom:9px}
+.update-grid div{padding:8px 5px;border:1px solid rgba(143,211,255,.12);border-radius:15px;background:linear-gradient(160deg,rgba(16,38,58,.63),rgba(5,18,30,.52));box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 8px 22px rgba(0,0,0,.12)}
+.update-grid span{color:#7991a4}.update-grid strong{color:#64e2a7;font-weight:650}
+.live-summary{gap:7px;margin-bottom:11px}
+.live-summary div{padding:10px 7px;border:1px solid rgba(143,211,255,.12);border-radius:16px;background:linear-gradient(160deg,rgba(17,39,59,.66),rgba(5,18,30,.55));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 9px 25px rgba(0,0,0,.13)}
+.live-summary span{color:#7890a3;letter-spacing:.13em}.live-summary strong{font-weight:650;color:#eef8ff}
+.monitor-title{margin:24px 4px 10px;color:#cfe8f6;font-size:10px;letter-spacing:.22em;font-weight:760}.monitor-title:before{content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:#59cfff;box-shadow:0 0 16px rgba(89,207,255,.65)}
+.time-panel{padding:11px 14px;border:1px solid rgba(143,211,255,.15);border-radius:19px;background:linear-gradient(145deg,rgba(17,40,60,.72),rgba(5,19,31,.62));box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 15px 34px rgba(0,0,0,.17)}
+#frameTime{font-weight:500;color:#f5fbff}.age-box strong{color:#61d1ff;text-shadow:0 0 18px rgba(88,200,255,.22)}
+.analysis-toggle{border:1px solid rgba(143,211,255,.14);border-radius:17px;background:linear-gradient(180deg,rgba(15,36,55,.66),rgba(6,21,34,.58));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 26px rgba(0,0,0,.13)}
+.analysis-toggle:before{color:#63d4ff;text-shadow:0 0 16px rgba(99,212,255,.62)}
+.analysis-drawer{border:1px solid rgba(143,211,255,.15);border-radius:20px;background:rgba(5,17,28,.82);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 20px 45px rgba(0,0,0,.24)}
+.map-wrap{border-radius:27px;border:1px solid rgba(154,220,255,.32);box-shadow:0 30px 70px rgba(0,0,0,.44),0 0 0 1px rgba(255,255,255,.025),0 0 44px rgba(45,159,219,.07)}
+.map-wrap:before{content:"";position:absolute;inset:0;z-index:651;pointer-events:none;border-radius:inherit;background:linear-gradient(145deg,rgba(255,255,255,.09),transparent 13%,transparent 82%,rgba(37,151,214,.08));mix-blend-mode:screen}
+.map-btn{border-radius:15px!important;background:rgba(3,14,24,.70)!important;border:1px solid rgba(255,255,255,.20)!important;backdrop-filter:blur(20px) saturate(135%);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 28px rgba(0,0,0,.30)!important}
+.legend{border:1px solid rgba(255,255,255,.18)!important;background:rgba(3,14,24,.68)!important;backdrop-filter:blur(20px) saturate(135%);box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 12px 28px rgba(0,0,0,.28)!important}
+.controls{padding:6px;border:1px solid rgba(143,211,255,.13);border-radius:21px;background:linear-gradient(180deg,rgba(14,34,52,.66),rgba(5,18,30,.56));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 14px 34px rgba(0,0,0,.17)}
+.controls button,.settings-row button{border-radius:15px;background:linear-gradient(180deg,rgba(19,44,66,.84),rgba(7,24,39,.82));box-shadow:inset 0 1px 0 rgba(255,255,255,.055)}
+.controls .primary{background:linear-gradient(180deg,#6bd7ff,#299edc);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 25px rgba(37,158,219,.31)}
+#latestBtn{background:linear-gradient(180deg,rgba(37,128,91,.25),rgba(9,55,39,.17));border:1px solid rgba(92,226,162,.28)}
+.quick-panel>div,.timeline-panel,.settings-row label{border:1px solid rgba(143,211,255,.12);border-radius:19px;background:linear-gradient(160deg,rgba(15,36,55,.62),rgba(5,18,30,.54));box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 10px 28px rgba(0,0,0,.13)}
+.segmented{background:rgba(1,10,17,.58);box-shadow:inset 0 1px 5px rgba(0,0,0,.40)}
+.segmented button.active{background:linear-gradient(180deg,#61d0ff,#258fd0);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 20px rgba(30,144,206,.24)}
+.lightning-head,.forecast-head{border:1px solid rgba(143,211,255,.14);border-radius:21px;background:linear-gradient(145deg,rgba(17,40,60,.70),rgba(5,19,31,.60));box-shadow:inset 0 1px 0 rgba(255,255,255,.055),0 16px 38px rgba(0,0,0,.18)}
+.lightning-frame-wrap,.forecast-frame-wrap{border-radius:27px;border:1px solid rgba(154,220,255,.26);box-shadow:0 27px 62px rgba(0,0,0,.38),0 0 36px rgba(45,159,219,.05)}
+.lightning-actions button,.lightning-actions a,.forecast-actions button,.forecast-actions a,.lightning-head button,.forecast-head button{border:1px solid rgba(143,211,255,.15);border-radius:16px;background:linear-gradient(180deg,rgba(18,42,63,.77),rgba(6,22,36,.72));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 8px 22px rgba(0,0,0,.14)}
+.auto-analysis{border:1px solid rgba(143,211,255,.16);border-radius:18px;background:linear-gradient(150deg,rgba(17,40,60,.68),rgba(5,18,30,.66));box-shadow:inset 0 1px 0 rgba(255,255,255,.045)}
+.auto-grid div,.tracking-grid>div,.event-entry{border-color:rgba(143,211,255,.10);background:rgba(2,13,22,.48);box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.message{border:1px solid rgba(92,226,162,.23);border-radius:18px;background:rgba(6,27,38,.70);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 15px 35px rgba(0,0,0,.22)}
+footer{opacity:.68;letter-spacing:.015em}
+button,a{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid rgba(99,212,255,.72);outline-offset:2px}
+@media(max-width:480px){
+  .app-shell{padding-left:8px;padding-right:8px}.topbar{margin-left:0;margin-right:0}.monitor-title{margin-top:20px}.map-wrap,.lightning-frame-wrap,.forecast-frame-wrap{border-radius:23px}.live-summary{gap:5px}.live-summary div{padding:9px 5px;border-radius:14px}.controls{gap:5px}.mode-switch{border-radius:16px}.mode-switch button{border-radius:12px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .status-pill.ok{animation:d1Pulse 3.2s ease-in-out infinite}.monitor-title:before{animation:d1Dot 2.8s ease-in-out infinite}
+  @keyframes d1Pulse{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 28px rgba(0,0,0,.18)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 22px rgba(92,226,162,.13)}}
+  @keyframes d1Dot{0%,100%{opacity:.72}50%{opacity:1;box-shadow:0 0 20px rgba(89,207,255,.88)}}
+}

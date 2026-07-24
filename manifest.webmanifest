@@ -12,8 +12,8 @@
     "standalone",
     "minimal-ui"
   ],
-  "background_color": "#050b13",
-  "theme_color": "#07111f",
+  "background_color": "#04090f",
+  "theme_color": "#071521",
   "orientation": "portrait-primary",
   "categories": [
     "weather",
