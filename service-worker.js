@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'radar-conte-d1-glass-modern';
+const CACHE_VERSION = 'radar-conte-tesla-edition-v1';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=d1',
-  './app.js?v=d1',
-  './pwa-register.js?v=d1',
+  './styles.css?v=tesla1',
+  './app.js?v=tesla1',
+  './pwa-register.js?v=tesla1',
   './manifest.webmanifest',
   './manifest.json',
   './icons/icon-192.png',
