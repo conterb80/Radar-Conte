@@ -502,3 +502,113 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid rgba(
   @keyframes d1Pulse{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 28px rgba(0,0,0,.18)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 22px rgba(92,226,162,.13)}}
   @keyframes d1Dot{0%,100%{opacity:.72}50%{opacity:1;box-shadow:0 0 20px rgba(89,207,255,.88)}}
 }
+
+/* D2 · Modern App Edition — solo stile, struttura e logica invariati */
+:root{
+  --bg:#071018;
+  --panel:#10202d;
+  --panel-2:#142837;
+  --line:rgba(191,224,244,.13);
+  --text:#f7fbfd;
+  --muted:#9eb0bd;
+  --accent:#70d7ff;
+  --accent-2:#7ee7b6;
+  --ok:#71e6ae;
+  --warn:#ffd08a;
+  --danger:#ff8192;
+}
+html{background:#071018}
+body{
+  background:
+    radial-gradient(circle at 12% 0%,rgba(81,172,215,.19),transparent 28%),
+    radial-gradient(circle at 100% 14%,rgba(94,214,172,.10),transparent 25%),
+    linear-gradient(180deg,#0a1722 0%,#071018 45%,#050b11 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body:before{display:none}
+.app-shell{max-width:800px;padding-left:14px;padding-right:14px}
+.topbar{padding:16px 4px 18px;margin:0;align-items:flex-end}
+.topbar:after{display:none}
+.eyebrow{font-size:10px;letter-spacing:.14em;color:#74d9ff;margin-bottom:7px;text-transform:uppercase}
+h1{font-size:clamp(32px,9vw,48px);font-weight:760;letter-spacing:-.035em;line-height:.93;background:none;color:#f8fcff;text-shadow:none}
+.place{font-size:14px;color:#9fb3c0;margin-top:9px}
+.status-pill{padding:9px 12px;border:0;border-radius:12px;background:rgba(112,230,174,.10);color:#80e9b7;box-shadow:none;font-size:9px}
+.install-btn,.install-help{border-radius:16px!important}
+.mode-switch{
+  margin:0 0 14px;padding:0;gap:6px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow-x:auto;
+}
+.mode-switch button{
+  min-height:42px;padding:0 15px;border:1px solid rgba(191,224,244,.11);border-radius:999px;background:rgba(255,255,255,.035);color:#9db1bf;font-size:10px;letter-spacing:.055em;white-space:nowrap;
+}
+.mode-switch button.active{
+  background:#f3f9fc;color:#07131c;box-shadow:0 8px 24px rgba(0,0,0,.18);border-color:transparent;
+}
+.ops-bar{gap:9px;margin-bottom:11px}
+.ops-bar button{
+  min-height:50px;border:0;border-radius:17px;background:#112330;color:#eaf6fb;box-shadow:0 12px 30px rgba(0,0,0,.16);font-size:11px;letter-spacing:.02em;
+}
+.ops-bar .storm-btn{background:linear-gradient(135deg,#2d2a21,#3d3020);color:#ffdca0}
+.update-grid{gap:9px;margin-bottom:11px}
+.update-grid div{
+  padding:11px 6px;border:0;border-radius:17px;background:rgba(255,255,255,.045);box-shadow:none;
+}
+.update-grid span{font-size:8px;letter-spacing:.11em;color:#7f95a3}.update-grid strong{font-size:13px;color:#75e5ae}
+.live-summary{gap:9px;margin-bottom:14px;grid-template-columns:repeat(2,1fr)}
+.live-summary div{
+  min-height:76px;padding:14px 13px;border:0;border-radius:20px;background:linear-gradient(145deg,#122634,#0e1e2a);box-shadow:0 14px 30px rgba(0,0,0,.15);text-align:left;
+}
+.live-summary span{font-size:8px;color:#8298a6;letter-spacing:.12em}.live-summary strong{margin-top:9px;font-size:15px;line-height:1.12;color:#f7fbfd}
+.monitor-title{margin:30px 2px 12px;font-size:12px;letter-spacing:.08em;color:#f2f8fb;font-weight:750;text-transform:none}
+.monitor-title:before{width:9px;height:9px;margin-right:10px;background:#70d7ff;box-shadow:none}
+.time-panel{
+  padding:15px 16px;border:0;border-radius:22px;background:linear-gradient(145deg,#142a38,#0f202c);box-shadow:0 16px 34px rgba(0,0,0,.17);
+}
+.time-label,.age-box span{font-size:9px;letter-spacing:.10em;color:#8299a7}
+#frameTime{font-size:clamp(27px,7vw,38px);font-weight:720;letter-spacing:-.03em}.age-box strong{font-size:14px;color:#79dfff}
+.analysis-toggle{
+  min-height:50px;padding:0 16px;border:0;border-radius:17px;background:rgba(255,255,255,.05);box-shadow:none;font-size:11px;color:#eaf4f8;
+}
+.analysis-toggle:before{content:"✦";font-size:14px;color:#80dcff;text-shadow:none}.analysis-toggle span{color:#80dcff}
+.analysis-drawer{border:0;border-radius:22px;background:#0d1d28;box-shadow:0 20px 44px rgba(0,0,0,.22)}
+.map-wrap{border:0;border-radius:28px;box-shadow:0 24px 58px rgba(0,0,0,.34);background:#0b1720}
+.map-wrap:before{display:none}
+.map-btn{min-width:44px;min-height:44px;border:0!important;border-radius:15px!important;background:rgba(9,22,31,.78)!important;box-shadow:0 10px 26px rgba(0,0,0,.25)!important;color:#fff!important}
+.legend{border:0!important;border-radius:14px!important;background:rgba(9,22,31,.78)!important;box-shadow:0 10px 26px rgba(0,0,0,.22)!important;padding:7px 9px}
+.controls{
+  grid-template-columns:50px 1fr 50px 82px;gap:8px;margin-top:12px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.controls button,.settings-row button{
+  min-height:52px;border:0;border-radius:17px;background:#132735;color:#ecf7fb;box-shadow:0 12px 28px rgba(0,0,0,.16);font-size:11px;
+}
+.controls .primary{background:#f4f9fc;color:#07131c;box-shadow:0 12px 30px rgba(0,0,0,.20);font-size:12px}
+#latestBtn{background:#123326;color:#83ebb9;border:0}
+.quick-panel{gap:10px;margin-top:10px}
+.quick-panel>div,.timeline-panel,.settings-row label{
+  padding:12px;border:0;border-radius:20px;background:rgba(255,255,255,.045);box-shadow:none;
+}
+.panel-label{font-size:9px;color:#849aa8;letter-spacing:.11em;margin-bottom:8px}
+.segmented{padding:4px;gap:4px;border-radius:14px;background:#091822;box-shadow:none}
+.segmented button{min-height:38px;border-radius:11px;color:#8ea5b3;font-size:9px}
+.segmented button.active{background:#18384a;color:#8fe1ff;box-shadow:none}
+.timeline-panel{padding:15px 14px}.timeline-labels{font-size:9px;color:#8297a5}
+.settings-row{gap:10px}.settings-row label{padding:13px 14px}.settings-row button{padding:0 17px;background:#183140}
+.message{padding:13px 15px;border:0;border-radius:18px;background:#102531;color:#a7bbc6;box-shadow:none}
+.lightning-head,.forecast-head{
+  padding:15px 16px;border:0;border-radius:22px;background:linear-gradient(145deg,#142a38,#0f202c);box-shadow:0 16px 34px rgba(0,0,0,.17);
+}
+.lightning-head strong,.forecast-head strong{font-size:15px}
+.lightning-frame-wrap,.forecast-frame-wrap{border:0;border-radius:28px;box-shadow:0 24px 58px rgba(0,0,0,.30)}
+.lightning-actions,.forecast-actions{gap:9px}
+.lightning-actions button,.lightning-actions a,.forecast-actions button,.forecast-actions a,.lightning-head button,.forecast-head button{
+  min-height:48px;border:0;border-radius:17px;background:#132735;color:#eaf6fb;box-shadow:0 12px 28px rgba(0,0,0,.15);font-size:10px;
+}
+.lightning-actions a,.forecast-actions a{background:#f2f8fb;color:#07131c}
+.forecast-steps{border:0!important;border-radius:18px!important;background:rgba(255,255,255,.045)!important}
+.auto-analysis{border:0;border-radius:20px;background:#10232f;box-shadow:none}
+.auto-grid div,.tracking-grid>div,.event-entry{border:0;background:#0a1922;border-radius:14px;box-shadow:none}
+.tracking-actions button{border:0;border-radius:15px;background:#142b39;min-height:48px}
+footer{opacity:.55;padding-top:18px}
+@media(max-width:480px){
+  .app-shell{padding-left:10px;padding-right:10px}.topbar{padding-top:12px}.live-summary{grid-template-columns:repeat(2,1fr)}.live-summary div{min-height:70px;padding:12px 11px;border-radius:18px}.monitor-title{margin-top:26px}.controls{grid-template-columns:48px 1fr 48px 76px;gap:6px}.controls button{min-height:50px}.quick-panel{grid-template-columns:1fr 1fr;gap:7px}.quick-panel>div{padding:9px}.segmented button{font-size:8px}.map-wrap,.lightning-frame-wrap,.forecast-frame-wrap{border-radius:24px}
+}
+@media(max-width:390px){.quick-panel{grid-template-columns:1fr}.mode-switch button{padding:0 12px}.live-summary strong{font-size:13px}}
