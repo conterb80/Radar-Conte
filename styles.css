@@ -1246,3 +1246,172 @@ body{
   .mission-status-nav b{font-size:7px!important}
   .mission-status-nav small{font-size:5px!important}
 }
+
+
+/* =========================================================
+   RADAR CONTE · MISSION CONTROL RC10 FINAL
+   Final visual system. Functional selectors and JS contracts
+   remain untouched. Designed from real phone-test feedback.
+   ========================================================= */
+:root{
+  --rc10-bg:#01070c;
+  --rc10-surface:#03111b;
+  --rc10-surface-2:#061a27;
+  --rc10-cyan:#26ddff;
+  --rc10-green:#20e678;
+  --rc10-purple:#b46cff;
+  --rc10-yellow:#ffd426;
+  --rc10-text:#f1fbff;
+  --rc10-muted:#8ca4b2;
+  --rc10-line:rgba(63,218,255,.20);
+}
+*{box-sizing:border-box}
+body{overflow-x:hidden!important;background:#01070c!important}
+button,a,input{touch-action:manipulation}
+.app-shell{width:100%!important;max-width:780px!important;margin:0 auto!important;padding:10px 10px 104px!important}
+
+/* FINAL HEADER */
+.mission-header{
+  min-height:112px!important;padding:14px 16px!important;border-radius:24px!important;
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  background:linear-gradient(135deg,rgba(7,31,46,.98),rgba(1,10,17,.98))!important;
+  border:1px solid rgba(57,223,255,.34)!important;
+  box-shadow:0 18px 48px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.06)!important;
+}
+.brand-cluster{display:flex!important;align-items:center!important;gap:13px!important;min-width:0}
+.rc-mark{
+  width:72px!important;height:72px!important;flex:0 0 72px!important;border-radius:22px!important;
+  display:grid!important;place-items:center!important;font-size:25px!important;font-style:italic!important;font-weight:900!important;
+  color:#e9fbff!important;background:linear-gradient(145deg,#12364a,#071622)!important;
+  border:1px solid rgba(61,224,255,.55)!important;box-shadow:inset 0 0 20px rgba(38,221,255,.14),0 0 24px rgba(38,221,255,.12)!important;
+}
+.mission-header .eyebrow{margin:0 0 4px!important;font-size:8px!important;letter-spacing:.18em!important;color:#9bb0bd!important;font-weight:700!important}
+.mission-header .eyebrow span{display:inline-flex!important;margin-left:6px!important;padding:3px 6px!important;border-radius:6px!important;color:var(--rc10-cyan)!important;border:1px solid rgba(38,221,255,.34)!important;background:rgba(38,221,255,.06)!important}
+.mission-header h1{margin:0!important;font-size:20px!important;line-height:1.05!important;letter-spacing:.12em!important;font-weight:750!important;white-space:nowrap!important}
+.mission-header .place{margin:7px 0 0!important;font-size:10px!important;color:#67ddff!important}
+.header-command{display:flex!important;align-items:center!important;margin-left:10px!important}
+.mission-clock{min-width:112px!important;padding:12px 12px!important;text-align:center!important;border-radius:17px!important;background:rgba(0,7,12,.72)!important;border:1px solid rgba(38,221,255,.25)!important}
+.mission-clock strong{display:block!important;font-size:29px!important;font-weight:520!important;line-height:1!important;letter-spacing:-.03em!important;font-variant-numeric:tabular-nums}
+.mission-clock small{display:block!important;margin-top:7px!important;font-size:7px!important;letter-spacing:.15em!important;color:#9eb0bb!important}
+.header-status,.header-refresh{display:none!important}
+
+/* TOP THREE OPERATIVE MONITORS */
+.mission-status-nav{
+  position:sticky!important;top:4px!important;z-index:9000!important;margin:10px 0 12px!important;padding:7px!important;gap:7px!important;
+  border-radius:22px!important;background:rgba(2,11,18,.88)!important;border:1px solid rgba(53,213,255,.22)!important;
+  backdrop-filter:blur(18px) saturate(135%)!important;box-shadow:0 14px 34px rgba(0,0,0,.45)!important;
+}
+.mission-status-nav button{
+  min-width:0!important;min-height:72px!important;padding:8px 9px!important;border-radius:16px!important;
+  display:grid!important;grid-template-columns:44px minmax(0,1fr) 7px!important;align-items:center!important;gap:8px!important;
+  background:linear-gradient(180deg,rgba(8,27,40,.98),rgba(2,11,18,.98))!important;
+}
+.mission-status-nav button:nth-child(1){border:1px solid rgba(32,230,120,.30)!important}
+.mission-status-nav button:nth-child(2){border:1px solid rgba(180,108,255,.28)!important}
+.mission-status-nav button:nth-child(3){border:1px solid rgba(255,212,38,.25)!important}
+.mission-status-nav .nav-icon{width:44px!important;height:44px!important;border-radius:50%!important;display:grid!important;place-items:center!important;position:relative!important;font-size:19px!important}
+.mission-status-nav .nav-icon em{position:absolute!important;left:-3px!important;top:-5px!important;font-style:normal!important;font-size:7px!important;font-weight:800!important;padding:3px 4px!important;border-radius:5px!important;background:#05131d!important;border:1px solid currentColor!important}
+.mission-status-nav button>span:nth-child(2){min-width:0!important;text-align:left!important}
+.mission-status-nav b{display:block!important;font-size:9px!important;letter-spacing:.055em!important;white-space:nowrap!important}
+.mission-status-nav small{display:block!important;margin-top:5px!important;font-size:6px!important;letter-spacing:.08em!important}
+.state-dot{width:7px!important;height:7px!important}
+
+/* DASHBOARD SUMMARY */
+.system-strip,.ops-bar,.update-grid,.live-summary{margin-top:8px!important}
+.system-strip{border-radius:17px!important;overflow:hidden!important;background:rgba(3,15,24,.82)!important}
+.system-strip>div{min-height:48px!important;padding:8px 10px!important}
+.ops-bar{grid-template-columns:1fr 1fr!important}
+.ops-bar button{min-height:52px!important;border-radius:16px!important;font-size:8px!important;letter-spacing:.08em!important}
+.update-grid div,.live-summary>div{min-height:62px!important;padding:10px 12px!important;border-radius:16px!important}
+.update-grid strong{font-size:15px!important;color:#28e77b!important;font-variant-numeric:tabular-nums}
+.live-summary strong{font-size:12px!important}
+
+/* UNIFIED MONITOR CHASSIS */
+.monitor-section{margin-top:14px!important;padding:12px!important;border-radius:24px!important;overflow:hidden!important}
+.monitor-heading{
+  display:grid!important;grid-template-columns:38px minmax(0,1fr) auto!important;align-items:center!important;gap:10px!important;
+  min-height:52px!important;padding:2px 2px 10px!important;border-bottom:1px solid rgba(57,220,255,.14)!important;
+}
+.monitor-heading .monitor-symbol{display:none!important}
+.monitor-number{width:36px!important;height:36px!important;border-radius:10px!important;font-size:10px!important;font-weight:800!important}
+.monitor-title{font-size:15px!important;line-height:1.05!important;letter-spacing:.065em!important;white-space:nowrap!important}
+.monitor-title span{margin-top:5px!important;font-size:6px!important;letter-spacing:.14em!important}
+.monitor-badge{justify-self:end!important;white-space:nowrap!important;font-size:7px!important;padding:7px 10px!important}
+
+/* RADAR INFO + MAP */
+.time-panel{min-height:86px!important;display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;padding:14px 16px!important}
+.time-panel>div:first-child{display:grid!important;grid-template-columns:auto 1fr!important;grid-template-areas:"label label" "date time"!important;align-items:end!important;column-gap:14px!important}
+.time-panel .time-label{grid-area:label!important;margin-bottom:8px!important}
+.frame-date{grid-area:date!important;margin:0 0 4px!important;font-size:8px!important;letter-spacing:.13em!important}
+#frameTime{grid-area:time!important;font-size:37px!important;line-height:1!important;text-align:right!important}
+.age-box{min-width:105px!important;padding-left:16px!important;border-left:1px solid rgba(57,220,255,.17)!important;text-align:center!important}
+.age-box span{font-size:7px!important;letter-spacing:.12em!important}.age-box strong{font-size:21px!important}
+.analysis-toggle{min-height:52px!important;padding:0 16px!important;font-size:11px!important;letter-spacing:.04em!important}
+.map-wrap,#map{min-height:58vh!important}
+.map-wrap{border-radius:20px!important;margin-top:10px!important}
+.map-btn{background:rgba(3,12,18,.84)!important;color:white!important;border:0!important;backdrop-filter:blur(8px)!important}
+
+/* FINAL PLAYBACK DECK */
+.controls.transport-console{
+  display:grid!important;grid-template-columns:44px 68px minmax(100px,1fr) 44px 72px!important;align-items:center!important;
+  gap:6px!important;margin-top:10px!important;padding:7px!important;border-radius:18px!important;
+}
+.transport-console button{min-height:54px!important}
+.transport-play{width:56px!important;height:56px!important;min-height:56px!important;border-radius:50%!important;justify-self:center!important}
+.transport-play .play-label{display:none!important}
+.transport-play .play-symbol{font-size:18px!important;margin-left:3px!important}
+.transport-skip{font-size:28px!important}
+.transport-time strong{font-size:24px!important}.transport-time small{font-size:6px!important}
+.transport-latest{font-size:7px!important}
+.quick-panel{grid-template-columns:1fr 1fr!important;gap:8px!important;padding:0!important;background:transparent!important;border:0!important}
+.quick-panel>div,.timeline-panel,.settings-row{padding:12px!important;border:1px solid rgba(57,220,255,.15)!important;border-radius:17px!important;background:rgba(4,18,28,.78)!important}
+.segmented{background:rgba(0,6,11,.70)!important}
+.segmented button{font-size:8px!important}
+.timeline-panel{padding-top:16px!important}
+#timeline{accent-color:var(--rc10-cyan)!important}
+.settings-row{display:grid!important;grid-template-columns:minmax(0,1fr) 140px!important;gap:10px!important;align-items:end!important}
+.settings-row label{min-width:0!important}.settings-row button{min-height:54px!important}
+
+/* SECONDARY MONITORS */
+.lightning-head,.forecast-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;gap:12px!important}
+.lightning-head strong,.forecast-head strong{font-size:19px!important;line-height:1.2!important}
+.lightning-head button,.forecast-head button{min-height:48px!important}
+.lightning-frame-wrap{min-height:52vh!important}.lightning-frame-wrap iframe{min-height:52vh!important}
+.forecast-frame-wrap{min-height:58vh!important}.forecast-frame-wrap iframe{min-height:58vh!important}
+.forecast-steps{padding:12px!important}
+.forecast-steps span{min-height:36px!important;display:grid!important;place-items:center!important}
+
+/* FINAL NATIVE DOCK — fixed, centered, fully clickable */
+.mission-bottom-nav{
+  position:fixed!important;left:50%!important;right:auto!important;bottom:max(8px,env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;width:min(calc(100% - 20px),760px)!important;height:72px!important;
+  display:grid!important;grid-template-columns:repeat(4,1fr)!important;z-index:50000!important;
+  background:rgba(2,13,21,.94)!important;border:1px solid rgba(47,219,255,.30)!important;border-radius:23px!important;
+  backdrop-filter:blur(20px) saturate(145%)!important;box-shadow:0 18px 46px rgba(0,0,0,.66)!important;
+  pointer-events:auto!important;
+}
+.mission-bottom-nav a{position:relative!important;z-index:1!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:64px!important;padding:5px!important;color:#8ea6b4!important;text-decoration:none!important;pointer-events:auto!important}
+.mission-bottom-nav a.active{color:var(--rc10-cyan)!important;background:linear-gradient(180deg,rgba(38,221,255,.11),rgba(38,221,255,.025))!important}
+.mission-bottom-nav a.active:after{content:""!important;position:absolute!important;left:24%!important;right:24%!important;bottom:4px!important;height:3px!important;border-radius:3px!important;background:var(--rc10-cyan)!important;box-shadow:0 0 10px var(--rc10-cyan)!important}
+.mission-bottom-nav a span{font-size:21px!important;line-height:1!important}.mission-bottom-nav a b{margin-top:8px!important;font-size:6px!important;letter-spacing:.09em!important;white-space:nowrap!important}
+.message{margin-bottom:92px!important}
+
+@media(max-width:560px){
+  .app-shell{padding:8px 7px 102px!important}
+  .mission-header{min-height:100px!important;padding:12px!important}.rc-mark{width:58px!important;height:58px!important;flex-basis:58px!important;border-radius:18px!important;font-size:21px!important}
+  .mission-header h1{font-size:17px!important;letter-spacing:.10em!important}.mission-clock{min-width:94px!important;padding:10px 8px!important}.mission-clock strong{font-size:25px!important}
+  .mission-status-nav{gap:5px!important;padding:6px!important}.mission-status-nav button{grid-template-columns:35px minmax(0,1fr) 6px!important;gap:6px!important;min-height:62px!important;padding:7px!important}.mission-status-nav .nav-icon{width:35px!important;height:35px!important;font-size:16px!important}
+  .system-strip>div{padding:7px!important}.system-strip b,.system-strip strong{font-size:7px!important}.system-strip small,.system-strip span{font-size:5px!important}
+  .monitor-section{padding:9px!important;border-radius:21px!important}.monitor-heading{grid-template-columns:34px minmax(0,1fr) auto!important}.monitor-number{width:32px!important;height:32px!important}.monitor-title{font-size:12px!important}.monitor-badge{font-size:6px!important;padding:6px 8px!important}
+  .time-panel{padding:13px!important}.time-panel>div:first-child{column-gap:9px!important}#frameTime{font-size:34px!important}.age-box{min-width:92px!important;padding-left:11px!important}.age-box strong{font-size:18px!important}
+  .map-wrap,#map{min-height:54vh!important}
+  .controls.transport-console{grid-template-columns:38px 58px minmax(82px,1fr) 38px 62px!important;gap:4px!important;padding:5px!important}.transport-console button{min-height:48px!important}.transport-play{width:50px!important;height:50px!important;min-height:50px!important}.transport-time strong{font-size:20px!important}
+  .quick-panel{grid-template-columns:1fr!important}.settings-row{grid-template-columns:minmax(0,1fr) 118px!important}.settings-row button{font-size:8px!important}
+  .lightning-head strong,.forecast-head strong{font-size:17px!important}.lightning-frame-wrap,.lightning-frame-wrap iframe{min-height:48vh!important}.forecast-frame-wrap,.forecast-frame-wrap iframe{min-height:55vh!important}
+  .mission-bottom-nav{width:calc(100% - 14px)!important;height:70px!important}.mission-bottom-nav a{min-height:62px!important}
+}
+@media(max-width:390px){
+  .mission-header{padding:10px!important}.rc-mark{width:52px!important;height:52px!important;flex-basis:52px!important}.mission-header h1{font-size:15px!important}.mission-header .place{font-size:8px!important}.mission-clock{min-width:84px!important}.mission-clock strong{font-size:22px!important}
+  .mission-status-nav button{grid-template-columns:31px minmax(0,1fr) 5px!important;padding:5px!important}.mission-status-nav .nav-icon{width:31px!important;height:31px!important}.mission-status-nav b{font-size:7px!important}.mission-status-nav small{font-size:5px!important}
+  .controls.transport-console{grid-template-columns:32px 50px minmax(70px,1fr) 32px 54px!important}.transport-time strong{font-size:17px!important}.transport-latest{font-size:6px!important}
+}
