@@ -9,12 +9,12 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=mission6">
+  <link rel="stylesheet" href="styles.css?v=mission7">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=mission6" defer></script>
+  <script src="pwa-register.js?v=mission7" defer></script>
 </head>
 <body>
   <main class="app-shell">
@@ -22,7 +22,7 @@
       <div class="brand-cluster">
         <div class="rc-mark" aria-hidden="true">RC</div>
         <div>
-          <p class="eyebrow">MISSION CONTROL <span>RC-06</span></p>
+          <p class="eyebrow">MISSION CONTROL <span>RC-07</span></p>
           <h1>RADAR CONTE</h1>
           <p class="place">⌖ Borgo Viazza</p>
         </div>
@@ -55,7 +55,7 @@
     <section class="system-strip" aria-label="Stato console">
       <div><span class="system-pulse"></span><b>MISSION CONTROL</b><small>CONSOLE LOCALE</small></div>
       <div class="system-sync"><span>SYNC DATI</span><strong>AUTOMATICO</strong></div>
-      <div class="system-code"><span>UNITÀ</span><strong>RC-06</strong></div>
+      <div class="system-code"><span>UNITÀ</span><strong>RC-07</strong></div>
     </section>
 
     <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
@@ -77,7 +77,7 @@
     </section>
 
     <div id="radarPanel" class="monitor-section">
-    <div class="monitor-heading"><h2 class="monitor-title">RADAR LIVE <span>— SITUAZIONE ATTUALE</span></h2><span class="monitor-badge live">LIVE</span></div>
+    <div class="monitor-heading radar-heading"><span class="monitor-number">01</span><span class="monitor-symbol">◎</span><h2 class="monitor-title">RADAR LIVE <span>Situazione attuale</span></h2><span class="monitor-badge live">● LIVE</span></div>
     <section class="time-panel" aria-live="polite">
       <div>
         <span class="time-label">SCANSIONE RADAR</span>
@@ -196,7 +196,7 @@
     </div>
 
     <section id="lightningPanel" class="lightning-panel monitor-section">
-      <div class="monitor-heading"><h2 class="monitor-title">FULMINI <span>— ATTIVITÀ ELETTRICA</span></h2><span class="monitor-badge lightning">ATTIVI</span></div>
+      <div class="monitor-heading lightning-heading"><span class="monitor-number">02</span><span class="monitor-symbol">ϟ</span><h2 class="monitor-title">FULMINI LIVE <span>Attività elettrica</span></h2><span class="monitor-badge lightning">● ATTIVI</span></div>
       <div class="lightning-head">
         <div>
           <span class="time-label">FULMINI IN TEMPO REALE</span>
@@ -250,6 +250,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=mission6"></script>
+  <script src="app.js?v=mission7"></script>
 </body>
 </html>
