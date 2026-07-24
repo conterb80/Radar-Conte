@@ -483,4 +483,16 @@
   setOperationalMode(initialMode,{scroll:false});
   if(saved.stormMode) setTimeout(()=>setStormMode(true),700);
 
+
+  // RC3: orologio locale della console, isolato dal motore radar.
+  const missionClock=document.getElementById('missionClock');
+  const missionDate=document.getElementById('missionDate');
+  function updateMissionClock(){
+    const now=new Date();
+    if(missionClock) missionClock.textContent=new Intl.DateTimeFormat('it-IT',{hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+    if(missionDate) missionDate.textContent=new Intl.DateTimeFormat('it-IT',{weekday:'short',day:'2-digit',month:'short'}).format(now).replace('.', '').toUpperCase();
+  }
+  updateMissionClock();
+  window.setInterval(updateMissionClock,30000);
+
 })();
