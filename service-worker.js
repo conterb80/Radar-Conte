@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'radar-conte-rc11-compact';
+const CACHE_VERSION = 'radar-conte-rc12-compact-finale';
 const APP_SHELL = [
   './',
   './index.html',
-  './styles.css?v=compact11',
-  './app.js?v=compact11',
-  './pwa-register.js?v=compact11',
+  './styles.css?v=compact12',
+  './app.js?v=compact12',
+  './pwa-register.js?v=compact12',
   './manifest.webmanifest',
   './manifest.json',
   './icons/icon-192.png',

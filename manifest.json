@@ -1,11 +1,11 @@
 {
-  "id": "./index.html",
+  "id": "./",
   "name": "Radar Conte",
   "short_name": "Radar Conte",
   "description": "Radar meteo operativo personale per Borgo Viazza con radar, fulmini ed evoluzione.",
   "lang": "it-IT",
   "dir": "ltr",
-  "start_url": "./index.html?source=pwa",
+  "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
   "display_override": [
@@ -20,6 +20,9 @@
     "utilities"
   ],
   "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "./icons/icon-192.png",
@@ -50,7 +53,7 @@
     {
       "name": "Apri Radar",
       "short_name": "Radar",
-      "url": "./index.html?source=shortcut",
+      "url": "./?source=shortcut",
       "icons": [
         {
           "src": "./icons/icon-192.png",

@@ -1448,3 +1448,133 @@ button,a,input{touch-action:manipulation}
 .install-btn{position:fixed!important;right:12px!important;top:76px!important;z-index:60000!important;min-height:34px!important;padding:7px 10px!important;font-size:7px!important;border-radius:10px!important}
 @media(max-width:560px){.app-shell{padding:7px 7px 86px!important}.mission-header{min-height:74px!important;padding:9px 10px!important}.rc-mark{width:48px!important;height:48px!important;flex-basis:48px!important}.mission-header h1{font-size:16px!important}.mission-clock{min-width:80px!important}.mission-clock strong{font-size:22px!important}.compact-summary strong{font-size:10px!important}.map-wrap,#map{min-height:54vh!important}.lightning-frame-wrap,.lightning-frame-wrap iframe{min-height:45vh!important}.forecast-frame-wrap,.forecast-frame-wrap iframe{min-height:48vh!important}}
 @media(max-width:390px){.mission-header h1{font-size:14px!important}.mission-status-nav button{grid-template-columns:26px minmax(0,1fr) 5px!important}.mission-status-nav .nav-icon{width:26px!important;height:26px!important}.quick-panel{grid-template-columns:1fr!important}.compact-summary strong{font-size:9px!important}.controls.transport-console{grid-template-columns:31px 42px minmax(62px,1fr) 31px 52px!important}}
+
+
+/* =========================================================
+   RADAR CONTE RC12 — COMPACT FINALE
+   Final density pass based on phone tests.
+   No functional selector or JavaScript contract is changed.
+   ========================================================= */
+:root{--rc12-gap:6px;--rc12-radius:14px}
+
+/* Remove every legacy Mission Control decoration for good */
+.mission-header .eyebrow,.mission-header h1::after,.mission-header h1:after,
+.rc-mark::after,.rc-mark:after{content:none!important;display:none!important}
+.mission-header::after{display:none!important}
+
+/* Header: one clean line, no collisions */
+.mission-header{
+  min-height:66px!important;height:auto!important;padding:8px 10px!important;margin:0 0 6px!important;
+  border-radius:18px!important;overflow:hidden!important;
+}
+.brand-cluster{gap:8px!important;min-width:0!important;overflow:hidden!important}
+.rc-mark{
+  width:44px!important;height:44px!important;flex:0 0 44px!important;border-radius:13px!important;
+  font-size:17px!important;line-height:1!important;position:relative!important;
+}
+.rc-mark::before{content:"RC"!important;font-size:17px!important;letter-spacing:-.08em!important}
+.mission-header h1{
+  display:block!important;max-width:100%!important;margin:0!important;font-size:15px!important;line-height:1.05!important;
+  letter-spacing:.105em!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+.mission-header .place{margin-top:5px!important;font-size:7px!important;line-height:1!important;white-space:nowrap!important}
+.header-command{flex:0 0 auto!important;margin-left:7px!important}
+.mission-clock{min-width:76px!important;padding:6px 8px!important;border-radius:13px!important}
+.mission-clock strong{font-size:20px!important;line-height:1!important}
+.mission-clock small{margin-top:5px!important;font-size:5.5px!important}
+
+/* Three source cards stay visible but occupy less height */
+.mission-status-nav{margin:0 0 6px!important;padding:4px!important;gap:4px!important;border-radius:16px!important}
+.mission-status-nav button{
+  min-height:46px!important;padding:4px 5px!important;border-radius:12px!important;
+  grid-template-columns:25px minmax(0,1fr) 5px!important;gap:4px!important;
+}
+.mission-status-nav .nav-icon{width:25px!important;height:25px!important;font-size:12px!important}
+.mission-status-nav .nav-icon em{left:-2px!important;top:-4px!important;font-size:5px!important;padding:1px 2px!important}
+.mission-status-nav b{font-size:7px!important;letter-spacing:.03em!important}
+.mission-status-nav small{margin-top:2px!important;font-size:4.5px!important}
+.state-dot{width:5px!important;height:5px!important;right:6px!important;top:6px!important}
+
+/* Compact status grid: two very shallow rows */
+.compact-summary{margin:0 0 6px!important;border-radius:14px!important}
+.compact-summary>div{min-height:36px!important;padding:5px 7px!important}
+.compact-summary span{font-size:5px!important;letter-spacing:.1em!important}
+.compact-summary strong{
+  margin-top:3px!important;font-size:9px!important;line-height:1!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#frameTime{font-size:18px!important;letter-spacing:-.03em!important}
+
+/* Radar chassis and map: map arrives immediately */
+.monitor-section{margin-top:6px!important;padding:6px!important;border-radius:16px!important}
+.radar-compact-head{min-height:24px!important;padding:1px 3px 5px!important}
+.radar-compact-head strong{font-size:9px!important}.radar-compact-head span{font-size:5px!important}
+.analysis-compact{margin:4px 0!important}.analysis-toggle{min-height:29px!important;padding:0 9px!important;border-radius:10px!important;font-size:7px!important}
+.analysis-toggle:before{width:5px!important;height:5px!important;margin-right:6px!important}
+.map-wrap{margin-top:4px!important;border-radius:14px!important}
+.map-wrap,#map{min-height:58vh!important}
+.map-overlay.top-left{top:7px!important;left:7px!important;gap:4px!important}
+.map-btn{min-width:38px!important;height:38px!important;padding:0 9px!important;font-size:8px!important;border-radius:10px!important}
+.legend{transform:scale(.86);transform-origin:right bottom}
+
+/* One compact transport strip */
+.controls.transport-console{
+  grid-template-columns:28px 38px minmax(62px,1fr) 28px 48px!important;
+  gap:3px!important;margin-top:4px!important;padding:3px!important;border-radius:11px!important;
+}
+.transport-console button{min-height:34px!important;border-radius:9px!important}
+.transport-play{width:34px!important;height:34px!important;min-height:34px!important}
+.play-symbol{font-size:10px!important}.play-label{font-size:5px!important}
+.transport-skip{font-size:18px!important}.transport-latest{font-size:5px!important;letter-spacing:.04em!important}
+.transport-time small{font-size:4px!important}.transport-time strong{font-size:15px!important;line-height:1!important}
+
+/* Interval and speed share a single shallow row */
+.quick-panel{
+  grid-template-columns:1fr 1fr!important;gap:4px!important;margin-top:4px!important;
+}
+.quick-panel>div{padding:4px!important;border-radius:10px!important}
+.panel-label{font-size:4.5px!important;margin:0 0 3px 2px!important}
+.segmented{min-height:27px!important;border-radius:8px!important}
+.segmented button{min-height:25px!important;padding:2px 3px!important;font-size:5.5px!important;border-radius:7px!important}
+
+/* Rare controls stay collapsed */
+.radar-options{margin-top:4px!important;border-radius:10px!important}
+.radar-options>summary{padding:7px 9px!important;font-size:6px!important}
+.radar-options .timeline-panel,.radar-options .settings-row{padding:7px!important}
+.timeline-panel input[type=range],.settings-row input[type=range]{height:18px!important}
+
+/* Lightning and forecast: heading + map, without redundant vertical blocks */
+.secondary-compact-head{min-height:28px!important;padding:1px 3px 5px!important}
+.secondary-compact-head strong{font-size:9px!important}
+.secondary-compact-head button{width:30px!important;height:27px!important;min-height:27px!important;border-radius:8px!important;font-size:12px!important}
+.lightning-head,.forecast-head{padding:5px 4px!important;margin:3px 0!important;border-radius:10px!important}
+.lightning-head .time-label,.forecast-head .time-label{display:none!important}
+.lightning-head strong,.forecast-head strong{font-size:11px!important;line-height:1.15!important;margin:0!important}
+.lightning-frame-wrap,.lightning-frame-wrap iframe{min-height:45vh!important}
+.forecast-steps{margin:4px 0!important;padding:4px!important;gap:4px!important;border-radius:10px!important}
+.forecast-steps small{display:none!important}
+.forecast-steps>div{width:100%!important;gap:4px!important}
+.forecast-steps span{min-height:23px!important;padding:0 4px!important;font-size:5.5px!important;border-radius:999px!important}
+.forecast-frame-wrap,.forecast-frame-wrap iframe{min-height:48vh!important}
+.lightning-actions,.forecast-actions{margin-top:4px!important;gap:4px!important}
+.lightning-actions button,.lightning-actions a,.forecast-actions button,.forecast-actions a{min-height:31px!important;font-size:6px!important;border-radius:9px!important}
+.lightning-note,.forecast-note{margin-top:4px!important;padding:5px!important;font-size:5.5px!important;line-height:1.25!important}
+
+/* Bottom dock: smaller but touch-safe */
+.mission-bottom-nav{height:56px!important;min-height:56px!important;border-radius:16px!important}
+.mission-bottom-nav a{min-height:50px!important;padding:3px 2px!important}
+.mission-bottom-nav a span{font-size:16px!important}.mission-bottom-nav a b{margin-top:3px!important;font-size:4.5px!important}
+.app-shell{padding-bottom:76px!important}
+.message{margin-bottom:68px!important}
+
+@media(max-width:390px){
+  .app-shell{padding:6px 6px 74px!important}
+  .mission-header{min-height:62px!important;padding:7px 8px!important}
+  .rc-mark{width:40px!important;height:40px!important;flex-basis:40px!important}.rc-mark::before{font-size:15px!important}
+  .mission-header h1{font-size:13px!important}.mission-header .place{font-size:6.5px!important}
+  .mission-clock{min-width:70px!important;padding:5px 6px!important}.mission-clock strong{font-size:18px!important}
+  .mission-status-nav button{grid-template-columns:22px minmax(0,1fr) 4px!important}.mission-status-nav .nav-icon{width:22px!important;height:22px!important}
+  .compact-summary>div{padding:5px!important}.compact-summary strong{font-size:8px!important}#frameTime{font-size:16px!important}
+  .map-wrap,#map{min-height:56vh!important}
+  .quick-panel{grid-template-columns:1fr 1fr!important}
+}
