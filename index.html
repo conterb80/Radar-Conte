@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0e">
   <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte</title>
+  <title>Radar Conte RC11 Compact</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=mission10">
+  <link rel="stylesheet" href="styles.css?v=compact11">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=mission10" defer></script>
+  <script src="pwa-register.js?v=compact11" defer></script>
 </head>
 <body>
   <main class="app-shell">
@@ -22,7 +22,7 @@
       <div class="brand-cluster">
         <div class="rc-mark" aria-hidden="true">RC</div>
         <div>
-          <p class="eyebrow">MISSION CONTROL <span>RC-10</span></p>
+          
           <h1>RADAR CONTE</h1>
           <p class="place">⌖ Borgo Viazza</p>
         </div>
@@ -33,7 +33,7 @@
           <small id="missionDate">--</small>
         </div>
         <div class="header-status">
-          <span class="header-label">SALA OPERATIVA</span>
+          
           <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
         </div>
         <div class="header-refresh" aria-label="Aggiornamento automatico">
@@ -51,46 +51,25 @@
       <button id="lightningModeBtn" type="button"><span class="nav-icon lightning-icon"><em>02</em>ϟ</span><span><b>FULMINI</b><small>ATTIVI</small></span><i class="state-dot purple"></i></button>
       <button id="forecastModeBtn" type="button"><span class="nav-icon forecast-icon"><em>03</em>☂</span><span><b>EVOLUZIONE</b><small>+3 ORE</small></span><i class="state-dot yellow"></i></button>
     </nav>
+    <div class="runtime-hidden" aria-hidden="true">
+      <button id="stormModeBtn" type="button"></button><button id="fullscreenBtn" type="button"></button>
+      <span id="radarUpdated">--:--</span><span id="lightningUpdated">--:--</span><span id="forecastUpdated">--:--</span>
+    </div>
 
-    <section class="system-strip" aria-label="Stato console">
-      <div><span class="system-pulse"></span><b>MISSION CONTROL</b><small>CONSOLE LOCALE</small></div>
-      <div class="system-sync"><span>SYNC DATI</span><strong>AUTOMATICO</strong></div>
-      <div class="system-code"><span>UNITÀ</span><strong>RC-10</strong></div>
-    </section>
-
-    <section class="ops-bar" aria-label="Comandi rapidi sala controllo">
-      <button id="stormModeBtn" class="storm-btn" type="button">MODALITÀ TEMPORALE</button>
-      <button id="fullscreenBtn" type="button">SCHERMO INTERO</button>
-    </section>
-
-    <section class="update-grid" aria-label="Stato aggiornamenti monitor">
-      <div><span>RADAR</span><strong id="radarUpdated">--:--</strong></div>
-      <div><span>FULMINI</span><strong id="lightningUpdated">--:--</strong></div>
-      <div><span>EVOLUZIONE</span><strong id="forecastUpdated">--:--</strong></div>
-    </section>
-
-    <section class="live-summary" aria-live="polite">
+    <section class="live-summary compact-summary" aria-live="polite">
+      <div><span>SCANSIONE</span><strong id="frameTime">--:--</strong><small id="frameDate" class="frame-date">--</small></div>
+      <div><span>ETÀ DATO</span><strong id="frameAge">-- min</strong></div>
       <div><span>STATO</span><strong id="liveState">IN ANALISI</strong></div>
-      <div><span>PIOGGIA LOCALE</span><strong id="liveRain">--</strong></div>
-      <div><span>NUCLEO SEGUITO</span><strong id="liveTarget">--</strong></div>
+      <div><span>PIOGGIA</span><strong id="liveRain">--</strong></div>
+      <div><span>NUCLEO</span><strong id="liveTarget">--</strong></div>
       <div><span>AFFIDABILITÀ</span><strong id="liveConfidence">--</strong></div>
     </section>
 
     <div id="radarPanel" class="monitor-section">
-    <div class="monitor-heading radar-heading"><span class="monitor-number">01</span><span class="monitor-symbol">◎</span><h2 class="monitor-title">RADAR LIVE <span>Situazione attuale</span></h2><span class="monitor-badge live">● LIVE</span></div>
-    <section class="time-panel" aria-live="polite">
-      <div>
-        <span class="time-label">SCANSIONE RADAR</span>
-        <small id="frameDate" class="frame-date">--</small><strong id="frameTime">--:--</strong>
-      </div>
-      <div class="age-box">
-        <span>Età dato</span>
-        <strong id="frameAge">-- min</strong>
-      </div>
-    </section>
+    <div class="radar-compact-head"><strong>● RADAR LIVE</strong><span>SITUAZIONE ATTUALE</span></div>
 
     <section class="analysis-compact" aria-label="Analisi cella opzionale">
-      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">ANALISI CELLA <span>APRI</span></button>
+      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">ANALISI <span>APRI</span></button>
       <div id="analysisDrawer" class="analysis-drawer" hidden>
         <section class="auto-analysis" aria-live="polite">
           <div class="auto-analysis-head"><span>SINTESI OPERATIVA</span><button id="runAutoAnalysisBtn" type="button">ANALIZZA ORA</button></div>
@@ -181,6 +160,8 @@
       </div>
     </section>
 
+    <details class="radar-options">
+      <summary>OPZIONI RADAR</summary>
     <section class="timeline-panel">
       <input id="timeline" type="range" min="0" max="0" value="0" step="1" aria-label="Seleziona il fotogramma radar">
       <div class="timeline-labels">
@@ -189,20 +170,21 @@
     </section>
 
     <section class="settings-row">
-      <label><span>Trasparenza radar</span><input id="opacity" type="range" min="25" max="100" value="72" step="1"></label>
+      <label><span>Trasparenza</span><input id="opacity" type="range" min="25" max="100" value="72" step="1"></label>
       <button id="refreshBtn" type="button">↻ AGGIORNA</button>
     </section>
+    </details>
 
     </div>
 
     <section id="lightningPanel" class="lightning-panel monitor-section">
-      <div class="monitor-heading lightning-heading"><span class="monitor-number">02</span><span class="monitor-symbol">ϟ</span><h2 class="monitor-title">FULMINI LIVE <span>Attività elettrica</span></h2><span class="monitor-badge lightning">● ATTIVI</span></div>
+      <div class="secondary-compact-head lightning"><strong>FULMINI LIVE</strong><button id="reloadLightningBtn" type="button">↻</button></div>
       <div class="lightning-head">
         <div>
           <span class="time-label">FULMINI IN TEMPO REALE</span>
           <strong>Romagna e Nord Italia</strong>
         </div>
-        <button id="reloadLightningBtn" type="button">↻ RICARICA</button>
+        
       </div>
       <div class="lightning-frame-wrap">
         <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -217,13 +199,13 @@
 
 
     <section id="forecastPanel" class="forecast-panel monitor-section">
-      <div class="monitor-heading forecast-heading"><span class="monitor-number">03</span><span class="monitor-symbol">☂</span><h2 class="monitor-title">EVOLUZIONE <span>Prossime 3 ore</span></h2><span class="monitor-badge forecast">+3 ORE</span></div>
+      <div class="secondary-compact-head forecast"><strong>EVOLUZIONE +3 ORE</strong><button id="reloadForecastBtn" type="button">↻</button></div>
       <div class="forecast-head">
         <div>
           <span class="time-label">NOWCASTING UFFICIALE ARPAE</span>
           <strong>Precipitazioni previste fino a +3 ore</strong>
         </div>
-        <button id="reloadForecastBtn" type="button">↻ RICARICA</button>
+        
       </div>
       <div class="forecast-steps" aria-label="Scadenze contenute nel nowcasting">
         <small>SCADENZE PRESENTI NELLA MAPPA</small>
@@ -250,6 +232,6 @@
     <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
   </main>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=mission10"></script>
+  <script src="app.js?v=compact11"></script>
 </body>
 </html>

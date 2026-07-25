@@ -1,19 +1,19 @@
 {
-  "id": "./",
+  "id": "./index.html",
   "name": "Radar Conte",
   "short_name": "Radar Conte",
-  "description": "Sala controllo radar personale per Borgo Viazza: radar, fulmini, evoluzione e analisi operativa.",
+  "description": "Radar meteo operativo personale per Borgo Viazza con radar, fulmini ed evoluzione.",
   "lang": "it-IT",
   "dir": "ltr",
-  "start_url": "./?source=pwa",
+  "start_url": "./index.html?source=pwa",
   "scope": "./",
   "display": "standalone",
   "display_override": [
     "standalone",
     "minimal-ui"
   ],
-  "background_color": "#050b13",
-  "theme_color": "#07111f",
+  "background_color": "#020a11",
+  "theme_color": "#020a11",
   "orientation": "portrait-primary",
   "categories": [
     "weather",
@@ -22,25 +22,25 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-maskable-192.png",
+      "src": "./icons/icon-maskable-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icons/icon-maskable-512.png",
+      "src": "./icons/icon-maskable-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -48,19 +48,16 @@
   ],
   "shortcuts": [
     {
-      "name": "Apri Radar Conte",
+      "name": "Apri Radar",
       "short_name": "Radar",
-      "url": "./?source=shortcut",
+      "url": "./index.html?source=shortcut",
       "icons": [
         {
-          "src": "icons/icon-192.png",
+          "src": "./icons/icon-192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
       ]
     }
-  ],
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  }
+  ]
 }

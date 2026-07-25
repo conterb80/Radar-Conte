@@ -287,7 +287,7 @@
   window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;els.installBtn.hidden=false;});
   els.installBtn.addEventListener('click',async()=>{
     if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent=choice.outcome==='accepted'?'Installazione avviata. Radar Conte comparirà tra le app.':'Installazione annullata: puoi riprovare dal menu di Chrome.';}
-    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta la P15 e attendi qualche secondo.';}
+    else{els.installHelp.hidden=false;els.installHelp.textContent='Apri il menu ⋮ di Chrome e scegli “Installa app”. Se compare solo “Aggiungi a schermata Home”, ricarica una volta Radar Conte RC11 e attendi qualche secondo.';}
   });
   window.addEventListener('appinstalled',()=>{els.installBtn.hidden=true;els.installHelp.hidden=false;els.installHelp.textContent='Radar Conte è installato correttamente.';});
 
