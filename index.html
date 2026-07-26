@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0e">
   <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte RC12 Compact Finale</title>
+  <title>Radar Conte RC13 Rifinitura Operativa</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=compact12">
+  <link rel="stylesheet" href="styles.css?v=rc13">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=compact12" defer></script>
+  <script src="pwa-register.js?v=rc13" defer></script>
 </head>
 <body>
   <main class="app-shell">
@@ -99,12 +99,21 @@
         <details class="advanced-tools">
           <summary><span>STRUMENTI AVANZATI</span><small>Tracking manuale e focus nuclei</small></summary>
           <div class="advanced-tools-body">
+            <div class="tracking-guide" aria-label="Guida tracking manuale">
+              <strong>TRACKING MANUALE IN 3 PASSAGGI</strong>
+              <ol>
+                <li><b>1</b><span>Apri un fotogramma precedente e premi <em>SELEZIONA CELLA</em>.</span></li>
+                <li><b>2</b><span>Tocca il centro del nucleo che vuoi seguire.</span></li>
+                <li><b>3</b><span>Avanza nel tempo e tocca di nuovo lo stesso nucleo.</span></li>
+              </ol>
+            </div>
             <div class="tracking-actions">
               <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
-              <button id="hailFocusBtn" type="button">FOCUS NUCLEI</button>
+              <button id="hailFocusBtn" type="button">EVIDENZIA NUCLEI</button>
               <button id="clearTrackingBtn" type="button">AZZERA</button>
             </div>
-            <p id="trackingHint" class="tracking-hint">Analisi sperimentale: scegli un fotogramma precedente, seleziona il centro della cella, passa a un fotogramma più recente e seleziona nuovamente lo stesso nucleo.</p>
+            <p class="focus-explain"><b>EVIDENZIA NUCLEI</b> aumenta solo contrasto e saturazione della mappa per riconoscere meglio le zone intense. Non calcola traiettoria, velocità o ETA.</p>
+            <p id="trackingHint" class="tracking-hint">Passo 1: scegli un fotogramma precedente e premi SELEZIONA CELLA.</p>
             <div class="tracking-grid" aria-live="polite">
               <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
               <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
@@ -112,7 +121,7 @@
               <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
               <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
             </div>
-            <p class="tracking-note">P15 mantiene disponibile il controllo manuale del motore. Il tracking guidato resta disponibile come controllo manuale durante i test reali.</p>
+            <p class="tracking-note">Strumento manuale di verifica: usalo solo quando vuoi confrontare personalmente lo stesso nucleo in due scansioni diverse.</p>
           </div>
         </details>
       </div>

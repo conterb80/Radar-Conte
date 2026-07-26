@@ -79,7 +79,7 @@
     const latest=eventLog[0],phase=latest?.phase||'QUIETE';
     eventEls.phase.textContent=`FASE: ${phase}`;eventEls.phase.className=`event-phase ${phase.toLowerCase()}`;
     if(!eventLog.length){eventEls.list.innerHTML='<p class="event-log-empty">Nessuna lettura registrata.</p>';return;}
-    eventEls.list.innerHTML=eventLog.map(e=>`<article class="event-entry"><time>${e.clock}</time><div><strong>${e.phase}</strong><span>${e.level}</span><small>${e.distance!=='--'?`${e.distance} · `:''}${e.trend}${e.eta!=='--'?` · ETA ${e.eta}`:''}</small></div><b>${e.confidence}</b></article>`).join('');
+    eventEls.list.innerHTML=eventLog.map(e=>`<article class="event-entry phase-${e.phase.toLowerCase()}"><span class="event-dot" aria-hidden="true"></span><time>${e.clock}</time><div class="event-main"><strong>${e.phase}</strong><span>${e.distance!=='--'?e.distance:'--'}${e.eta!=='--'?` · ETA ${e.eta}`:''}</span><small>${e.level} · ${e.trend}</small></div><b>${e.confidence}</b></article>`).join('');
   }
   function recordAutoEvent(frameTime){
     if(!frameTime)return;
@@ -436,12 +436,12 @@
     trackingHint.textContent='Scegli un fotogramma precedente, attiva TRACKING e tocca il centro della cella; poi passa a un fotogramma più recente e tocca nuovamente la stessa cella.';
   }
   function setTrackingActive(active){
-    trackingActive=active;trackingBtn.classList.toggle('active',active);trackingBtn.textContent=active?'✓ TOCCA LA CELLA':'🎯 TRACKING CELLA';
+    trackingActive=active;trackingBtn.classList.toggle('active',active);trackingBtn.textContent=active?'✓ TOCCA LA CELLA':'SELEZIONA CELLA';
     if(active){stopPlayback();trackingHint.textContent=trackPoints.length?'Ora seleziona la stessa cella in un fotogramma più recente.':'Tocca il centro della cella nel fotogramma attuale.';}
   }
   trackingBtn.addEventListener('click',()=>setTrackingActive(!trackingActive));
   clearTrackingBtn.addEventListener('click',()=>{setTrackingActive(false);clearTracking();});
-  hailFocusBtn.addEventListener('click',()=>{hailFocus=!hailFocus;document.body.classList.toggle('hail-focus',hailFocus);hailFocusBtn.classList.toggle('active',hailFocus);hailFocusBtn.textContent=hailFocus?'✓ FOCUS NUCLEI':'🔴 FOCUS NUCLEI';saveState({hailFocus});});
+  hailFocusBtn.addEventListener('click',()=>{hailFocus=!hailFocus;document.body.classList.toggle('hail-focus',hailFocus);hailFocusBtn.classList.toggle('active',hailFocus);hailFocusBtn.textContent=hailFocus?'✓ NUCLEI EVIDENZIATI':'EVIDENZIA NUCLEI';saveState({hailFocus});});
 
   map.on('click',e=>{
     if(!trackingActive || !frames.length)return;
@@ -473,7 +473,7 @@
 
   // Ripristina l'ultima configurazione usata.
   const saved=readState();
-  if(saved.hailFocus){hailFocus=true;document.body.classList.add('hail-focus');hailFocusBtn.classList.add('active');hailFocusBtn.textContent='✓ FOCUS NUCLEI';}
+  if(saved.hailFocus){hailFocus=true;document.body.classList.add('hail-focus');hailFocusBtn.classList.add('active');hailFocusBtn.textContent='✓ NUCLEI EVIDENZIATI';}
   if([30,60,120].includes(Number(saved.minutes))) selectedMinutes=Number(saved.minutes);
   if([450,800,1200].includes(Number(saved.speed))){
     playMs=Number(saved.speed);
