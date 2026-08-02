@@ -2,245 +2,190 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0b0c0e">
-  <meta name="description" content="Radar Conte - radar meteo operativo personale per Borgo Viazza">
-  <title>Radar Conte RC13 Rifinitura Operativa</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon-192.png" type="image/png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css?v=rc13">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Radar Conte">
-  <script src="pwa-register.js?v=rc13" defer></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#120a2a">
+  <meta name="description" content="Fanta Conte: centro operativo personale per l'asta Fantacalcio.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+  <title>Fanta Conte RC13</title>
 </head>
 <body>
-  <main class="app-shell">
-    <header class="topbar mission-header">
-      <div class="brand-cluster">
-        <div class="rc-mark" aria-hidden="true">RC</div>
-        <div>
-          
-          <h1>RADAR CONTE</h1>
-          <p class="place">⌖ Borgo Viazza</p>
-        </div>
-      </div>
-      <div class="header-command">
-        <div class="mission-clock" aria-label="Ora locale Borgo Viazza">
-          <strong id="missionClock">--:--</strong>
-          <small id="missionDate">--</small>
-        </div>
-        <div class="header-status">
-          
-          <div id="connectionBadge" class="status-pill loading">CARICAMENTO</div>
-        </div>
-        <div class="header-refresh" aria-label="Aggiornamento automatico">
-          <span class="refresh-symbol">↻</span>
-          <span><b>AGG.</b><small>AUTOMATICO</small></span>
-        </div>
-      </div>
-    </header>
+<header class="app-header">
+  <div class="brand-row">
+    <div class="brand-mark" aria-hidden="true">FC</div>
+    <div class="brand-copy">
+      <p class="eyebrow">FANTA CONTE · ASTA CONTROL</p>
+      <h1>Fanta Conte <span>RC13</span></h1>
+    </div>
+    <button id="toggleSetup" class="icon-button" type="button" aria-label="Impostazioni">⚙</button>
+  </div>
 
-    <button id="installBtn" class="install-btn" type="button" hidden>⬇ INSTALLA RADAR CONTE</button>
-    <section id="installHelp" class="install-help" hidden aria-live="polite"></section>
+  <label class="hero-search"><span>⌕</span><input id="q" type="search" placeholder="Cerca giocatore o squadra" autocomplete="off"></label>
 
-    <nav class="mode-switch live-nav mission-status-nav" aria-label="Vai rapidamente ai monitor">
-      <button id="radarModeBtn" class="active" type="button"><span class="nav-icon radar-icon"><em>01</em>◉</span><span><b>RADAR</b><small>LIVE</small></span><i class="state-dot green"></i></button>
-      <button id="lightningModeBtn" type="button"><span class="nav-icon lightning-icon"><em>02</em>ϟ</span><span><b>FULMINI</b><small>ATTIVI</small></span><i class="state-dot purple"></i></button>
-      <button id="forecastModeBtn" type="button"><span class="nav-icon forecast-icon"><em>03</em>☂</span><span><b>EVOLUZIONE</b><small>+3 ORE</small></span><i class="state-dot yellow"></i></button>
-    </nav>
-    <div class="runtime-hidden" aria-hidden="true">
-      <button id="stormModeBtn" type="button"></button><button id="fullscreenBtn" type="button"></button>
-      <span id="radarUpdated">--:--</span><span id="lightningUpdated">--:--</span><span id="forecastUpdated">--:--</span>
+  <section class="summary compact-summary" aria-label="Riepilogo listone">
+    <div><strong id="countAvailable">0</strong><span>Disponibili</span></div>
+    <div><strong id="countFav">0</strong><span>Preferiti</span></div>
+    <div><strong id="countTarget">0</strong><span>Obiettivi</span></div>
+    <div><strong id="countBought">0</strong><span>Acquistati</span></div>
+  </section>
+
+  <div class="mode-switch" role="group" aria-label="Modalità di utilizzo">
+    <button id="prepMode" class="active" type="button"><span>☰</span> Preparazione</button>
+    <button id="auctionMode" type="button"><span>◈</span> Modalità asta</button>
+  </div>
+</header>
+
+<main>
+  <section class="controls command-bar" id="listone">
+    <div class="role-tabs" id="roleTabs">
+      <button class="active" data-role="TUTTI">Tutti</button>
+      <button data-role="P">P</button><button data-role="D">D</button>
+      <button data-role="C">C</button><button data-role="A">A</button>
+      <button data-role="PREFERITI">★</button><button data-role="OBIETTIVI">🎯</button>
+    </div>
+    <div class="sort-row three">
+      <select id="availabilityFilter" aria-label="Disponibilità">
+        <option value="AVAILABLE">Solo disponibili</option>
+        <option value="ALL">Tutti</option>
+        <option value="BOUGHT">Solo acquistati</option>
+        <option value="MINE">La mia rosa</option>
+      </select>
+      <select id="teamFilter" aria-label="Squadra"><option value="">Tutte le squadre</option></select>
+      <select id="sortBy" aria-label="Ordinamento">
+        <option value="qa-desc">Quotazione ↓</option>
+        <option value="fvm-desc">FVM ↓</option>
+        <option value="priority-desc">Priorità ↓</option>
+        <option value="name">Nome A-Z</option>
+        <option value="team">Squadra</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="panel-launchers" aria-label="Pannelli operativi">
+    <button type="button" data-panel="asta"><span>◈</span><small>La mia asta</small><b>⌄</b></button>
+    <button type="button" data-panel="obiettivi"><span>✦</span><small>Assistente</small><b>⌄</b></button>
+    <button type="button" data-panel="livePanel"><span>⌁</span><small>Asta live</small><b>⌄</b></button>
+    <button type="button" data-panel="strumenti"><span>⚙</span><small>Strumenti</small><b>⌄</b></button>
+  </section>
+
+  <section class="auction-dashboard surface optional-panel" id="asta">
+    <div class="section-heading">
+      <div><span class="section-icon">◈</span><div><strong>La mia asta</strong><small>Controllo rapido della tua rosa</small></div></div>
+      <span class="status-dot">LIVE</span>
     </div>
 
-    <section class="live-summary compact-summary" aria-live="polite">
-      <div><span>SCANSIONE</span><strong id="frameTime">--:--</strong><small id="frameDate" class="frame-date">--</small></div>
-      <div><span>ETÀ DATO</span><strong id="frameAge">-- min</strong></div>
-      <div><span>STATO</span><strong id="liveState">IN ANALISI</strong></div>
-      <div><span>PIOGGIA</span><strong id="liveRain">--</strong></div>
-      <div><span>NUCLEO</span><strong id="liveTarget">--</strong></div>
-      <div><span>AFFIDABILITÀ</span><strong id="liveConfidence">--</strong></div>
-    </section>
-
-    <div id="radarPanel" class="monitor-section">
-    <div class="radar-compact-head"><strong>● RADAR LIVE</strong><span>SITUAZIONE ATTUALE</span></div>
-
-    <section class="analysis-compact" aria-label="Analisi cella opzionale">
-      <button id="analysisToggleBtn" class="analysis-toggle" type="button" aria-expanded="false" aria-controls="analysisDrawer">ANALISI <span>APRI</span></button>
-      <div id="analysisDrawer" class="analysis-drawer" hidden>
-        <section class="auto-analysis" aria-live="polite">
-          <div class="auto-analysis-head"><span>SINTESI OPERATIVA</span><button id="runAutoAnalysisBtn" type="button">ANALIZZA ORA</button></div>
-          <strong id="autoLevel">IN ATTESA DATI</strong>
-          <p id="autoSummary">La lettura automatica usa i fotogrammi radar disponibili e segnala soltanto stime verificabili. Se il campionamento non riesce, non produce conclusioni.</p>
-          <div class="auto-grid auto-grid-p12">
-            <div><span>PRECIPITAZIONE LOCALE</span><b id="autoRain">--</b></div>
-            <div><span>DISTANZA NUCLEO</span><b id="autoCell">--</b></div>
-            <div><span>DIREZIONE</span><b id="autoMove">--</b></div>
-            <div><span>VELOCITÀ STIMATA</span><b id="autoSpeed">--</b></div>
-            <div><span>TENDENZA</span><b id="autoTrend">--</b></div>
-            <div><span>ETA BORGO VIAZZA</span><b id="autoEta">--</b></div>
-            <div class="auto-wide"><span>AFFIDABILITÀ</span><b id="autoConfidence">--</b></div>
-          </div>
-          <details class="event-log-shell">
-            <summary><span>TIMELINE EVENTO</span><small>Apri storico letture</small></summary>
-            <section class="event-log" aria-label="Timeline automatica evento">
-              <div class="event-log-head">
-                <div><span>STORICO EVENTO</span><small>Memoria automatica delle letture radar</small></div>
-                <button id="clearEventLogBtn" type="button">AZZERA</button>
-              </div>
-              <div id="eventPhase" class="event-phase quiet">FASE: QUIETE</div>
-              <div id="eventLogList" class="event-log-list"><p class="event-log-empty">Nessuna lettura registrata.</p></div>
-            </section>
-          </details>
-        </section>
-        <details class="advanced-tools">
-          <summary><span>STRUMENTI AVANZATI</span><small>Tracking manuale e focus nuclei</small></summary>
-          <div class="advanced-tools-body">
-            <div class="tracking-guide" aria-label="Guida tracking manuale">
-              <strong>TRACKING MANUALE IN 3 PASSAGGI</strong>
-              <ol>
-                <li><b>1</b><span>Apri un fotogramma precedente e premi <em>SELEZIONA CELLA</em>.</span></li>
-                <li><b>2</b><span>Tocca il centro del nucleo che vuoi seguire.</span></li>
-                <li><b>3</b><span>Avanza nel tempo e tocca di nuovo lo stesso nucleo.</span></li>
-              </ol>
-            </div>
-            <div class="tracking-actions">
-              <button id="trackingBtn" type="button">SELEZIONA CELLA</button>
-              <button id="hailFocusBtn" type="button">EVIDENZIA NUCLEI</button>
-              <button id="clearTrackingBtn" type="button">AZZERA</button>
-            </div>
-            <p class="focus-explain"><b>EVIDENZIA NUCLEI</b> aumenta solo contrasto e saturazione della mappa per riconoscere meglio le zone intense. Non calcola traiettoria, velocità o ETA.</p>
-            <p id="trackingHint" class="tracking-hint">Passo 1: scegli un fotogramma precedente e premi SELEZIONA CELLA.</p>
-            <div class="tracking-grid" aria-live="polite">
-              <div><span>STATO</span><strong id="trackState">IN ATTESA</strong></div>
-              <div><span>DISTANZA</span><strong id="trackDistance">-- km</strong></div>
-              <div><span>VELOCITÀ</span><strong id="trackSpeed">-- km/h</strong></div>
-              <div><span>DIREZIONE</span><strong id="trackDirection">--</strong></div>
-              <div><span>ETA BORGO</span><strong id="trackEta">--</strong></div>
-            </div>
-            <p class="tracking-note">Strumento manuale di verifica: usalo solo quando vuoi confrontare personalmente lo stesso nucleo in due scansioni diverse.</p>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <section class="map-wrap">
-      <div id="map" role="application" aria-label="Mappa radar meteorologica centrata su Borgo Viazza"></div>
-      <div class="map-overlay top-left">
-        <button id="homeBtn" class="map-btn" type="button" title="Torna a Borgo Viazza">⌂</button>
-        <button id="zoomLocalBtn" class="map-btn text-btn" type="button">LOCALE</button>
-        <button id="zoomRomagnaBtn" class="map-btn text-btn" type="button">ROMAGNA</button>
-      </div>
-      <div class="map-overlay bottom-right">
-        <div class="legend" aria-label="Legenda intensità radar">
-          <span>Debole</span><div class="legend-bar"></div><span>Forte</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="controls transport-console" aria-label="Comandi animazione radar">
-      <button id="prevBtn" class="transport-skip" type="button" aria-label="Fotogramma precedente">‹</button>
-      <button id="playBtn" class="primary transport-play" type="button" aria-label="Avvia animazione"><span class="play-symbol">▶</span><span class="play-label">PLAY</span></button>
-      <div class="transport-time" aria-live="polite"><small>ORA SELEZIONATA</small><strong id="selectedFrameTime">--:--</strong></div>
-      <button id="nextBtn" class="transport-skip" type="button" aria-label="Fotogramma successivo">›</button>
-      <button id="latestBtn" class="transport-latest" type="button">ULTIMO</button>
-    </section>
-
-    <section class="quick-panel" aria-label="Impostazioni operative">
-      <div>
-        <span class="panel-label">INTERVALLO</span>
-        <div class="segmented" id="rangeControls">
-          <button type="button" data-minutes="30">30 MIN</button>
-          <button type="button" data-minutes="60">1 ORA</button>
-          <button type="button" data-minutes="120" class="active">2 ORE</button>
-          <button type="button" data-minutes="180">3 ORE</button>
-        </div>
-      </div>
-      <div>
-        <span class="panel-label">VELOCITÀ</span>
-        <div class="segmented" id="speedControls">
-          <button type="button" data-speed="1200">LENTA</button>
-          <button type="button" data-speed="800" class="active">NORMALE</button>
-          <button type="button" data-speed="450">VELOCE</button>
-        </div>
-      </div>
-    </section>
-
-    <details class="radar-options">
-      <summary>OPZIONI RADAR</summary>
-    <section class="timeline-panel">
-      <input id="timeline" type="range" min="0" max="0" value="0" step="1" aria-label="Seleziona il fotogramma radar">
-      <div class="timeline-labels">
-        <span id="firstTime">--:--</span><span id="rangeLabel">ULTIME 2 ORE</span><span id="lastTime">--:--</span>
-      </div>
-    </section>
-
-    <section class="settings-row">
-      <label><span>Trasparenza</span><input id="opacity" type="range" min="25" max="100" value="72" step="1"></label>
-      <button id="refreshBtn" type="button">↻ AGGIORNA</button>
-    </section>
-    </details>
-
+    <div class="budget-cards">
+      <div><span>Budget</span><strong id="budgetDisplay">500</strong></div>
+      <div><span>Speso</span><strong id="spentBudget">0</strong></div>
+      <div><span>Residuo</span><strong id="remainingBudget">500</strong></div>
+      <div class="safe-bid"><span>Offerta sicura</span><strong id="safeBid">476</strong></div>
     </div>
 
-    <section id="lightningPanel" class="lightning-panel monitor-section">
-      <div class="secondary-compact-head lightning"><strong>FULMINI LIVE</strong><button id="reloadLightningBtn" type="button">↻</button></div>
-      <div class="lightning-head">
-        <div>
-          <span class="time-label">FULMINI IN TEMPO REALE</span>
-          <strong>Romagna e Nord Italia</strong>
-        </div>
-        
-      </div>
-      <div class="lightning-frame-wrap">
-        <iframe id="lightningFrame" title="Mappa fulmini in tempo reale Blitzortung" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      </div>
-      <div class="lightning-actions">
-        <button id="lightningLocalBtn" type="button">LOCALE</button>
-        <button id="lightningNorthBtn" type="button">NORD ITALIA</button>
-        <a id="openLightningLink" target="_blank" rel="noopener noreferrer">APRI A SCHERMO INTERO</a>
-      </div>
-      <p class="lightning-note">Dati di Blitzortung.org e collaboratori. Uso personale e di osservazione, non per allertamento ufficiale.</p>
-    </section>
+    <div class="roster-grid" id="rosterGrid">
+      <div><b>P</b><strong id="mineP">0</strong><span>/ <i id="slotP">3</i></span></div>
+      <div><b>D</b><strong id="mineD">0</strong><span>/ <i id="slotD">8</i></span></div>
+      <div><b>C</b><strong id="mineC">0</strong><span>/ <i id="slotC">8</i></span></div>
+      <div><b>A</b><strong id="mineA">0</strong><span>/ <i id="slotA">6</i></span></div>
+    </div>
 
+    <div id="setupPanel" class="setup-panel" hidden>
+      <div class="form-title">Configurazione asta</div>
+      <label>Nome della mia squadra<input id="myTeamName" type="text" placeholder="Es. Fanta Conte"></label>
+      <label>Budget iniziale<input id="totalBudget" type="number" min="1" inputmode="numeric" value="500"></label>
+      <div class="slots-setup">
+        <label>Portieri<input id="slotsP" type="number" min="0" value="3"></label>
+        <label>Difensori<input id="slotsD" type="number" min="0" value="8"></label>
+        <label>Centrocampisti<input id="slotsC" type="number" min="0" value="8"></label>
+        <label>Attaccanti<input id="slotsA" type="number" min="0" value="6"></label>
+      </div>
+      <button id="saveSetup" class="primary-btn" type="button">Salva impostazioni</button>
+    </div>
+  </section>
 
-    <section id="forecastPanel" class="forecast-panel monitor-section">
-      <div class="secondary-compact-head forecast"><strong>EVOLUZIONE +3 ORE</strong><button id="reloadForecastBtn" type="button">↻</button></div>
-      <div class="forecast-head">
-        <div>
-          <span class="time-label">NOWCASTING UFFICIALE ARPAE</span>
-          <strong>Precipitazioni previste fino a +3 ore</strong>
-        </div>
-        
-      </div>
-      <div class="forecast-steps" aria-label="Scadenze contenute nel nowcasting">
-        <small>SCADENZE PRESENTI NELLA MAPPA</small>
-        <div><span>OSSERVATO</span><span>+1h</span><span>+2h</span><span>+3h</span></div>
-      </div>
-      <div class="forecast-frame-wrap">
-        <iframe id="forecastFrame" title="Nowcasting radar ufficiale ARPAE fino a tre ore" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      </div>
-      <div class="forecast-actions">
-        <button id="forecastReloadBottomBtn" type="button">AGGIORNA MAPPA</button>
-        <a id="openForecastLink" href="https://apps.arpae.it/widgets/meteo-radar-nowcasting/" target="_blank" rel="noopener noreferrer">APRI A SCHERMO INTERO</a>
-      </div>
-      <p class="forecast-note">Le etichette sopra sono una legenda. I comandi interattivi sono quelli presenti dentro la mappa ARPAE; per usarla più comodamente premi <strong>APRI A SCHERMO INTERO</strong>.</p>
-    </section>
+  <section class="intelligence-panel surface optional-panel" id="obiettivi">
+    <div class="section-heading">
+      <div><span class="section-icon">✦</span><div><strong>Assistente Conte</strong><small>Obiettivi ordinati per strategia</small></div></div>
+      <button id="showAllPlayers" class="text-button" type="button">Mostra tutti</button>
+    </div>
+    <div class="plan-cards">
+      <button type="button" data-plan="ASSOLUTO"><span>Priorità 1</span><strong id="countAbsolute">0</strong><small>Obiettivi assoluti</small></button>
+      <button type="button" data-plan="PRIORITA2"><span>Priorità 2</span><strong id="countSecond">0</strong><small>Alternative principali</small></button>
+      <button type="button" data-plan="PIANOB"><span>Piano B</span><strong id="countPlanB">0</strong><small>Riserve disponibili</small></button>
+    </div>
+    <div id="roleStats" class="role-stats"></div>
+  </section>
 
-    <nav class="mission-bottom-nav" aria-label="Navigazione rapida Radar Conte">
-      <a class="active" href="#radarPanel"><span>◎</span><b>SALA CONTROLLO</b></a>
-      <a href="#forecastPanel"><span>☁</span><b>PRETEMP</b></a>
-      <a href="#message"><span>≋</span><b>LAMONE</b></a>
-      <a href="#analysisDrawer"><span>⌁</span><b>TREND</b></a>
-    </nav>
+  <section class="live-panel surface optional-panel" id="livePanel">
+    <div class="section-heading">
+      <div><span class="section-icon">⌁</span><div><strong>Asta live</strong><small>Situazione aggiornata in tempo reale</small></div></div>
+      <button id="toggleLog" class="text-button" type="button">Registro</button>
+    </div>
+    <div class="role-advice" id="roleAdvice"></div>
+    <div id="auctionLog" class="auction-log" hidden></div>
+  </section>
 
-    <section id="message" class="message info" aria-live="polite">Connessione alla sorgente radar in corso…</section>
-    <footer><span>Radar: RainViewer · Fulmini: Blitzortung.org · Evoluzione: ARPAE · Cartografia: OpenStreetMap</span><span>Prototipo personale non destinato ad allertamento ufficiale</span></footer>
-  </main>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="app.js?v=compact12"></script>
+  <section class="import-box surface optional-panel" id="strumenti">
+    <div class="section-heading data-heading">
+      <div><span class="section-icon">⇩</span><div><strong id="seasonLabel">Listone test 2025/26</strong><small id="importInfo">Giocatori caricati</small></div></div>
+    </div>
+    <div class="import-actions">
+      <label class="import-btn">Importa listone<input id="fileInput" type="file" accept=".xlsx,.xls,.csv" hidden></label>
+      <button id="exportBackup" class="secondary-btn" type="button">Backup</button>
+      <label class="secondary-btn">Ripristina<input id="backupInput" type="file" accept=".json" hidden></label>
+    </div>
+  </section>
+
+  <div class="list-heading">
+    <div><strong>Listone giocatori</strong><small>Tocca una scheda per modificarla</small></div>
+  </div>
+  <section id="list" class="player-list" aria-live="polite"></section>
+</main>
+
+<nav class="bottom-nav" aria-label="Navigazione rapida">
+  <a href="#listone"><span>⌕</span><small>Listone</small></a>
+  <a href="#obiettivi"><span>★</span><small>Obiettivi</small></a>
+  <a href="#asta"><span>◈</span><small>Asta</small></a>
+  <a href="#strumenti"><span>⚙</span><small>Strumenti</small></a>
+</nav>
+
+<dialog id="playerDialog">
+<form method="dialog" id="playerForm">
+  <button class="close" value="cancel" aria-label="Chiudi">×</button>
+  <p class="eyebrow" id="dialogMeta"></p>
+  <h2 id="dialogName"></h2>
+  <div class="official-grid">
+    <div><span>Quotazione</span><strong id="dialogQa"></strong></div>
+    <div><span>FVM</span><strong id="dialogFvm"></strong></div>
+    <div><span>Ruolo Mantra</span><strong id="dialogRm"></strong></div>
+  </div>
+  <div class="quick-actions">
+    <button id="quickFav" type="button">☆ Preferito</button>
+    <button id="quickTarget" type="button">🎯 Obiettivo</button>
+    <button id="quickNever" type="button">⊘ Escludi</button>
+  </div>
+  <label>Valutazione personale<select id="tier"><option value="">Non assegnata</option><option value="TOP">Top</option><option value="TITOLARE">Titolare</option><option value="SCOMMESSA">Scommessa</option><option value="EVITA">Da evitare</option></select></label>
+  <label>Piano d’asta<select id="targetLevel"><option value="">Non assegnato</option><option value="ASSOLUTO">Priorità 1 · obiettivo assoluto</option><option value="PRIORITA2">Priorità 2 · alternativa principale</option><option value="PIANOB">Piano B · riserva</option></select></label>
+  <label>Priorità Conte<select id="priority"><option value="0">Nessuna</option><option value="1">★</option><option value="2">★★</option><option value="3">★★★</option><option value="4">★★★★</option><option value="5">★★★★★</option></select></label>
+  <label>Prezzo massimo<input id="maxPrice" type="number" min="0" inputmode="numeric" placeholder="Crediti"></label>
+  <label>Note personali<textarea id="notes" rows="4" placeholder="Rigori, ballottaggio, infortuni, strategia…"></textarea></label>
+  <fieldset class="purchase-box">
+    <legend>Stato asta</legend>
+    <label class="checkline"><input id="bought" type="checkbox"> Giocatore acquistato</label>
+    <label class="checkline"><input id="isMine" type="checkbox"> È stato acquistato da me</label>
+    <div class="purchase-grid">
+      <label>Prezzo acquisto<input id="buyPrice" type="number" min="0" inputmode="numeric" placeholder="Crediti"></label>
+      <label>Acquistato da<input id="buyOwner" type="text" placeholder="Nome squadra"></label>
+    </div>
+  </fieldset>
+  <button class="save" value="default">Salva scheda</button>
+</form>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
+<script src="./data.js"></script>
+<script src="./xlsx-lite.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>
