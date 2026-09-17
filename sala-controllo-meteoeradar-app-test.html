@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0c0e">
+  <meta name="description" content="Radar Conte - Sala Controllo test Meteo & Radar">
+  <title>Radar Conte · Sala Controllo APP TEST v3</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="sala-controllo-meteoeradar-app-test.css?v=3">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark">RC</div>
+        <div>
+          <h1>RADAR CONTE</h1>
+          <p>⌖ Borgo Viazza · Sala Controllo APP TEST v3</p>
+        </div>
+      </div>
+      <div class="clock">
+        <strong id="clock">--:--</strong>
+        <small id="date">--</small>
+      </div>
+    </header>
+
+    <nav class="mode-switch" aria-label="Monitor Sala Controllo">
+      <button id="radarTab" class="active" type="button">
+        <b>01 · RADAR</b><small>LIVE</small><i class="green"></i>
+      </button>
+      <button id="lightningTab" type="button">
+        <b>02 · FULMINI</b><small>LIVE</small><i class="purple"></i>
+      </button>
+      <button id="evolutionTab" type="button">
+        <b>03 · EVOLUZIONE</b><small>PREVISTA</small><i class="yellow"></i>
+      </button>
+    </nav>
+
+    <section id="radarPanel" class="panel active-panel">
+      <div class="panel-head">
+        <div><small>OSSERVATO</small><strong>RADAR LIVE</strong></div>
+        <span id="radarTime">--:--</span>
+      </div>
+      <div class="note">
+        RainViewer · radar reale delle ultime 2 ore. Questa sezione mostra ciò che sta realmente accadendo.
+      </div>
+
+      <div id="map"></div>
+
+      <div class="timeline-label"><span>-2h</span><b>● ADESSO</b></div>
+      <input id="timeline" type="range" min="0" max="0" value="0">
+
+      <div class="controls">
+        <button id="prev" type="button">◀</button>
+        <button id="play" class="primary" type="button">▶ PLAY</button>
+        <button id="next" type="button">▶</button>
+        <button id="latest" type="button">ULTIMO</button>
+      </div>
+
+      <div id="radarStatus" class="status">Caricamento radar…</div>
+    </section>
+
+    <section id="lightningPanel" class="panel" hidden>
+      <div class="panel-head">
+        <div><small>OSSERVATO</small><strong>FULMINI LIVE</strong></div>
+        <button id="reloadLightning" type="button">↻</button>
+      </div>
+      <div class="note">
+        Blitzortung · attività elettrica in tempo reale. Uso di osservazione, non per allertamento ufficiale.
+      </div>
+      <div class="frame-wrap">
+        <iframe id="lightningFrame" title="Fulmini Blitzortung" loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <div class="frame-actions">
+        <button id="lightningLocal" class="active" type="button">LOCALE</button>
+        <button id="lightningNorth" type="button">NORD ITALIA</button>
+        <a id="openLightning" target="_blank" rel="noopener noreferrer">APRI COMPLETO ↗</a>
+      </div>
+    </section>
+
+    <section id="evolutionPanel" class="panel" hidden>
+      <div class="panel-head">
+        <div><small>EVOLUZIONE ESTERNA</small><strong>METEO & RADAR</strong></div>
+        <span>APP ANDROID</span>
+      </div>
+
+      <div class="note important">
+        Il pulsante principale prova ad aprire direttamente l'app <b>Meteo & Radar</b> installata sul telefono.
+        Se Android/Chrome non accetta il collegamento all'app, resta disponibile il sito come fallback.
+      </div>
+
+      <div class="external-evolution app-launch">
+        <div class="external-icon">☂</div>
+        <strong>Apri Meteo & Radar</strong>
+        <p>
+          Usa l'app installata per il radar e l'evoluzione. In questo modo può usare la posizione concessa
+          all'app e non dipendi dalla geolocalizzazione del browser.
+        </p>
+
+        <button id="openMeteoRadarApp" class="app-open-btn" type="button">
+          APRI APP METEO & RADAR
+        </button>
+
+        <div class="fallback-box">
+          <span>Se l'app non si apre:</span>
+          <a id="openEvolutionWeb"
+             href="https://www.meteoeradar.it/radar-meteo?center=41.76,12&zoom=5.04&layer=wr"
+             target="_blank" rel="noopener noreferrer">
+             APRI MAPPA WEB ↗
+          </a>
+        </div>
+
+        <small id="appLaunchStatus" class="app-launch-status">
+          Test Android: il comportamento dipende dai deep-link supportati dall'app.
+        </small>
+      </div>
+    </section>
+
+    <footer>
+      <span>Radar: RainViewer · Fulmini: Blitzortung · Evoluzione: Meteo & Radar · Cartografia: OpenStreetMap</span>
+      <span>TEST separato: la Sala Controllo attuale non viene modificata.</span>
+    </footer>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="sala-controllo-meteoeradar-app-test.js?v=3"></script>
+</body>
+</html>
