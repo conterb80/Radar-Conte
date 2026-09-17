@@ -1,0 +1,148 @@
+*{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --bg:#07090d;--panel:#0d1724;--panel2:#101d2e;--line:#263a50;
+  --txt:#f4f7fb;--muted:#9cabbc;--blue:#5dc8ff;--green:#43d17e;
+  --purple:#b57cff;--yellow:#f7cf50;
+}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body{padding:0}
+.app-shell{width:min(100%,820px);margin:auto;padding:14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.mark{width:44px;height:44px;border:1px solid #36556e;border-radius:11px;display:grid;place-items:center;font-weight:900;color:var(--blue);background:#0d1724}
+.brand h1{margin:0;font-size:21px;letter-spacing:.06em}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.clock{text-align:right}.clock strong{display:block;font-size:20px}.clock small{color:var(--muted);font-size:11px}
+
+.mode-switch{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.mode-switch button{position:relative;min-height:60px;border:1px solid var(--line);border-radius:14px;background:#0a1320;color:var(--txt);padding:9px 8px;text-align:left}
+.mode-switch button.active{background:#13283b;border-color:#3b7197}
+.mode-switch b{display:block;font-size:12px}.mode-switch small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.mode-switch i{position:absolute;right:9px;top:9px;width:8px;height:8px;border-radius:50%}
+.green{background:var(--green)}.purple{background:var(--purple)}.yellow{background:var(--yellow)}
+
+.panel{background:linear-gradient(180deg,#0e1b2b,#09131f);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.panel-head{min-height:60px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-head small{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em}
+.panel-head strong{display:block;font-size:17px;margin-top:2px}
+.panel-head>span{font-weight:800;font-size:18px}
+.panel-head button{min-width:42px;min-height:40px;border:1px solid var(--line);border-radius:10px;background:#102238;color:#fff;font-size:20px}
+.note{padding:10px 14px;border-top:1px solid #1a2d42;border-bottom:1px solid #1a2d42;color:var(--muted);font-size:13px;line-height:1.45}
+.note.important{color:#c7d4df}.note.important b{color:#fff}
+
+#map{height:55vh;min-height:410px;background:#08111d}
+.conte-marker{width:18px;height:18px;border-radius:50%;background:#5dc8ff;border:3px solid white;box-shadow:0 0 0 3px #5dc8ff33}
+.conte-tooltip{background:#07111ee8!important;color:white!important;border:1px solid #5dc8ff!important;border-radius:7px!important;box-shadow:none!important;padding:3px 7px!important}
+.conte-tooltip:before{display:none!important}
+.leaflet-control-attribution{font-size:9px!important}
+
+.timeline-label{display:flex;justify-content:space-between;padding:10px 14px 0;color:var(--muted);font-size:12px}.timeline-label b{color:#fff}
+#timeline{width:calc(100% - 28px);margin:10px 14px 2px;accent-color:var(--blue)}
+.controls{display:grid;grid-template-columns:48px 1fr 48px 82px;gap:7px;padding:12px}
+.controls button,.frame-actions button{border:1px solid var(--line);background:#102139;color:#fff;border-radius:12px;min-height:44px;font-weight:750}
+.controls .primary{background:#174c6c;border-color:#347fa8}
+.status{margin:0 12px 12px;padding:10px 12px;border-radius:12px;background:#08131f;border:1px solid #1e344a;color:var(--muted);font-size:13px}
+
+.frame-wrap{background:#060b12}
+.frame-wrap iframe{display:block;width:100%;height:64vh;min-height:500px;border:0}
+.frame-wrap.windy iframe{height:68vh;min-height:520px}
+.frame-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:12px}
+.frame-actions button{padding:0 12px}.frame-actions button.active{background:#174c6c;border-color:#347fa8}
+.frame-actions a{margin-left:auto;color:#93d9ff;text-decoration:none;font-weight:750;font-size:12px}
+.frame-actions.one-line{justify-content:space-between;color:var(--muted);font-size:12px}
+
+footer{display:grid;gap:4px;text-align:center;color:#708298;font-size:10px;padding:13px 6px 4px}
+[hidden]{display:none!important}
+
+@media(max-width:430px){
+  .app-shell{padding:10px}.brand h1{font-size:18px}.mark{width:40px;height:40px}
+  .mode-switch button{padding:8px 6px;min-height:57px}.mode-switch b{font-size:10px}
+  #map{min-height:370px}.controls{grid-template-columns:44px 1fr 44px 72px;gap:5px}.controls button{font-size:12px}
+  .frame-wrap iframe{min-height:470px}.frame-wrap.windy iframe{min-height:500px}
+}
+
+
+.external-evolution{
+  margin:14px;
+  padding:28px 18px;
+  min-height:360px;
+  border:1px solid #263a50;
+  border-radius:18px;
+  background:linear-gradient(180deg,#0b1727,#07111d);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  gap:12px;
+}
+.external-evolution .external-icon{
+  width:64px;height:64px;border-radius:50%;
+  display:grid;place-items:center;
+  font-size:34px;font-weight:900;
+  background:#174c6c;border:1px solid #347fa8;
+  color:white;
+}
+.external-evolution strong{font-size:22px}
+.external-evolution p{max-width:520px;margin:0;color:#9cabbc;line-height:1.5}
+.external-evolution a{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:52px;padding:0 22px;border-radius:14px;
+  background:#174c6c;border:1px solid #347fa8;
+  color:white;text-decoration:none;font-weight:900;
+}
+
+
+.app-launch .app-open-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:56px;
+  padding:0 24px;
+  border-radius:14px;
+  border:1px solid #347fa8;
+  background:#174c6c;
+  color:#fff;
+  font-weight:900;
+  font-size:15px;
+}
+.fallback-box{
+  width:min(100%,520px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:4px;
+  padding-top:12px;
+  border-top:1px solid #263a50;
+  color:#9cabbc;
+  font-size:12px;
+}
+.fallback-box a{
+  color:#93d9ff;
+  text-decoration:none;
+  font-weight:800;
+}
+.app-launch-status{
+  display:block;
+  max-width:520px;
+  color:#75889c;
+  line-height:1.4;
+}
+
+.direct-evolution-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:56px;
+  padding:0 24px;
+  border-radius:14px;
+  border:1px solid #347fa8;
+  background:#174c6c;
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  font-size:15px;
+}
